@@ -1,0 +1,6 @@
+Applications:
+    gc_learning:
+        app_types:
+            - gc_learningApp
+        content_directory: ${ROOT_DIR}/doc/content
+        log_default: WARNING
