@@ -9,3 +9,6 @@ For more information see: [https://mooseframework.inl.gov/getting_started/new_us
 
 # 01.Equilibrium models of various waters
     1.1 A simple HCL solution
+    1.2 Chemical model of seawater
+    1.3 Water in the Amazon river
+    1.4 Red Sea brine

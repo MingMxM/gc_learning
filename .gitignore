@@ -97,8 +97,6 @@ temp_print_trace.*
 *.html
 *.xyz
 *Revision.h
-*.json
-*.json.*
 *.bak
 *.data
 *.processor.*
