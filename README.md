@@ -12,3 +12,6 @@ For more information see: [https://mooseframework.inl.gov/getting_started/new_us
     1.2 Chemical model of seawater
     1.3 Water in the Amazon river
     1.4 Red Sea brine
+
+# 02.Models with redox disequilibrium
+    2.1 Morro de Ferro groundwater
