@@ -15,3 +15,12 @@ For more information see: [https://mooseframework.inl.gov/getting_started/new_us
 
 # 02.Models with redox disequilibrium
     2.1 Morro de Ferro groundwater
+    2.2 Microbial respiration
+
+# 03.Exploring solubility and activities
+
+
+# 07.Simple time-dependent reaction paths
+    7.1 Progressively adding chemicals
+
+# 08.Kinetics
