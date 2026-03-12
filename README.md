@@ -18,7 +18,14 @@ For more information see: [https://mooseframework.inl.gov/getting_started/new_us
     2.2 Microbial respiration
 
 # 03.Exploring solubility and activities
+    3.1 Solubility of gypsum
+    3.2 Saturation of halite and anhydrite at Sebkhat El Melah
 
+# 04.Sorption and surface complexation
+
+# 05.Tasks involving reaction balancing
+
+# 06.Nonunique solutions
 
 # 07.Simple time-dependent reaction paths
     7.1 Progressively adding chemicals
