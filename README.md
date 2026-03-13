@@ -29,5 +29,9 @@ For more information see: [https://mooseframework.inl.gov/getting_started/new_us
 
 # 07.Simple time-dependent reaction paths
     7.1 Progressively adding chemicals
+    7.2 Progressively changing the temperature
 
 # 08.Kinetics
+    8.1 Gradual dissolution of quartz
+    8.2 Dissolution of albite into an acidic solution
+    8.3 Quartz deposition in a fracture
