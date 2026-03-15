@@ -33,6 +33,9 @@ For more information see: [https://mooseframework.inl.gov/getting_started/new_us
     7.3 Progressively adding chemicals with fixed fugacity
     7.4 Progressively changing fugacity
     7.5 Progressively changing pH
+    7.6 Add fluids of different temperatures (did not do it)
+    7.7 Dumping minerals then adding chemicals
+    
 
 # 08.Kinetics
     8.1 Gradual dissolution of quartz
