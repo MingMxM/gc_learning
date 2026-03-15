@@ -30,6 +30,9 @@ For more information see: [https://mooseframework.inl.gov/getting_started/new_us
 # 07.Simple time-dependent reaction paths
     7.1 Progressively adding chemicals
     7.2 Progressively changing the temperature
+    7.3 Progressively adding chemicals with fixed fugacity
+    7.4 Progressively changing fugacity
+    7.5 Progressively changing pH
 
 # 08.Kinetics
     8.1 Gradual dissolution of quartz
