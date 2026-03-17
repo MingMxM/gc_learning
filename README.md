@@ -44,3 +44,6 @@ For more information see: [https://mooseframework.inl.gov/getting_started/new_us
 
 # 09.Reactive Transport
     9.1 A 2D GeoTES simultion
+
+# 10.Biogeochemistry
+    10.1 Simulating mortality
