@@ -47,3 +47,4 @@ For more information see: [https://mooseframework.inl.gov/getting_started/new_us
 
 # 10.Biogeochemistry
     10.1 Simulating mortality
+    10.2 A sulfate reducer in the presence of acetate
