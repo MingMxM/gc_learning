@@ -9,7 +9,7 @@
   max_initial_residual = 1E-2
   ramp_max_ionic_strength_initial = 10
   stoichiometric_ionic_str_using_Cl_only = true
-  mol_cutoff = 1E-5
+  mol_cutoff = 1E-10
   abs_tol = 1E-15
 []
 
