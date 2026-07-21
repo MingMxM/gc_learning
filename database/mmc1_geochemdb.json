@@ -1,0 +1,9746 @@
+{
+  "Header": {
+    "title": "MOOSE thermodynamic database",
+    "original": "mmc1.txt",
+    "date": "18:46 26-06-2026",
+    "original format": "eq36",
+    "activity model": "debye-huckel",
+    "fugacity model": "tsonopoulos",
+    "logk model": "maier-kelly",
+    "logk model (functional form)": "a_0 ln(T) + a_1 + a_2 T + a_3 / T + a_4 / T^2",
+    "temperatures": [
+      25.0,
+      50.0,
+      75.0,
+      100.0,
+      175.0,
+      250.0,
+      325.0,
+      400.0
+    ],
+    "pressures": [
+      350.0,
+      350.0,
+      350.0,
+      350.0,
+      350.0,
+      350.0,
+      350.0,
+      350.0
+    ],
+    "adh": [
+      0.5021,
+      0.5254,
+      0.5533,
+      0.5859,
+      0.7125,
+      0.9,
+      1.2363,
+      2.5708
+    ],
+    "bdh": [
+      0.3284,
+      0.3324,
+      0.3367,
+      0.3414,
+      0.3566,
+      0.3734,
+      0.3947,
+      0.4399
+    ],
+    "bdot": [
+      0.041,
+      0.0435,
+      0.045,
+      0.046,
+      0.048,
+      0.0335,
+      0.0,
+      0.0
+    ],
+    "neutral species": {
+      "co2": {
+        "a": [
+          0.1127,
+          0.0989214,
+          0.0884488,
+          0.08018,
+          0.091595,
+          0.1371,
+          0.2265,
+          0.3159
+        ],
+        "b": [
+          -0.01049,
+          -0.0055686,
+          -0.0028136,
+          -0.001503,
+          -0.01112,
+          -0.007086,
+          -0.023592,
+          -0.040098
+        ],
+        "c": [
+          0.001545,
+          0.0005101,
+          0.0002479,
+          0.0005009,
+          0.002252,
+          -0.002887,
+          -0.002302,
+          -0.001717
+        ],
+        "d": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "h2o": {
+        "a": [
+          1.45397,
+          1.4877057,
+          1.5214125,
+          1.5551,
+          1.6562,
+          1.7573,
+          1.8584,
+          1.9595
+        ],
+        "b": [
+          0.022357,
+          0.0270306,
+          0.0317417,
+          0.036478,
+          0.0505955,
+          0.0647,
+          0.0788,
+          0.0929
+        ],
+        "c": [
+          0.0093804,
+          0.0083944,
+          0.0074137,
+          0.0064366,
+          0.0035611,
+          0.0006,
+          -0.00225,
+          -0.0051
+        ],
+        "d": [
+          -0.0005362,
+          -0.0005818,
+          -0.0006424,
+          -0.0007132,
+          -0.0008656,
+          -0.0011,
+          -0.00125,
+          -0.0014
+        ],
+        "note": "Missing array values in original database have been filled using a linear fit. Original values are [500.0000, -.0005362, 500.0000, -.0007132, -.0008312, 500.0000, 500.0000, 500.0000]"
+      }
+    }
+  },
+  "elements": {
+    "O": {
+      "molecular weight": 15.9994
+    },
+    "Ag": {
+      "molecular weight": 107.8682
+    },
+    "Al": {
+      "molecular weight": 26.98154
+    },
+    "Ar": {
+      "molecular weight": 39.948
+    },
+    "Au": {
+      "molecular weight": 196.96654
+    },
+    "B": {
+      "molecular weight": 10.811
+    },
+    "Ba": {
+      "molecular weight": 137.327
+    },
+    "Be": {
+      "molecular weight": 9.01218
+    },
+    "Bi": {
+      "molecular weight": 208.9804
+    },
+    "Br": {
+      "molecular weight": 79.904
+    },
+    "Ca": {
+      "molecular weight": 40.078
+    },
+    "Cd": {
+      "molecular weight": 112.411
+    },
+    "Ce": {
+      "molecular weight": 140.115
+    },
+    "Cl": {
+      "molecular weight": 35.4527
+    },
+    "Co": {
+      "molecular weight": 58.9332
+    },
+    "Cr": {
+      "molecular weight": 51.9961
+    },
+    "Cs": {
+      "molecular weight": 132.90543
+    },
+    "Cu": {
+      "molecular weight": 63.546
+    },
+    "Dy": {
+      "molecular weight": 162.5
+    },
+    "Er": {
+      "molecular weight": 167.26
+    },
+    "Eu": {
+      "molecular weight": 151.965
+    },
+    "F": {
+      "molecular weight": 18.9984
+    },
+    "Fe": {
+      "molecular weight": 55.847
+    },
+    "Ga": {
+      "molecular weight": 69.723
+    },
+    "Gd": {
+      "molecular weight": 157.25
+    },
+    "H": {
+      "molecular weight": 1.00794
+    },
+    "As": {
+      "molecular weight": 74.92159
+    },
+    "C": {
+      "molecular weight": 12.011
+    },
+    "P": {
+      "molecular weight": 30.97376
+    },
+    "He": {
+      "molecular weight": 4.0026
+    },
+    "Hg": {
+      "molecular weight": 200.59
+    },
+    "Ho": {
+      "molecular weight": 164.93032
+    },
+    "I": {
+      "molecular weight": 126.90447
+    },
+    "In": {
+      "molecular weight": 114.82
+    },
+    "K": {
+      "molecular weight": 39.0983
+    },
+    "Kr": {
+      "molecular weight": 83.8
+    },
+    "La": {
+      "molecular weight": 138.9055
+    },
+    "Li": {
+      "molecular weight": 6.941
+    },
+    "Lu": {
+      "molecular weight": 174.967
+    },
+    "Mg": {
+      "molecular weight": 24.305
+    },
+    "Mn": {
+      "molecular weight": 54.93805
+    },
+    "Mo": {
+      "molecular weight": 95.94
+    },
+    "N": {
+      "molecular weight": 14.00674
+    },
+    "Na": {
+      "molecular weight": 22.98977
+    },
+    "Nd": {
+      "molecular weight": 144.24
+    },
+    "Ne": {
+      "molecular weight": 20.1797
+    },
+    "Ni": {
+      "molecular weight": 58.69
+    },
+    "Pb": {
+      "molecular weight": 207.2
+    },
+    "Pd": {
+      "molecular weight": 106.42
+    },
+    "Pr": {
+      "molecular weight": 140.90765
+    },
+    "Ra": {
+      "molecular weight": 226.025
+    },
+    "Rb": {
+      "molecular weight": 85.4678
+    },
+    "Re": {
+      "molecular weight": 186.207
+    },
+    "Rn": {
+      "molecular weight": 222.0
+    },
+    "S": {
+      "molecular weight": 32.066
+    },
+    "Sb": {
+      "molecular weight": 121.75
+    },
+    "Sc": {
+      "molecular weight": 44.95591
+    },
+    "Se": {
+      "molecular weight": 78.96
+    },
+    "Si": {
+      "molecular weight": 28.0855
+    },
+    "Sm": {
+      "molecular weight": 150.36
+    },
+    "Sn": {
+      "molecular weight": 118.71
+    },
+    "Sr": {
+      "molecular weight": 87.62
+    },
+    "Tb": {
+      "molecular weight": 158.92534
+    },
+    "Ti": {
+      "molecular weight": 47.9
+    },
+    "Tl": {
+      "molecular weight": 204.37
+    },
+    "Tm": {
+      "molecular weight": 168.93421
+    },
+    "U": {
+      "molecular weight": 238.029
+    },
+    "V": {
+      "molecular weight": 50.9415
+    },
+    "W": {
+      "molecular weight": 183.85
+    },
+    "Xe": {
+      "molecular weight": 131.29
+    },
+    "Y": {
+      "molecular weight": 88.90585
+    },
+    "Yb": {
+      "molecular weight": 173.04
+    },
+    "Zn": {
+      "molecular weight": 65.39
+    },
+    "Zr": {
+      "molecular weight": 91.22
+    }
+  },
+  "basis species": {
+    "H2O": {
+      "elements": {
+        "H": 2.0,
+        "O": 1.0
+      },
+      "molecular weight": 18.015,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "Ag+": {
+      "elements": {
+        "Ag": 1.0
+      },
+      "molecular weight": 107.868,
+      "radius": 3.0,
+      "charge": 1.0
+    },
+    "Al+++": {
+      "elements": {
+        "Al": 1.0
+      },
+      "molecular weight": 26.982,
+      "radius": 9.0,
+      "charge": 3.0
+    },
+    "Ar(aq)": {
+      "elements": {
+        "Ar": 1.0
+      },
+      "molecular weight": 39.948,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "Au+": {
+      "elements": {
+        "Au": 1.0
+      },
+      "molecular weight": 196.967,
+      "radius": 4.0,
+      "charge": 1.0
+    },
+    "B(OH)3(aq)": {
+      "elements": {
+        "B": 1.0,
+        "H": 3.0,
+        "O": 3.0
+      },
+      "molecular weight": 61.833,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "Ba++": {
+      "elements": {
+        "Ba": 1.0
+      },
+      "molecular weight": 137.327,
+      "radius": 5.0,
+      "charge": 2.0
+    },
+    "Be++": {
+      "elements": {
+        "Be": 1.0
+      },
+      "molecular weight": 9.012,
+      "radius": 8.0,
+      "charge": 2.0
+    },
+    "Bi+++": {
+      "elements": {
+        "Bi": 1.0
+      },
+      "charge": 3.0,
+      "molecular weight": 208.9804,
+      "radius": 4.0
+    },
+    "Br-": {
+      "elements": {
+        "Br": 1.0
+      },
+      "molecular weight": 79.904,
+      "radius": 4.0,
+      "charge": -1.0
+    },
+    "Ca++": {
+      "elements": {
+        "Ca": 1.0
+      },
+      "molecular weight": 40.078,
+      "radius": 6.0,
+      "charge": 2.0
+    },
+    "Cd++": {
+      "elements": {
+        "Cd": 1.0
+      },
+      "molecular weight": 112.411,
+      "radius": 4.5,
+      "charge": 2.0
+    },
+    "Ce+++": {
+      "elements": {
+        "Ce": 1.0
+      },
+      "molecular weight": 140.115,
+      "radius": 9.0,
+      "charge": 3.0
+    },
+    "Cl-": {
+      "elements": {
+        "Cl": 1.0
+      },
+      "molecular weight": 35.453,
+      "radius": 3.0,
+      "charge": -1.0
+    },
+    "Co++": {
+      "elements": {
+        "Co": 1.0
+      },
+      "molecular weight": 58.933,
+      "radius": 4.5,
+      "charge": 2.0
+    },
+    "CrO4--": {
+      "elements": {
+        "Cr": 1.0,
+        "O": 4.0
+      },
+      "molecular weight": 115.994,
+      "radius": 4.0,
+      "charge": -2.0
+    },
+    "Cs+": {
+      "elements": {
+        "Cs": 1.0
+      },
+      "molecular weight": 132.905,
+      "radius": 4.0,
+      "charge": 1.0
+    },
+    "Cu++": {
+      "elements": {
+        "Cu": 1.0
+      },
+      "molecular weight": 63.546,
+      "radius": 6.0,
+      "charge": 2.0
+    },
+    "Dy+++": {
+      "elements": {
+        "Dy": 1.0
+      },
+      "molecular weight": 162.5,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Er+++": {
+      "elements": {
+        "Er": 1.0
+      },
+      "molecular weight": 167.26,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Eu+++": {
+      "elements": {
+        "Eu": 1.0
+      },
+      "molecular weight": 151.965,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "F-": {
+      "elements": {
+        "F": 1.0
+      },
+      "molecular weight": 18.998,
+      "radius": 4.0,
+      "charge": -1.0
+    },
+    "Fe++": {
+      "elements": {
+        "Fe": 1.0
+      },
+      "molecular weight": 55.847,
+      "radius": 6.0,
+      "charge": 2.0
+    },
+    "Ga+++": {
+      "elements": {
+        "Ga": 1.0
+      },
+      "molecular weight": 69.723,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Gd+++": {
+      "elements": {
+        "Gd": 1.0
+      },
+      "molecular weight": 157.25,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "H+": {
+      "elements": {
+        "H": 1.0
+      },
+      "molecular weight": 1.008,
+      "radius": 9.0,
+      "charge": 1.0
+    },
+    "H2AsO4-": {
+      "elements": {
+        "As": 1.0,
+        "H": 2.0,
+        "O": 4.0
+      },
+      "molecular weight": 140.935,
+      "radius": 4.0,
+      "charge": -1.0
+    },
+    "HCO3-": {
+      "elements": {
+        "C": 1.0,
+        "H": 1.0,
+        "O": 3.0
+      },
+      "molecular weight": 61.017,
+      "radius": 4.0,
+      "charge": -1.0
+    },
+    "HPO4--": {
+      "elements": {
+        "H": 1.0,
+        "O": 4.0,
+        "P": 1.0
+      },
+      "molecular weight": 95.979,
+      "radius": 4.0,
+      "charge": -2.0
+    },
+    "He(aq)": {
+      "elements": {
+        "He": 1.0
+      },
+      "molecular weight": 4.003,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "Hg++": {
+      "elements": {
+        "Hg": 1.0
+      },
+      "molecular weight": 200.59,
+      "radius": 4.5,
+      "charge": 2.0
+    },
+    "Ho+++": {
+      "elements": {
+        "Ho": 1.0
+      },
+      "molecular weight": 164.93,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "I-": {
+      "elements": {
+        "I": 1.0
+      },
+      "molecular weight": 126.904,
+      "radius": 3.0,
+      "charge": -1.0
+    },
+    "In+++": {
+      "elements": {
+        "In": 1.0
+      },
+      "molecular weight": 114.82,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "K+": {
+      "elements": {
+        "K": 1.0
+      },
+      "molecular weight": 39.098,
+      "radius": 3.0,
+      "charge": 1.0
+    },
+    "Kr(aq)": {
+      "elements": {
+        "Kr": 1.0
+      },
+      "molecular weight": 83.8,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "La+++": {
+      "elements": {
+        "La": 1.0
+      },
+      "molecular weight": 138.905,
+      "radius": 9.0,
+      "charge": 3.0
+    },
+    "Li+": {
+      "elements": {
+        "Li": 1.0
+      },
+      "molecular weight": 6.941,
+      "radius": 4.0,
+      "charge": 1.0
+    },
+    "Lu+++": {
+      "elements": {
+        "Lu": 1.0
+      },
+      "molecular weight": 174.967,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Mg++": {
+      "elements": {
+        "Mg": 1.0
+      },
+      "molecular weight": 24.305,
+      "radius": 8.0,
+      "charge": 2.0
+    },
+    "Mn++": {
+      "elements": {
+        "Mn": 1.0
+      },
+      "molecular weight": 54.938,
+      "radius": 6.0,
+      "charge": 2.0
+    },
+    "MoO4--": {
+      "elements": {
+        "Mo": 1.0,
+        "O": 4.0
+      },
+      "molecular weight": 159.938,
+      "radius": 4.0,
+      "charge": -2.0
+    },
+    "NH3(aq)": {
+      "elements": {
+        "H": 3.0,
+        "N": 1.0
+      },
+      "molecular weight": 17.031,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "Na+": {
+      "elements": {
+        "Na": 1.0
+      },
+      "molecular weight": 22.99,
+      "radius": 4.0,
+      "charge": 1.0
+    },
+    "Nd+++": {
+      "elements": {
+        "Nd": 1.0
+      },
+      "molecular weight": 144.24,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Ne(aq)": {
+      "elements": {
+        "Ne": 1.0
+      },
+      "molecular weight": 20.18,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "Ni++": {
+      "elements": {
+        "Ni": 1.0
+      },
+      "molecular weight": 58.69,
+      "radius": 4.5,
+      "charge": 2.0
+    },
+    "Pb++": {
+      "elements": {
+        "Pb": 1.0
+      },
+      "molecular weight": 207.2,
+      "radius": 5.0,
+      "charge": 2.0
+    },
+    "Pd++": {
+      "elements": {
+        "Pd": 1.0
+      },
+      "molecular weight": 106.42,
+      "radius": 4.5,
+      "charge": 2.0
+    },
+    "Pr+++": {
+      "elements": {
+        "Pr": 1.0
+      },
+      "molecular weight": 140.908,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Ra++": {
+      "elements": {
+        "Ra": 1.0
+      },
+      "molecular weight": 226.025,
+      "radius": 4.5,
+      "charge": 2.0
+    },
+    "Rb+": {
+      "elements": {
+        "Rb": 1.0
+      },
+      "molecular weight": 85.468,
+      "radius": 4.0,
+      "charge": 1.0
+    },
+    "ReO4-": {
+      "elements": {
+        "O": 4.0,
+        "Re": 1.0
+      },
+      "molecular weight": 250.205,
+      "radius": 4.0,
+      "charge": -1.0
+    },
+    "Rn(aq)": {
+      "elements": {
+        "Rn": 1.0
+      },
+      "molecular weight": 222.0,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "SO4--": {
+      "elements": {
+        "O": 4.0,
+        "S": 1.0
+      },
+      "molecular weight": 96.064,
+      "radius": 4.0,
+      "charge": -2.0
+    },
+    "SbO2-": {
+      "elements": {
+        "O": 2.0,
+        "Sb": 1.0
+      },
+      "charge": -1.0,
+      "molecular weight": 153.7488,
+      "radius": 4.0
+    },
+    "Sc+++": {
+      "elements": {
+        "Sc": 1.0
+      },
+      "molecular weight": 44.956,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "SeO3--": {
+      "elements": {
+        "O": 3.0,
+        "Se": 1.0
+      },
+      "charge": -2.0,
+      "molecular weight": 126.9582,
+      "radius": 4.0
+    },
+    "SiO2(aq)": {
+      "elements": {
+        "O": 2.0,
+        "Si": 1.0
+      },
+      "molecular weight": 60.084,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "Sm+++": {
+      "elements": {
+        "Sm": 1.0
+      },
+      "molecular weight": 150.36,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Sn++": {
+      "elements": {
+        "Sn": 1.0
+      },
+      "molecular weight": 118.71,
+      "radius": 6.0,
+      "charge": 2.0
+    },
+    "Sr++": {
+      "elements": {
+        "Sr": 1.0
+      },
+      "molecular weight": 87.62,
+      "radius": 5.0,
+      "charge": 2.0
+    },
+    "Tb+++": {
+      "elements": {
+        "Tb": 1.0
+      },
+      "molecular weight": 158.925,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Ti++++": {
+      "elements": {
+        "Ti": 1.0
+      },
+      "charge": 4.0,
+      "molecular weight": 47.9,
+      "radius": 4.0
+    },
+    "Tl+": {
+      "elements": {
+        "Tl": 1.0
+      },
+      "molecular weight": 204.383,
+      "radius": 4.0,
+      "charge": 1.0
+    },
+    "Tm+++": {
+      "elements": {
+        "Tm": 1.0
+      },
+      "molecular weight": 168.934,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "UO2+": {
+      "elements": {
+        "U": 1.0,
+        "O": 2.0
+      },
+      "charge": 1.0,
+      "molecular weight": 270.0278,
+      "radius": 4.0
+    },
+    "VO++": {
+      "elements": {
+        "O": 1.0,
+        "V": 1.0
+      },
+      "molecular weight": 66.941,
+      "radius": 4.5,
+      "charge": 2.0
+    },
+    "WO4--": {
+      "elements": {
+        "O": 4.0,
+        "W": 1.0
+      },
+      "molecular weight": 247.848,
+      "radius": 4.0,
+      "charge": -2.0
+    },
+    "Xe(aq)": {
+      "elements": {
+        "Xe": 1.0
+      },
+      "molecular weight": 131.29,
+      "radius": 3.0,
+      "charge": 0.0
+    },
+    "Y+++": {
+      "elements": {
+        "Y": 1.0
+      },
+      "molecular weight": 88.906,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Yb+++": {
+      "elements": {
+        "Yb": 1.0
+      },
+      "molecular weight": 173.04,
+      "radius": 5.0,
+      "charge": 3.0
+    },
+    "Zn++": {
+      "elements": {
+        "Zn": 1.0
+      },
+      "molecular weight": 65.39,
+      "radius": 6.0,
+      "charge": 2.0
+    },
+    "Zr++++": {
+      "elements": {
+        "Zr": 1.0
+      },
+      "charge": 4.0,
+      "molecular weight": 91.22,
+      "radius": 4.0
+    },
+    "O2(aq)": {
+      "elements": {
+        "O": 2.0
+      },
+      "molecular weight": 31.999,
+      "radius": 3.0,
+      "charge": 0.0
+    }
+  },
+  "secondary species": {
+    "Ag(CO3)2---": {
+      "species": {
+        "H+": -2.0,
+        "Ag+": 1.0,
+        "HCO3-": 2.0
+      },
+      "molecular weight": 227.887,
+      "radius": 4.0,
+      "charge": -3.0,
+      "logk": [
+        18.212,
+        18.212,
+        18.243,
+        18.299,
+        18.596,
+        19.086,
+        19.856,
+        20.262
+      ]
+    },
+    "AgCO3-": {
+      "species": {
+        "H+": -1.0,
+        "Ag+": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 167.877,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        7.493,
+        7.607,
+        7.721,
+        7.832,
+        8.151,
+        8.448,
+        8.724,
+        8.74
+      ]
+    },
+    "AgCl(aq)": {
+      "species": {
+        "Ag+": 1.0,
+        "Cl-": 1.0
+      },
+      "molecular weight": 143.321,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        -3.25,
+        -3.063,
+        -2.933,
+        -2.844,
+        -2.768,
+        -2.93,
+        -3.395,
+        -4.467
+      ]
+    },
+    "AgCl2-": {
+      "species": {
+        "Ag+": 1.0,
+        "Cl-": 2.0
+      },
+      "molecular weight": 178.774,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -5.187,
+        -4.858,
+        -4.635,
+        -4.492,
+        -4.399,
+        -4.686,
+        -5.385,
+        -6.593
+      ]
+    },
+    "AgCl3--": {
+      "species": {
+        "Ag+": 1.0,
+        "Cl-": 3.0
+      },
+      "molecular weight": 214.226,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -4.936,
+        -4.374,
+        -3.985,
+        -3.723,
+        -3.454,
+        -3.714,
+        -4.442,
+        -5.607
+      ]
+    },
+    "AgCl4---": {
+      "species": {
+        "Ag+": 1.0,
+        "Cl-": 4.0
+      },
+      "molecular weight": 249.679,
+      "radius": 4.0,
+      "charge": -3.0,
+      "logk": [
+        -3.505,
+        -2.684,
+        -2.11,
+        -1.715,
+        -1.24,
+        -1.455,
+        -2.204,
+        -3.581
+      ]
+    },
+    "AgNO3(aq)": {
+      "species": {
+        "Ag+": 1.0,
+        "NO3-": 1.0
+      },
+      "molecular weight": 169.873,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        0.243,
+        0.087,
+        -0.078,
+        -0.248,
+        -0.77,
+        -1.337,
+        -2.062,
+        -3.46
+      ]
+    },
+    "AgF(aq)": {
+      "species": {
+        "Ag+": 1.0,
+        "F-": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -0.351,
+        -0.38,
+        -0.432,
+        -0.5,
+        -0.786,
+        -1.211,
+        -1.888,
+        -2.754
+      ],
+      "molecular weight": 126.8666,
+      "radius": 1.5
+    },
+    "AgO-": {
+      "species": {
+        "H+": -2.0,
+        "Ag+": 1.0,
+        "H2O": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        23.874,
+        22.404,
+        21.207,
+        20.221,
+        18.158,
+        17.001,
+        16.513,
+        16.974
+      ],
+      "molecular weight": 123.8676,
+      "radius": 4.0
+    },
+    "AgOH(aq)": {
+      "species": {
+        "H+": -1.0,
+        "Ag+": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        11.911,
+        11.302,
+        10.821,
+        10.436,
+        9.676,
+        9.276,
+        9.064,
+        8.993
+      ],
+      "molecular weight": 124.87554,
+      "radius": 1.5
+    },
+    "Ag(HS)2-": {
+      "species": {
+        "Ag+": 1.0,
+        "HS-": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -17.587,
+        -16.18,
+        -15.045,
+        -14.119,
+        -12.22,
+        -11.233,
+        -10.978,
+        -11.459
+      ],
+      "molecular weight": 174.01608,
+      "radius": 4.0
+    },
+    "AlO+": {
+      "species": {
+        "H+": -2.0,
+        "Al+++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        10.501,
+        9.187,
+        8.078,
+        7.129,
+        4.945,
+        3.362,
+        2.081,
+        2.773
+      ],
+      "molecular weight": 42.98094,
+      "radius": 4.0
+    },
+    "AlO2-": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 58.98,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        22.306,
+        19.983,
+        18.01,
+        16.318,
+        12.443,
+        9.752,
+        7.857,
+        9.384
+      ]
+    },
+    "AlOH++": {
+      "species": {
+        "H+": -1.0,
+        "Al+++": 1.0,
+        "H2O": 1.0
+      },
+      "molecular weight": 43.989,
+      "radius": 4.5,
+      "charge": 2.0,
+      "logk": [
+        5.142,
+        4.454,
+        3.837,
+        3.283,
+        1.9,
+        0.79,
+        -0.164,
+        0.148
+      ]
+    },
+    "AsO4---": {
+      "species": {
+        "H+": -2.0,
+        "H2AsO4-": 1.0
+      },
+      "charge": -3.0,
+      "logk": [
+        18.04,
+        17.834,
+        17.775,
+        17.821,
+        18.39,
+        19.462,
+        21.127,
+        22.64
+      ],
+      "molecular weight": 138.91919,
+      "radius": 4.0
+    },
+    "AsO2-": {
+      "species": {
+        "H2O": -1.0,
+        "H2AsO3-": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -0.012,
+        -0.01,
+        -0.004,
+        0.003,
+        0.02,
+        0.036,
+        0.058,
+        -0.079
+      ],
+      "molecular weight": 106.92039,
+      "radius": 4.0
+    },
+    "AuCl(aq)": {
+      "species": {
+        "Au+": 1.0,
+        "Cl-": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -7.872,
+        -7.312,
+        -6.852,
+        -6.472,
+        -5.69,
+        -5.317,
+        -5.357,
+        -6.109
+      ],
+      "molecular weight": 232.41924,
+      "radius": 1.5
+    },
+    "AuCl2-": {
+      "species": {
+        "Au+": 1.0,
+        "Cl-": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -9.425,
+        -8.727,
+        -8.165,
+        -7.709,
+        -6.814,
+        -6.452,
+        -6.618,
+        -7.44
+      ],
+      "molecular weight": 267.87194,
+      "radius": 4.0
+    },
+    "AuCl3--": {
+      "species": {
+        "Au+": 1.0,
+        "Cl-": 3.0
+      },
+      "charge": -2.0,
+      "logk": [
+        -9.076,
+        -8.312,
+        -7.705,
+        -7.22,
+        -6.29,
+        -5.939,
+        -6.126,
+        -6.76
+      ],
+      "molecular weight": 303.32464,
+      "radius": 4.0
+    },
+    "AuCl4-": {
+      "species": {
+        "Au+++": 1.0,
+        "Cl-": 4.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -10.197,
+        -8.946,
+        -7.994,
+        -7.274,
+        -6.147,
+        -6.212,
+        -7.502,
+        -8.844
+      ],
+      "molecular weight": 338.77734,
+      "radius": 4.0
+    },
+    "Au(HS)2-": {
+      "species": {
+        "Au+": 1.0,
+        "HS-": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -30.877,
+        -28.494,
+        -26.5,
+        -24.811,
+        -21.065,
+        -18.69,
+        -17.363,
+        -17.091
+      ],
+      "molecular weight": 263.11442,
+      "radius": 4.0
+    },
+    "BF4-": {
+      "species": {
+        "H2O": -3.0,
+        "B(OH)3(aq)": 1.0,
+        "H+": 3.0,
+        "F-": 4.0
+      },
+      "molecular weight": 86.805,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -17.624,
+        -17.507,
+        -17.553,
+        -17.715,
+        -18.711,
+        -20.34,
+        -22.79,
+        -25.14
+      ]
+    },
+    "BO2-": {
+      "species": {
+        "H+": -1.0,
+        "H2O": -1.0,
+        "B(OH)3(aq)": 1.0
+      },
+      "molecular weight": 42.81,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        8.918,
+        8.747,
+        8.629,
+        8.55,
+        8.494,
+        8.667,
+        9.152,
+        10.119
+      ]
+    },
+    "BaCO3(aq)": {
+      "species": {
+        "H+": -1.0,
+        "Ba++": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 197.336,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        7.543,
+        7.123,
+        6.78,
+        6.493,
+        5.817,
+        5.229,
+        4.485,
+        3.579
+      ]
+    },
+    "BaCl+": {
+      "species": {
+        "Ba++": 1.0,
+        "Cl-": 1.0
+      },
+      "molecular weight": 172.78,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        0.535,
+        0.321,
+        0.091,
+        -0.152,
+        -0.937,
+        -1.83,
+        -2.96,
+        -4.177
+      ]
+    },
+    "BaF+": {
+      "species": {
+        "Ba++": 1.0,
+        "F-": 1.0
+      },
+      "molecular weight": 156.325,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        -0.282,
+        -0.419,
+        -0.583,
+        -0.766,
+        -1.403,
+        -2.18,
+        -3.207,
+        -4.125
+      ]
+    },
+    "BaOH+": {
+      "species": {
+        "H+": -1.0,
+        "Ba++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        13.519,
+        12.345,
+        11.37,
+        10.549,
+        8.717,
+        7.47,
+        6.528,
+        6.296
+      ],
+      "molecular weight": 154.33434,
+      "radius": 4.0
+    },
+    "BeCl+": {
+      "species": {
+        "Be++": 1.0,
+        "Cl-": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        4.855,
+        2.569,
+        0.545,
+        -1.265,
+        -5.782,
+        -9.488,
+        -12.982,
+        -16.156
+      ],
+      "molecular weight": 44.46488,
+      "radius": 4.0
+    },
+    "BeCl2(aq)": {
+      "species": {
+        "Be++": 1.0,
+        "Cl-": 2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        5.762,
+        2.956,
+        0.431,
+        -1.858,
+        -7.684,
+        -12.553,
+        -17.135,
+        -21.087
+      ],
+      "molecular weight": 79.91758,
+      "radius": 1.5
+    },
+    "CO(aq)": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 1.0,
+        "HCO3-": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 28.01,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        40.414,
+        36.516,
+        33.08,
+        30.024,
+        22.533,
+        16.712,
+        11.786,
+        6.529
+      ]
+    },
+    "CO2(aq)": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 44.01,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        -6.187,
+        -6.12,
+        -6.151,
+        -6.249,
+        -6.801,
+        -7.606,
+        -8.671,
+        -10.459
+      ]
+    },
+    "CO3--": {
+      "species": {
+        "H+": -1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 60.009,
+      "radius": 5.0,
+      "charge": -2.0,
+      "logk": [
+        10.149,
+        9.993,
+        9.922,
+        9.912,
+        10.132,
+        10.635,
+        11.457,
+        12.272
+      ]
+    },
+    "CaCO3(aq)": {
+      "species": {
+        "H+": -1.0,
+        "Ca++": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 100.087,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        6.874,
+        6.47,
+        6.141,
+        5.864,
+        5.207,
+        4.616,
+        3.852,
+        3.219
+      ]
+    },
+    "CaCl+": {
+      "species": {
+        "Ca++": 1.0,
+        "Cl-": 1.0
+      },
+      "molecular weight": 75.531,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        0.328,
+        0.193,
+        0.022,
+        -0.174,
+        -0.87,
+        -1.716,
+        -2.813,
+        -3.917
+      ]
+    },
+    "CaCl2(aq)": {
+      "species": {
+        "Ca++": 1.0,
+        "Cl-": 2.0
+      },
+      "molecular weight": 110.983,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        0.732,
+        0.746,
+        0.66,
+        0.501,
+        -0.292,
+        -1.49,
+        -3.258,
+        -5.451
+      ]
+    },
+    "CaF+": {
+      "species": {
+        "Ca++": 1.0,
+        "F-": 1.0
+      },
+      "molecular weight": 59.076,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        -1.254,
+        -1.328,
+        -1.455,
+        -1.617,
+        -2.251,
+        -3.075,
+        -4.174,
+        -5.166
+      ]
+    },
+    "CaHCO3+": {
+      "species": {
+        "Ca++": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 101.095,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        -1.032,
+        -1.102,
+        -1.231,
+        -1.399,
+        -2.062,
+        -2.914,
+        -4.031,
+        -5.122
+      ]
+    },
+    "CaHSiO3+": {
+      "species": {
+        "H+": -1.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 1.0,
+        "Ca++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        8.436,
+        8.13,
+        7.807,
+        7.5,
+        6.74,
+        6.176,
+        5.708,
+        5.642
+      ],
+      "molecular weight": 117.16964,
+      "radius": 4.0
+    },
+    "CaOH+": {
+      "species": {
+        "H+": -1.0,
+        "Ca++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        12.867,
+        11.82,
+        10.933,
+        10.173,
+        8.424,
+        7.177,
+        6.205,
+        6.035
+      ],
+      "molecular weight": 57.08534,
+      "radius": 4.0
+    },
+    "CaSO4(aq)": {
+      "species": {
+        "Ca++": 1.0,
+        "SO4--": 1.0
+      },
+      "molecular weight": 136.142,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        -2.06,
+        -2.171,
+        -2.304,
+        -2.456,
+        -3.029,
+        -3.856,
+        -5.196,
+        -6.678
+      ]
+    },
+    "CoCl+": {
+      "species": {
+        "Cl-": 1.0,
+        "Co++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -0.533,
+        -0.564,
+        -0.642,
+        -0.755,
+        -1.24,
+        -1.917,
+        -2.869,
+        -3.794
+      ],
+      "molecular weight": 94.3859,
+      "radius": 4.0
+    },
+    "CoF+": {
+      "species": {
+        "F-": 1.0,
+        "Co++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -0.982,
+        -1.07,
+        -1.198,
+        -1.351,
+        -1.924,
+        -2.659,
+        -3.66,
+        -4.547
+      ],
+      "molecular weight": 77.9316,
+      "radius": 4.0
+    },
+    "CoOH+": {
+      "species": {
+        "H+": -1.0,
+        "Co++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        9.961,
+        9.175,
+        8.493,
+        7.896,
+        6.472,
+        5.402,
+        4.527,
+        4.449
+      ],
+      "molecular weight": 75.94054,
+      "radius": 4.0
+    },
+    "CoO(aq)": {
+      "species": {
+        "H+": -2.0,
+        "Co++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        18.73,
+        17.41,
+        16.29,
+        15.328,
+        13.097,
+        11.471,
+        10.148,
+        10.19
+      ],
+      "molecular weight": 74.9326,
+      "radius": 1.5
+    },
+    "CoO2--": {
+      "species": {
+        "H+": -4.0,
+        "Co++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -2.0,
+      "logk": [
+        46.105,
+        43.23,
+        40.836,
+        38.822,
+        34.427,
+        31.727,
+        30.307,
+        30.776
+      ],
+      "molecular weight": 90.932,
+      "radius": 4.0
+    },
+    "CoOH++": {
+      "species": {
+        "Co++": 1.0,
+        "H2O": 0.5,
+        "O2(aq)": 0.25
+      },
+      "charge": 2.0,
+      "logk": [
+        13.398,
+        12.725,
+        12.161,
+        11.682,
+        10.612,
+        9.9,
+        9.408,
+        9.064
+      ],
+      "molecular weight": 75.94054,
+      "radius": 5.0
+    },
+    "Cr++": {
+      "species": {
+        "H2O": -2.0,
+        "H+": 4.0,
+        "CrO4--": 1.0,
+        "O2(aq)": -1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        16.116,
+        14.051,
+        12.178,
+        10.467,
+        6.069,
+        2.392,
+        -1.025,
+        -6.152
+      ],
+      "molecular weight": 51.9961,
+      "radius": 5.0
+    },
+    "Cr+++": {
+      "species": {
+        "H2O": -2.5,
+        "H+": 5.0,
+        "CrO4--": 1.0,
+        "O2(aq)": -0.75
+      },
+      "charge": 3.0,
+      "logk": [
+        -11.969,
+        -13.506,
+        -14.919,
+        -16.224,
+        -19.631,
+        -22.514,
+        -25.232,
+        -31.369
+      ],
+      "molecular weight": 51.9961,
+      "radius": 5.0
+    },
+    "Cr2O7--": {
+      "species": {
+        "H2O": -1.0,
+        "CrO4--": 2.0,
+        "H+": 2.0
+      },
+      "molecular weight": 215.988,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -14.396,
+        -14.378,
+        -14.477,
+        -14.658,
+        -15.533,
+        -16.813,
+        -18.65,
+        -21.233
+      ]
+    },
+    "CrOH++": {
+      "species": {
+        "H2O": -1.5,
+        "H+": 4.0,
+        "CrO4--": 1.0,
+        "O2(aq)": -0.75
+      },
+      "charge": 2.0,
+      "logk": [
+        -8.034,
+        -7.523,
+        -7.198,
+        -7.011,
+        -6.998,
+        -7.529,
+        -8.581,
+        -12.445
+      ],
+      "molecular weight": 69.00344,
+      "radius": 5.0
+    },
+    "CrO+": {
+      "species": {
+        "H2O": -1.5,
+        "H+": 3.0,
+        "CrO4--": 1.0,
+        "O2(aq)": -0.75
+      },
+      "charge": 1.0,
+      "logk": [
+        -2.313,
+        -2.547,
+        -2.814,
+        -3.105,
+        -4.082,
+        -5.215,
+        -6.683,
+        -10.134
+      ],
+      "molecular weight": 67.9955,
+      "radius": 4.0
+    },
+    "CrO2-": {
+      "species": {
+        "H2O": -0.5,
+        "H+": 1.0,
+        "CrO4--": 1.0,
+        "O2(aq)": -0.75
+      },
+      "charge": -1.0,
+      "logk": [
+        15.397,
+        13.751,
+        12.284,
+        10.966,
+        7.665,
+        5.002,
+        2.62,
+        -0.228
+      ],
+      "molecular weight": 83.9949,
+      "radius": 4.0
+    },
+    "CuCl(aq)": {
+      "species": {
+        "Cl-": 1.0,
+        "Cu+": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -2.287,
+        -2.109,
+        -1.992,
+        -1.921,
+        -1.913,
+        -2.159,
+        -2.727,
+        -3.793
+      ],
+      "molecular weight": 98.9987,
+      "radius": 1.5
+    },
+    "CuCl2-": {
+      "species": {
+        "Cl-": 2.0,
+        "Cu+": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -5.198,
+        -4.675,
+        -4.305,
+        -4.049,
+        -3.751,
+        -3.948,
+        -4.601,
+        -5.658
+      ],
+      "molecular weight": 134.4514,
+      "radius": 4.0
+    },
+    "CuCl3--": {
+      "species": {
+        "Cl-": 3.0,
+        "Cu+": 1.0
+      },
+      "charge": -2.0,
+      "logk": [
+        -5.522,
+        -4.712,
+        -4.149,
+        -3.764,
+        -3.323,
+        -3.575,
+        -4.372,
+        -5.706
+      ],
+      "molecular weight": 169.9041,
+      "radius": 4.0
+    },
+    "CuCl+": {
+      "species": {
+        "Cl-": 1.0,
+        "Cu++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -0.371,
+        -0.43,
+        -0.54,
+        -0.686,
+        -1.264,
+        -2.026,
+        -3.056,
+        -3.945
+      ],
+      "molecular weight": 98.9987,
+      "radius": 4.0
+    },
+    "CuCl2(aq)": {
+      "species": {
+        "Cl-": 2.0,
+        "Cu++": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        0.768,
+        0.696,
+        0.52,
+        0.273,
+        -0.765,
+        -2.183,
+        -4.152,
+        -6.17
+      ],
+      "molecular weight": 134.4514,
+      "radius": 1.5
+    },
+    "CuCl3-": {
+      "species": {
+        "Cl-": 3.0,
+        "Cu++": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        2.43,
+        2.48,
+        2.36,
+        2.125,
+        0.966,
+        -0.684,
+        -2.918,
+        -5.382
+      ],
+      "molecular weight": 169.9041,
+      "radius": 4.0
+    },
+    "CuCl4--": {
+      "species": {
+        "Cl-": 4.0,
+        "Cu++": 1.0
+      },
+      "charge": -2.0,
+      "logk": [
+        4.813,
+        5.157,
+        5.248,
+        5.164,
+        4.234,
+        2.629,
+        0.356,
+        -2.638
+      ],
+      "molecular weight": 205.3568,
+      "radius": 4.0
+    },
+    "CuF+": {
+      "species": {
+        "F-": 1.0,
+        "Cu++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -1.49,
+        -1.538,
+        -1.638,
+        -1.773,
+        -2.32,
+        -3.054,
+        -4.067,
+        -4.859
+      ],
+      "molecular weight": 82.5444,
+      "radius": 4.0
+    },
+    "CuOH+": {
+      "species": {
+        "H+": -1.0,
+        "Cu++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        7.876,
+        7.263,
+        6.742,
+        6.295,
+        5.269,
+        4.531,
+        3.942,
+        4.193
+      ],
+      "molecular weight": 80.55334,
+      "radius": 4.0
+    },
+    "CuO(aq)": {
+      "species": {
+        "H+": -2.0,
+        "Cu++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        14.749,
+        13.721,
+        12.863,
+        12.137,
+        10.518,
+        9.435,
+        8.718,
+        10.232
+      ],
+      "molecular weight": 79.5454,
+      "radius": 1.5
+    },
+    "CuO2--": {
+      "species": {
+        "H+": -4.0,
+        "Cu++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -2.0,
+      "logk": [
+        41.236,
+        38.663,
+        36.554,
+        34.808,
+        31.125,
+        29.024,
+        28.118,
+        29.279
+      ],
+      "molecular weight": 95.5448,
+      "radius": 4.0
+    },
+    "FeCl+": {
+      "species": {
+        "Cl-": 1.0,
+        "Fe++": 1.0
+      },
+      "molecular weight": 91.3,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        0.192,
+        0.116,
+        -0.008,
+        -0.163,
+        -0.759,
+        -1.527,
+        -2.555,
+        -3.579
+      ]
+    },
+    "FeCl2(aq)": {
+      "species": {
+        "Fe++": 1.0,
+        "Cl-": 2.0
+      },
+      "molecular weight": 126.752,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        8.253,
+        6.865,
+        5.581,
+        4.387,
+        1.197,
+        -1.698,
+        -4.732,
+        -7.607
+      ]
+    },
+    "FeCl++": {
+      "species": {
+        "Cl-": 1.0,
+        "Fe+++": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        -1.499,
+        -1.582,
+        -1.704,
+        -1.853,
+        -2.417,
+        -3.148,
+        -4.138,
+        -4.871
+      ],
+      "molecular weight": 91.2997,
+      "radius": 5.0
+    },
+    "FeF+": {
+      "species": {
+        "F-": 1.0,
+        "Fe++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -1.394,
+        -1.446,
+        -1.543,
+        -1.671,
+        -2.184,
+        -2.875,
+        -3.842,
+        -4.715
+      ],
+      "molecular weight": 74.8454,
+      "radius": 4.0
+    },
+    "FeF++": {
+      "species": {
+        "F-": 1.0,
+        "Fe+++": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        -6.017,
+        -6.322,
+        -6.634,
+        -6.946,
+        -7.892,
+        -8.912,
+        -10.145,
+        -10.253
+      ],
+      "molecular weight": 74.8454,
+      "radius": 5.0
+    },
+    "FeOH+": {
+      "species": {
+        "H+": -1.0,
+        "Fe++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        9.24,
+        8.548,
+        7.954,
+        7.439,
+        6.235,
+        5.352,
+        4.64,
+        4.646
+      ],
+      "molecular weight": 72.85434,
+      "radius": 4.0
+    },
+    "FeOH++": {
+      "species": {
+        "H+": -1.0,
+        "Fe+++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        2.168,
+        1.6,
+        1.124,
+        0.721,
+        -0.194,
+        -0.851,
+        -1.381,
+        -0.513
+      ],
+      "molecular weight": 72.85434,
+      "radius": 5.0
+    },
+    "FeO(aq)": {
+      "species": {
+        "H+": -2.0,
+        "Fe++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        20.331,
+        18.792,
+        17.487,
+        16.368,
+        13.784,
+        11.923,
+        10.437,
+        10.301
+      ],
+      "molecular weight": 71.8464,
+      "radius": 1.5
+    },
+    "FeO+": {
+      "species": {
+        "H+": -2.0,
+        "Fe+++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        5.514,
+        4.469,
+        3.626,
+        2.935,
+        1.458,
+        0.492,
+        -0.246,
+        1.032
+      ],
+      "molecular weight": 71.8464,
+      "radius": 4.0
+    },
+    "FeO2-": {
+      "species": {
+        "H+": -4.0,
+        "Fe+++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        21.627,
+        19.274,
+        17.337,
+        15.723,
+        12.223,
+        9.995,
+        8.578,
+        10.551
+      ],
+      "molecular weight": 87.8458,
+      "radius": 4.0
+    },
+    "HAlO2(aq)": {
+      "species": {
+        "H+": -3.0,
+        "Al+++": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 59.988,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        15.726,
+        13.727,
+        12.071,
+        10.682,
+        7.594,
+        5.472,
+        3.826,
+        5.241
+      ]
+    },
+    "HAsO4--": {
+      "species": {
+        "H+": -1.0,
+        "H2AsO4-": 1.0
+      },
+      "molecular weight": 139.927,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        6.625,
+        6.615,
+        6.655,
+        6.729,
+        7.098,
+        7.654,
+        8.477,
+        9.456
+      ]
+    },
+    "H3AsO4(aq)": {
+      "species": {
+        "H+": 1.0,
+        "H2AsO4-": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -2.189,
+        -2.302,
+        -2.426,
+        -2.557,
+        -2.98,
+        -3.483,
+        -4.204,
+        -5.981
+      ],
+      "molecular weight": 141.94301,
+      "radius": 1.5
+    },
+    "HAsO2(aq)": {
+      "species": {
+        "H2O": -1.0,
+        "H2AsO3-": 1.0,
+        "H+": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -9.112,
+        -8.764,
+        -8.494,
+        -8.286,
+        -7.933,
+        -7.896,
+        -8.198,
+        -9.415
+      ],
+      "molecular weight": 107.92833,
+      "radius": 1.5
+    },
+    "HCl(aq)": {
+      "species": {
+        "Cl-": 1.0,
+        "H+": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        0.597,
+        0.689,
+        0.708,
+        0.672,
+        0.328,
+        -0.3,
+        -1.324,
+        -3.779
+      ],
+      "molecular weight": 36.46064,
+      "radius": 1.5
+    },
+    "HCN(aq)": {
+      "species": {
+        "CN-": 1.0,
+        "H+": 1.0
+      },
+      "molecular weight": 27.026,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        -9.104,
+        -8.554,
+        -8.143,
+        -7.835,
+        -7.333,
+        -7.272,
+        -7.612,
+        -8.858
+      ]
+    },
+    "HCoO2-": {
+      "species": {
+        "H+": -3.0,
+        "Co++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        31.323,
+        29.432,
+        27.814,
+        26.42,
+        23.222,
+        21.041,
+        19.589,
+        19.44
+      ],
+      "molecular weight": 91.93994,
+      "radius": 4.0
+    },
+    "HCrO4-": {
+      "species": {
+        "CrO4--": 1.0,
+        "H+": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -6.372,
+        -6.467,
+        -6.614,
+        -6.794,
+        -7.465,
+        -8.3,
+        -9.398,
+        -10.874
+      ],
+      "molecular weight": 117.00164,
+      "radius": 4.0
+    },
+    "HCrO2(aq)": {
+      "species": {
+        "H2O": -0.5,
+        "CrO4--": 1.0,
+        "H+": 2.0,
+        "O2(aq)": -0.75
+      },
+      "charge": 0.0,
+      "logk": [
+        6.057,
+        4.934,
+        3.931,
+        3.025,
+        0.698,
+        -1.335,
+        -3.471,
+        -6.487
+      ],
+      "molecular weight": 85.00284,
+      "radius": 1.5
+    },
+    "HCuO2-": {
+      "species": {
+        "H+": -3.0,
+        "Cu++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        27.462,
+        25.547,
+        23.973,
+        22.664,
+        19.836,
+        18.041,
+        16.827,
+        16.867
+      ],
+      "molecular weight": 96.55274,
+      "radius": 4.0
+    },
+    "HFeO2-": {
+      "species": {
+        "H+": -3.0,
+        "Fe++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        29.042,
+        27.191,
+        25.618,
+        24.271,
+        21.214,
+        19.131,
+        17.562,
+        13.523
+      ],
+      "molecular weight": 88.85374,
+      "radius": 4.0
+    },
+    "HFeO2(aq)": {
+      "species": {
+        "H+": -3.0,
+        "Fe+++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        12.064,
+        10.27,
+        8.829,
+        7.657,
+        5.209,
+        3.687,
+        2.596,
+        4.182
+      ],
+      "molecular weight": 88.85374,
+      "radius": 1.5
+    },
+    "HHgO2-": {
+      "species": {
+        "H+": -3.0,
+        "Hg++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        20.997,
+        19.797,
+        18.842,
+        18.077,
+        16.572,
+        15.836,
+        15.641,
+        16.819
+      ],
+      "molecular weight": 233.59674,
+      "radius": 4.0
+    },
+    "HMnO2-": {
+      "species": {
+        "H+": -3.0,
+        "Mn++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        34.624,
+        32.413,
+        30.562,
+        28.996,
+        25.52,
+        23.268,
+        21.856,
+        22.145
+      ],
+      "molecular weight": 87.94479,
+      "radius": 4.0
+    },
+    "HNiO2-": {
+      "species": {
+        "H+": -3.0,
+        "Ni++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        30.811,
+        29.065,
+        27.553,
+        26.236,
+        23.162,
+        21.014,
+        19.546,
+        19.067
+      ],
+      "molecular weight": 91.69674,
+      "radius": 4.0
+    },
+    "HPbO2-": {
+      "species": {
+        "H+": -3.0,
+        "Pb++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        27.886,
+        26.124,
+        24.714,
+        23.573,
+        21.27,
+        20.04,
+        19.52,
+        20.596
+      ],
+      "molecular weight": 240.20674,
+      "radius": 4.0
+    },
+    "HSnO2-": {
+      "species": {
+        "H+": -3.0,
+        "Sn++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        16.555,
+        15.659,
+        14.963,
+        14.42,
+        13.424,
+        13.042,
+        13.101,
+        14.539
+      ],
+      "molecular weight": 151.71674,
+      "radius": 4.0
+    },
+    "HZnO2-": {
+      "species": {
+        "H+": -3.0,
+        "Zn++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        27.594,
+        25.856,
+        24.388,
+        23.136,
+        20.327,
+        18.482,
+        17.326,
+        17.706
+      ],
+      "molecular weight": 98.39674,
+      "radius": 4.0
+    },
+    "HF(aq)": {
+      "species": {
+        "F-": 1.0,
+        "H+": 1.0
+      },
+      "molecular weight": 20.006,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        -3.082,
+        -3.298,
+        -3.526,
+        -3.76,
+        -4.486,
+        -5.273,
+        -6.235,
+        -7.338
+      ]
+    },
+    "HF2-": {
+      "species": {
+        "H+": 1.0,
+        "F-": 2.0
+      },
+      "molecular weight": 39.005,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -2.401,
+        -2.703,
+        -2.982,
+        -3.243,
+        -3.964,
+        -4.691,
+        -5.588,
+        -6.133
+      ]
+    },
+    "HNO2(aq)": {
+      "species": {
+        "H+": 1.0,
+        "NO2-": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -3.19,
+        -3.01,
+        -2.886,
+        -2.803,
+        -2.737,
+        -2.888,
+        -3.313,
+        -4.647
+      ],
+      "molecular weight": 47.01348,
+      "radius": 1.5
+    },
+    "HNO3(aq)": {
+      "species": {
+        "H+": 1.0,
+        "NO3-": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        1.371,
+        1.112,
+        0.859,
+        0.614,
+        -0.094,
+        -0.811,
+        -1.688,
+        -3.578
+      ],
+      "molecular weight": 63.01288,
+      "radius": 1.5
+    },
+    "HN2O2-": {
+      "species": {
+        "NO3-": 2.0,
+        "H+": 1.0,
+        "O2(aq)": -2.0
+      },
+      "charge": -1.0,
+      "logk": [
+        52.045,
+        46.921,
+        42.486,
+        38.605,
+        29.373,
+        22.534,
+        17.087,
+        11.997
+      ],
+      "molecular weight": 61.02022,
+      "radius": 4.0
+    },
+    "H2N2O2(aq)": {
+      "species": {
+        "NO3-": 2.0,
+        "H+": 2.0,
+        "O2(aq)": -2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        45.123,
+        40.216,
+        35.937,
+        32.165,
+        23.057,
+        16.091,
+        10.185,
+        3.354
+      ],
+      "molecular weight": 62.02816,
+      "radius": 1.5
+    },
+    "HO2-": {
+      "species": {
+        "H+": -1.0,
+        "H2O": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": -1.0,
+      "logk": [
+        29.667,
+        28.01,
+        26.649,
+        25.519,
+        23.117,
+        21.724,
+        21.086,
+        21.296
+      ],
+      "molecular weight": 33.00674,
+      "radius": 4.0
+    },
+    "H2O2(aq)": {
+      "species": {
+        "H2O": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": 0.0,
+      "logk": [
+        18.164,
+        16.888,
+        15.806,
+        14.877,
+        12.754,
+        11.277,
+        10.178,
+        9.143
+      ],
+      "molecular weight": 34.01468,
+      "radius": 1.5
+    },
+    "HP2O7---": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 1.0,
+        "HPO4--": 2.0
+      },
+      "charge": -3.0,
+      "logk": [
+        -5.214,
+        -5.611,
+        -6.057,
+        -6.529,
+        -8.015,
+        -9.57,
+        -11.287,
+        -12.885
+      ],
+      "molecular weight": 174.95126,
+      "radius": 4.0
+    },
+    "H2P2O7--": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 2.0,
+        "HPO4--": 2.0
+      },
+      "charge": -2.0,
+      "logk": [
+        -11.745,
+        -12.135,
+        -12.621,
+        -13.167,
+        -15.018,
+        -17.125,
+        -19.662,
+        -22.229
+      ],
+      "molecular weight": 175.9592,
+      "radius": 4.0
+    },
+    "H3P2O7-": {
+      "species": {
+        "H2O": -1.0,
+        "HPO4--": 2.0,
+        "H+": 3.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -14.061,
+        -14.483,
+        -15.018,
+        -15.623,
+        -17.715,
+        -20.186,
+        -23.331,
+        -27.182
+      ],
+      "molecular weight": 176.96714,
+      "radius": 4.0
+    },
+    "H4P2O7(aq)": {
+      "species": {
+        "H2O": -1.0,
+        "HPO4--": 2.0,
+        "H+": 4.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -15.57,
+        -16.105,
+        -16.758,
+        -17.485,
+        -19.963,
+        -22.892,
+        -26.725,
+        -32.624
+      ],
+      "molecular weight": 177.97508,
+      "radius": 1.5
+    },
+    "H2PO4-": {
+      "species": {
+        "H+": 1.0,
+        "HPO4--": 1.0
+      },
+      "molecular weight": 96.987,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -7.049,
+        -7.03,
+        -7.065,
+        -7.139,
+        -7.522,
+        -8.103,
+        -8.953,
+        -9.851
+      ]
+    },
+    "H3PO4(aq)": {
+      "species": {
+        "HPO4--": 1.0,
+        "H+": 2.0
+      },
+      "molecular weight": 97.995,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        -9.117,
+        -9.229,
+        -9.409,
+        -9.634,
+        -10.501,
+        -11.641,
+        -13.252,
+        -15.806
+      ]
+    },
+    "H2PO3-": {
+      "species": {
+        "H+": 1.0,
+        "HPO3--": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -6.057,
+        -6.081,
+        -6.148,
+        -6.244,
+        -6.658,
+        -7.242,
+        -8.086,
+        -9.143
+      ],
+      "molecular weight": 80.98784,
+      "radius": 4.0
+    },
+    "H3PO3(aq)": {
+      "species": {
+        "H+": 2.0,
+        "HPO3--": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -7.825,
+        -7.923,
+        -8.072,
+        -8.257,
+        -8.975,
+        -9.95,
+        -11.405,
+        -14.14
+      ],
+      "molecular weight": 81.99578,
+      "radius": 1.5
+    },
+    "H2PO2(aq)": {
+      "species": {
+        "H+": 1.0,
+        "HPO2-": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -1.898,
+        -1.976,
+        -2.065,
+        -2.161,
+        -2.486,
+        -2.896,
+        -3.519,
+        -5.061
+      ],
+      "molecular weight": 64.98844,
+      "radius": 1.5
+    },
+    "H2S(aq)": {
+      "species": {
+        "H+": 1.0,
+        "HS-": 1.0
+      },
+      "molecular weight": 34.082,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        -6.9,
+        -6.639,
+        -6.482,
+        -6.402,
+        -6.475,
+        -6.876,
+        -7.61,
+        -9.096
+      ]
+    },
+    "HSO3-": {
+      "species": {
+        "H+": 1.0,
+        "SO3--": 1.0
+      },
+      "molecular weight": 81.072,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -6.987,
+        -7.162,
+        -7.38,
+        -7.624,
+        -8.453,
+        -9.413,
+        -10.604,
+        -11.782
+      ]
+    },
+    "HSO4-": {
+      "species": {
+        "H+": 1.0,
+        "SO4--": 1.0
+      },
+      "molecular weight": 97.072,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -1.853,
+        -2.187,
+        -2.537,
+        -2.892,
+        -3.968,
+        -5.08,
+        -6.357,
+        -7.791
+      ]
+    },
+    "HSO5-": {
+      "species": {
+        "H+": 1.0,
+        "SO4--": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": -1.0,
+      "logk": [
+        18.951,
+        17.058,
+        15.344,
+        13.786,
+        9.817,
+        6.534,
+        3.521,
+        0.612
+      ],
+      "molecular weight": 113.07094,
+      "radius": 4.0
+    },
+    "HS2O3-": {
+      "species": {
+        "H+": 1.0,
+        "S2O3--": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -1.675,
+        -1.836,
+        -2.03,
+        -2.246,
+        -2.98,
+        -3.827,
+        -4.886,
+        -6.304
+      ],
+      "molecular weight": 113.13814,
+      "radius": 4.0
+    },
+    "H2S2O3(aq)": {
+      "species": {
+        "H+": 2.0,
+        "S2O3--": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -2.184,
+        -2.562,
+        -2.966,
+        -3.385,
+        -4.702,
+        -6.159,
+        -8.009,
+        -11.28
+      ],
+      "molecular weight": 114.14608,
+      "radius": 1.5
+    },
+    "HS2O4-": {
+      "species": {
+        "H+": 1.0,
+        "S2O3--": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": -1.0,
+      "logk": [
+        -16.053,
+        -14.79,
+        -13.772,
+        -12.942,
+        -11.254,
+        -10.395,
+        -10.197,
+        -10.648
+      ],
+      "molecular weight": 129.13754,
+      "radius": 4.0
+    },
+    "H2S2O4(aq)": {
+      "species": {
+        "H+": 2.0,
+        "S2O3--": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": 0.0,
+      "logk": [
+        -16.35,
+        -15.321,
+        -14.526,
+        -13.912,
+        -12.837,
+        -12.607,
+        -13.223,
+        -15.656
+      ],
+      "molecular weight": 130.14548,
+      "radius": 1.5
+    },
+    "HSbO2(aq)": {
+      "species": {
+        "H+": 1.0,
+        "SbO2-": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -10.817,
+        -10.459,
+        -10.17,
+        -9.935,
+        -9.478,
+        -9.317,
+        -9.468,
+        -9.502
+      ],
+      "molecular weight": 154.75674,
+      "radius": 1.5
+    },
+    "HSeO3-": {
+      "species": {
+        "H+": 1.0,
+        "SeO3--": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -7.133,
+        -7.111,
+        -7.161,
+        -7.26,
+        -7.753,
+        -8.469,
+        -9.468,
+        -10.673
+      ],
+      "molecular weight": 127.96614,
+      "radius": 4.0
+    },
+    "H2SeO3(aq)": {
+      "species": {
+        "H+": 2.0,
+        "SeO3--": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -9.614,
+        -9.707,
+        -9.886,
+        -10.121,
+        -11.058,
+        -12.302,
+        -14.055,
+        -17.183
+      ],
+      "molecular weight": 128.97408,
+      "radius": 1.5
+    },
+    "HSeO4-": {
+      "species": {
+        "H+": 1.0,
+        "SeO4--": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -1.798,
+        -2.082,
+        -2.393,
+        -2.718,
+        -3.734,
+        -4.817,
+        -6.084,
+        -7.638
+      ],
+      "molecular weight": 143.96554,
+      "radius": 4.0
+    },
+    "HSiO3-": {
+      "species": {
+        "H+": -1.0,
+        "H2O": 1.0,
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 77.092,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        9.408,
+        9.177,
+        8.976,
+        8.823,
+        8.657,
+        8.858,
+        9.42,
+        10.424
+      ]
+    },
+    "HgCl+": {
+      "species": {
+        "Hg++": 1.0,
+        "Cl-": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -7.394,
+        -6.975,
+        -6.682,
+        -6.484,
+        -6.283,
+        -6.514,
+        -7.167,
+        -7.946
+      ],
+      "molecular weight": 236.0427,
+      "radius": 4.0
+    },
+    "HgCl2(aq)": {
+      "species": {
+        "Hg++": 1.0,
+        "Cl-": 2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -14.161,
+        -13.246,
+        -12.591,
+        -12.131,
+        -11.567,
+        -11.882,
+        -13.045,
+        -14.921
+      ],
+      "molecular weight": 271.4954,
+      "radius": 1.5
+    },
+    "HgCl3-": {
+      "species": {
+        "Hg++": 1.0,
+        "Cl-": 3.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -14.304,
+        -13.284,
+        -12.602,
+        -12.166,
+        -11.856,
+        -12.571,
+        -14.208,
+        -16.402
+      ],
+      "molecular weight": 306.9481,
+      "radius": 4.0
+    },
+    "HgCl4--": {
+      "species": {
+        "Hg++": 1.0,
+        "Cl-": 4.0
+      },
+      "charge": -2.0,
+      "logk": [
+        -15.026,
+        -13.721,
+        -12.852,
+        -12.299,
+        -11.898,
+        -12.734,
+        -14.582,
+        -17.08
+      ],
+      "molecular weight": 342.4008,
+      "radius": 4.0
+    },
+    "HgF+": {
+      "species": {
+        "Hg++": 1.0,
+        "F-": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -1.593,
+        -1.634,
+        -1.735,
+        -1.875,
+        -2.455,
+        -3.233,
+        -4.288,
+        -5.251
+      ],
+      "molecular weight": 219.5884,
+      "radius": 4.0
+    },
+    "HgOH+": {
+      "species": {
+        "H+": -1.0,
+        "Hg++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        3.373,
+        2.953,
+        2.569,
+        2.22,
+        1.331,
+        0.594,
+        -0.075,
+        -0.06
+      ],
+      "molecular weight": 217.59734,
+      "radius": 4.0
+    },
+    "HgO(aq)": {
+      "species": {
+        "H+": -2.0,
+        "Hg++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        6.136,
+        5.691,
+        5.358,
+        5.107,
+        4.663,
+        4.46,
+        4.318,
+        4.899
+      ],
+      "molecular weight": 216.5894,
+      "radius": 1.5
+    },
+    "I3-": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 2.0,
+        "I-": 3.0,
+        "O2(aq)": 0.5
+      },
+      "molecular weight": 380.713,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -23.482,
+        -21.288,
+        -19.524,
+        -18.097,
+        -15.254,
+        -13.9,
+        -13.748,
+        -15.489
+      ]
+    },
+    "IO-": {
+      "species": {
+        "I-": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": -1.0,
+      "logk": [
+        2.062,
+        2.769,
+        3.384,
+        3.921,
+        5.193,
+        6.128,
+        6.864,
+        7.159
+      ],
+      "molecular weight": 142.90387,
+      "radius": 4.0
+    },
+    "IO3-": {
+      "species": {
+        "I-": 1.0,
+        "O2(aq)": 1.5
+      },
+      "charge": -1.0,
+      "logk": [
+        -13.396,
+        -11.166,
+        -9.26,
+        -7.612,
+        -3.788,
+        -1.084,
+        0.917,
+        2.486
+      ],
+      "molecular weight": 174.90267,
+      "radius": 4.0
+    },
+    "IO4-": {
+      "species": {
+        "I-": 1.0,
+        "O2(aq)": 2.0
+      },
+      "molecular weight": 190.902,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -1.067,
+        0.203,
+        1.278,
+        2.197,
+        4.283,
+        5.693,
+        6.648,
+        7.29
+      ]
+    },
+    "HIO(aq)": {
+      "species": {
+        "I-": 1.0,
+        "H+": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": 0.0,
+      "logk": [
+        -8.397,
+        -7.3,
+        -6.377,
+        -5.595,
+        -3.875,
+        -2.82,
+        -2.312,
+        -2.703
+      ],
+      "molecular weight": 143.91181,
+      "radius": 1.5
+    },
+    "HIO3(aq)": {
+      "species": {
+        "I-": 1.0,
+        "H+": 1.0,
+        "O2(aq)": 1.5
+      },
+      "charge": 0.0,
+      "logk": [
+        -14.13,
+        -12.058,
+        -10.322,
+        -8.851,
+        -5.586,
+        -3.505,
+        -2.323,
+        -2.545
+      ],
+      "molecular weight": 175.91061,
+      "radius": 1.5
+    },
+    "KBr(aq)": {
+      "species": {
+        "Br-": 1.0,
+        "K+": 1.0
+      },
+      "molecular weight": 119.002,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.806,
+        1.596,
+        1.396,
+        1.204,
+        0.654,
+        0.08,
+        -0.66,
+        -1.952
+      ]
+    },
+    "KCl(aq)": {
+      "species": {
+        "Cl-": 1.0,
+        "K+": 1.0
+      },
+      "molecular weight": 74.551,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        2.601,
+        2.314,
+        2.048,
+        1.799,
+        1.11,
+        0.425,
+        -0.415,
+        -1.784
+      ]
+    },
+    "KHSO4(aq)": {
+      "species": {
+        "H+": 1.0,
+        "K+": 1.0,
+        "SO4--": 1.0
+      },
+      "molecular weight": 136.17,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.674,
+        1.024,
+        0.354,
+        -0.316,
+        -2.297,
+        -4.299,
+        -6.58,
+        -9.615
+      ]
+    },
+    "KI(aq)": {
+      "species": {
+        "I-": 1.0,
+        "K+": 1.0
+      },
+      "molecular weight": 166.003,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.675,
+        1.541,
+        1.406,
+        1.268,
+        0.835,
+        0.337,
+        -0.346,
+        -1.646
+      ]
+    },
+    "KOH(aq)": {
+      "species": {
+        "H+": -1.0,
+        "K+": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        14.363,
+        13.532,
+        12.862,
+        12.317,
+        11.189,
+        10.534,
+        10.136,
+        9.916
+      ],
+      "molecular weight": 56.10564,
+      "radius": 1.5
+    },
+    "KSO4-": {
+      "species": {
+        "K+": 1.0,
+        "SO4--": 1.0
+      },
+      "molecular weight": 135.162,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -0.856,
+        -0.935,
+        -1.045,
+        -1.175,
+        -1.656,
+        -2.278,
+        -3.164,
+        -4.229
+      ]
+    },
+    "LiCl(aq)": {
+      "species": {
+        "Cl-": 1.0,
+        "Li+": 1.0
+      },
+      "molecular weight": 42.394,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.578,
+        1.494,
+        1.385,
+        1.259,
+        0.805,
+        0.225,
+        -0.6,
+        -1.793
+      ]
+    },
+    "LiOH(aq)": {
+      "species": {
+        "H+": -1.0,
+        "Li+": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        13.57,
+        12.837,
+        12.238,
+        11.741,
+        10.68,
+        10.012,
+        9.545,
+        9.438
+      ],
+      "molecular weight": 23.94834,
+      "radius": 1.5
+    },
+    "MgCO3(aq)": {
+      "species": {
+        "H+": -1.0,
+        "HCO3-": 1.0,
+        "Mg++": 1.0
+      },
+      "molecular weight": 84.314,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        7.228,
+        6.92,
+        6.675,
+        6.476,
+        6.02,
+        5.594,
+        4.964,
+        4.902
+      ]
+    },
+    "MgCl+": {
+      "species": {
+        "Cl-": 1.0,
+        "Mg++": 1.0
+      },
+      "molecular weight": 59.758,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        0.164,
+        0.109,
+        0.005,
+        -0.133,
+        -0.679,
+        -1.398,
+        -2.379,
+        -3.442
+      ]
+    },
+    "MgF+": {
+      "species": {
+        "F-": 1.0,
+        "Mg++": 1.0
+      },
+      "molecular weight": 43.303,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        -1.319,
+        -1.396,
+        -1.529,
+        -1.697,
+        -2.339,
+        -3.157,
+        -4.245,
+        -5.281
+      ]
+    },
+    "MgHCO3+": {
+      "species": {
+        "HCO3-": 1.0,
+        "Mg++": 1.0
+      },
+      "molecular weight": 85.322,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        -1.025,
+        -1.104,
+        -1.241,
+        -1.416,
+        -2.079,
+        -2.91,
+        -3.986,
+        -4.85
+      ]
+    },
+    "MgHSiO3+": {
+      "species": {
+        "H+": -1.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 1.0,
+        "Mg++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        8.182,
+        7.937,
+        7.665,
+        7.406,
+        6.777,
+        6.335,
+        5.98,
+        5.921
+      ],
+      "molecular weight": 101.39664,
+      "radius": 4.0
+    },
+    "MgOH+": {
+      "species": {
+        "H+": -1.0,
+        "Mg++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        11.713,
+        10.847,
+        10.092,
+        9.43,
+        7.855,
+        6.682,
+        5.736,
+        5.463
+      ],
+      "molecular weight": 41.31234,
+      "radius": 4.0
+    },
+    "MgSO4(aq)": {
+      "species": {
+        "Mg++": 1.0,
+        "SO4--": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -2.177,
+        -2.293,
+        -2.428,
+        -2.578,
+        -3.129,
+        -3.927,
+        -5.241,
+        -6.276
+      ],
+      "molecular weight": 120.3686,
+      "radius": 1.5
+    },
+    "HMoO4-": {
+      "species": {
+        "H+": 1.0,
+        "MoO4--": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -4.338,
+        -4.427,
+        -4.587,
+        -4.789,
+        -5.551,
+        -6.484,
+        -7.659,
+        -9.103
+      ],
+      "molecular weight": 160.94554,
+      "radius": 4.0
+    },
+    "Mn+++": {
+      "species": {
+        "H2O": -0.5,
+        "Mn++": 1.0,
+        "H+": 1.0,
+        "O2(aq)": 0.25
+      },
+      "charge": 3.0,
+      "logk": [
+        4.644,
+        5.331,
+        5.934,
+        6.467,
+        7.775,
+        8.816,
+        9.712,
+        8.902
+      ],
+      "molecular weight": 54.93805,
+      "radius": 5.0
+    },
+    "MnCl+": {
+      "species": {
+        "Cl-": 1.0,
+        "Mn++": 1.0
+      },
+      "molecular weight": 90.391,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        0.174,
+        -0.12,
+        -0.43,
+        -0.748,
+        -1.734,
+        -2.798,
+        -4.074,
+        -4.985
+      ]
+    },
+    "MnF+": {
+      "species": {
+        "F-": 1.0,
+        "Mn++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -0.844,
+        -0.916,
+        -1.035,
+        -1.186,
+        -1.77,
+        -2.531,
+        -3.565,
+        -4.345
+      ],
+      "molecular weight": 73.93645,
+      "radius": 4.0
+    },
+    "MnO4-": {
+      "species": {
+        "H+": -3.0,
+        "Mn++": 1.0,
+        "H2O": 1.5,
+        "O2(aq)": 1.25
+      },
+      "charge": -1.0,
+      "logk": [
+        24.032,
+        22.605,
+        21.42,
+        20.427,
+        18.261,
+        16.884,
+        16.028,
+        17.151
+      ],
+      "molecular weight": 118.93565,
+      "radius": 4.0
+    },
+    "MnOH+": {
+      "species": {
+        "H+": -1.0,
+        "Mn++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        10.542,
+        9.735,
+        9.053,
+        8.47,
+        7.135,
+        6.186,
+        5.441,
+        5.584
+      ],
+      "molecular weight": 71.94539,
+      "radius": 4.0
+    },
+    "MnO(aq)": {
+      "species": {
+        "H+": -2.0,
+        "Mn++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        22.117,
+        20.477,
+        19.102,
+        17.935,
+        15.293,
+        13.447,
+        12.014,
+        11.893
+      ],
+      "molecular weight": 70.93745,
+      "radius": 1.5
+    },
+    "MnO2--": {
+      "species": {
+        "H+": -4.0,
+        "Mn++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -2.0,
+      "logk": [
+        48.089,
+        44.98,
+        42.428,
+        40.309,
+        35.8,
+        33.152,
+        31.866,
+        32.814
+      ],
+      "molecular weight": 86.93685,
+      "radius": 4.0
+    },
+    "MnSO4(aq)": {
+      "species": {
+        "Mn++": 1.0,
+        "SO4--": 1.0
+      },
+      "molecular weight": 151.002,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        -1.879,
+        -2.047,
+        -2.228,
+        -2.42,
+        -3.081,
+        -3.967,
+        -5.355,
+        -6.683
+      ]
+    },
+    "NH4+": {
+      "species": {
+        "H+": 1.0,
+        "NH3(aq)": 1.0
+      },
+      "molecular weight": 18.038,
+      "radius": 3.0,
+      "charge": 1.0,
+      "logk": [
+        -9.279,
+        -8.574,
+        -7.965,
+        -7.434,
+        -6.17,
+        -5.232,
+        -4.48,
+        -3.825
+      ]
+    },
+    "N2H5+": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 1.0,
+        "NH3(aq)": 2.0,
+        "O2(aq)": 0.5
+      },
+      "charge": 1.0,
+      "logk": [
+        -17.776,
+        -16.0,
+        -14.469,
+        -13.135,
+        -9.975,
+        -7.66,
+        -5.868,
+        -4.331
+      ],
+      "molecular weight": 33.05318,
+      "radius": 4.0
+    },
+    "N2H6++": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 2.0,
+        "NH3(aq)": 2.0,
+        "O2(aq)": 0.5
+      },
+      "charge": 2.0,
+      "logk": [
+        -16.809,
+        -14.904,
+        -13.263,
+        -11.83,
+        -8.422,
+        -5.881,
+        -3.832,
+        -2.278
+      ],
+      "molecular weight": 34.06112,
+      "radius": 5.0
+    },
+    "N2O2--": {
+      "species": {
+        "NO2-": 2.0,
+        "O2(aq)": -1.0
+      },
+      "charge": -2.0,
+      "logk": [
+        35.344,
+        34.324,
+        33.479,
+        32.771,
+        31.24,
+        30.306,
+        29.77,
+        29.019
+      ],
+      "molecular weight": 60.01228,
+      "radius": 4.0
+    },
+    "NaAlO2(aq)": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "Na+": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 81.97,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        500.0,
+        500.0,
+        500.0,
+        500.0,
+        500.0,
+        500.0,
+        500.0,
+        500.0
+      ],
+      "note": "Missing values at indices [0, 1, 2, 3, 4, 5, 6, 7] filled by linear interpolation. Original: [500.0, 500.0, 500.0, 500.0, 500.0, 500.0, 500.0, 500.0]"
+    },
+    "NaBr(aq)": {
+      "species": {
+        "Br-": 1.0,
+        "Na+": 1.0
+      },
+      "molecular weight": 102.894,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.405,
+        1.272,
+        1.133,
+        0.991,
+        0.547,
+        0.032,
+        -0.695,
+        -1.995
+      ]
+    },
+    "NaCl(aq)": {
+      "species": {
+        "Cl-": 1.0,
+        "Na+": 1.0
+      },
+      "molecular weight": 58.442,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        0.82,
+        0.73,
+        0.628,
+        0.517,
+        0.138,
+        -0.341,
+        -1.045,
+        -2.247
+      ]
+    },
+    "NaF(aq)": {
+      "species": {
+        "F-": 1.0,
+        "Na+": 1.0
+      },
+      "molecular weight": 41.988,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.047,
+        0.928,
+        0.802,
+        0.673,
+        0.261,
+        -0.239,
+        -0.97,
+        -1.809
+      ]
+    },
+    "NaHSiO3(aq)": {
+      "species": {
+        "H+": -1.0,
+        "H2O": 1.0,
+        "Na+": 1.0,
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 100.081,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        7.628,
+        7.663,
+        7.66,
+        7.656,
+        7.714,
+        7.869,
+        8.048,
+        8.185
+      ]
+    },
+    "NaI(aq)": {
+      "species": {
+        "I-": 1.0,
+        "Na+": 1.0
+      },
+      "molecular weight": 149.894,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.584,
+        1.471,
+        1.347,
+        1.218,
+        0.796,
+        0.294,
+        -0.408,
+        -1.653
+      ]
+    },
+    "NaOH(aq)": {
+      "species": {
+        "H+": -1.0,
+        "H2O": 1.0,
+        "Na+": 1.0
+      },
+      "molecular weight": 39.997,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        14.124,
+        13.386,
+        12.791,
+        12.307,
+        11.307,
+        10.726,
+        10.364,
+        10.233
+      ]
+    },
+    "NaSO4-": {
+      "species": {
+        "SO4--": 1.0,
+        "Na+": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -0.594,
+        -0.704,
+        -0.836,
+        -0.98,
+        -1.466,
+        -2.063,
+        -2.901,
+        -3.859
+      ],
+      "molecular weight": 119.05337,
+      "radius": 4.0
+    },
+    "NiCl+": {
+      "species": {
+        "Ni++": 1.0,
+        "Cl-": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        1.023,
+        0.912,
+        0.767,
+        0.601,
+        0.007,
+        -0.729,
+        -1.71,
+        -2.753
+      ],
+      "molecular weight": 94.1427,
+      "radius": 4.0
+    },
+    "NiF+": {
+      "species": {
+        "Ni++": 1.0,
+        "F-": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -1.092,
+        -1.166,
+        -1.277,
+        -1.413,
+        -1.932,
+        -2.611,
+        -3.558,
+        -4.479
+      ],
+      "molecular weight": 77.6884,
+      "radius": 4.0
+    },
+    "NiOH+": {
+      "species": {
+        "H+": -1.0,
+        "Ni++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        10.747,
+        9.968,
+        9.28,
+        8.669,
+        7.178,
+        6.027,
+        5.07,
+        4.756
+      ],
+      "molecular weight": 75.69734,
+      "radius": 4.0
+    },
+    "NiO(aq)": {
+      "species": {
+        "H+": -2.0,
+        "Ni++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        20.632,
+        18.376,
+        16.444,
+        14.77,
+        10.85,
+        7.986,
+        5.712,
+        5.046
+      ],
+      "molecular weight": 74.6894,
+      "radius": 1.5
+    },
+    "NiO2--": {
+      "species": {
+        "H+": -4.0,
+        "Ni++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -2.0,
+      "logk": [
+        43.832,
+        41.167,
+        38.932,
+        37.042,
+        32.878,
+        30.285,
+        28.903,
+        29.267
+      ],
+      "molecular weight": 90.6888,
+      "radius": 4.0
+    },
+    "OCN-": {
+      "species": {
+        "H2O": -2.0,
+        "HCO3-": 1.0,
+        "NH3(aq)": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        7.413,
+        6.668,
+        6.02,
+        5.448,
+        4.067,
+        3.023,
+        2.191,
+        1.546
+      ],
+      "molecular weight": 42.01714,
+      "radius": 4.0
+    },
+    "OH-": {
+      "species": {
+        "H+": -1.0,
+        "H2O": 1.0
+      },
+      "molecular weight": 17.007,
+      "radius": 3.0,
+      "charge": -1.0,
+      "logk": [
+        13.861,
+        13.149,
+        12.588,
+        12.141,
+        11.298,
+        10.984,
+        11.138,
+        11.732
+      ]
+    },
+    "PO4---": {
+      "species": {
+        "H+": -1.0,
+        "HPO4--": 1.0
+      },
+      "charge": -3.0,
+      "logk": [
+        12.106,
+        11.963,
+        11.908,
+        11.916,
+        12.199,
+        12.769,
+        13.648,
+        13.995
+      ],
+      "molecular weight": 94.97136,
+      "radius": 4.0
+    },
+    "P2O7----": {
+      "species": {
+        "H2O": -1.0,
+        "HPO4--": 2.0
+      },
+      "charge": -4.0,
+      "logk": [
+        4.005,
+        3.618,
+        3.291,
+        3.012,
+        2.375,
+        1.94,
+        1.63,
+        1.07
+      ],
+      "molecular weight": 173.94332,
+      "radius": 4.0
+    },
+    "PbCl+": {
+      "species": {
+        "Cl-": 1.0,
+        "Pb++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -1.4,
+        -1.491,
+        -1.615,
+        -1.763,
+        -2.314,
+        -3.027,
+        -4.018,
+        -5.0
+      ],
+      "molecular weight": 242.6527,
+      "radius": 4.0
+    },
+    "PbCl2(aq)": {
+      "species": {
+        "Pb++": 1.0,
+        "Cl-": 2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -1.911,
+        -2.068,
+        -2.275,
+        -2.519,
+        -3.416,
+        -4.581,
+        -6.241,
+        -8.484
+      ],
+      "molecular weight": 278.1054,
+      "radius": 1.5
+    },
+    "PbCl3-": {
+      "species": {
+        "Pb++": 1.0,
+        "Cl-": 3.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -1.525,
+        -1.693,
+        -1.926,
+        -2.205,
+        -3.253,
+        -4.626,
+        -6.576,
+        -9.081
+      ],
+      "molecular weight": 313.5581,
+      "radius": 4.0
+    },
+    "PbCl4--": {
+      "species": {
+        "Pb++": 1.0,
+        "Cl-": 4.0
+      },
+      "charge": -2.0,
+      "logk": [
+        -1.176,
+        -1.262,
+        -1.432,
+        -1.663,
+        -2.617,
+        -3.944,
+        -5.856,
+        -8.058
+      ],
+      "molecular weight": 349.0108,
+      "radius": 4.0
+    },
+    "PbF+": {
+      "species": {
+        "Pb++": 1.0,
+        "F-": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -2.022,
+        -2.015,
+        -2.057,
+        -2.132,
+        -2.506,
+        -3.081,
+        -3.951,
+        -4.61
+      ],
+      "molecular weight": 226.1984,
+      "radius": 4.0
+    },
+    "PbF2(aq)": {
+      "species": {
+        "Pb++": 1.0,
+        "F-": 2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -3.339,
+        -3.239,
+        -3.233,
+        -3.295,
+        -3.787,
+        -4.698,
+        -6.212,
+        -7.595
+      ],
+      "molecular weight": 245.1968,
+      "radius": 1.5
+    },
+    "Pb(HS)2(aq)": {
+      "species": {
+        "Pb++": 1.0,
+        "HS-": 2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -14.617,
+        -13.809,
+        -13.209,
+        -12.764,
+        -12.097,
+        -12.184,
+        -13.06,
+        -14.732
+      ],
+      "molecular weight": 240.27394,
+      "radius": 1.5
+    },
+    "Pb(HS)3-": {
+      "species": {
+        "Pb++": 1.0,
+        "HS-": 3.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -15.841,
+        -14.944,
+        -14.297,
+        -13.835,
+        -13.233,
+        -13.512,
+        -14.714,
+        -16.846
+      ],
+      "molecular weight": 306.42182,
+      "radius": 4.0
+    },
+    "PbOH+": {
+      "species": {
+        "H+": -1.0,
+        "Pb++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        6.196,
+        6.259,
+        6.34,
+        6.434,
+        6.751,
+        7.073,
+        7.36,
+        7.722
+      ],
+      "molecular weight": 224.20734,
+      "radius": 4.0
+    },
+    "PbO(aq)": {
+      "species": {
+        "H+": -2.0,
+        "Pb++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        16.928,
+        15.635,
+        14.578,
+        13.702,
+        11.808,
+        10.582,
+        9.685,
+        9.6
+      ],
+      "molecular weight": 223.1994,
+      "radius": 1.5
+    },
+    "RbBr(aq)": {
+      "species": {
+        "Br-": 1.0,
+        "Rb+": 1.0
+      },
+      "molecular weight": 165.372,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.272,
+        1.075,
+        0.892,
+        0.721,
+        0.245,
+        -0.245,
+        -0.897,
+        -2.122
+      ]
+    },
+    "RbCl(aq)": {
+      "species": {
+        "Cl-": 1.0,
+        "Rb+": 1.0
+      },
+      "molecular weight": 120.921,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.013,
+        0.828,
+        0.655,
+        0.493,
+        0.035,
+        -0.45,
+        -1.106,
+        -2.292
+      ]
+    },
+    "RbF(aq)": {
+      "species": {
+        "F-": 1.0,
+        "Rb+": 1.0
+      },
+      "molecular weight": 104.466,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        -0.925,
+        -0.958,
+        -0.999,
+        -1.045,
+        -1.229,
+        -1.52,
+        -2.043,
+        -2.732
+      ]
+    },
+    "RbI(aq)": {
+      "species": {
+        "I-": 1.0,
+        "Rb+": 1.0
+      },
+      "molecular weight": 212.372,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        1.035,
+        0.917,
+        0.799,
+        0.683,
+        0.327,
+        -0.085,
+        -0.676,
+        -1.893
+      ]
+    },
+    "RbOH(aq)": {
+      "species": {
+        "H+": -1.0,
+        "Rb+": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        14.139,
+        13.304,
+        12.634,
+        12.09,
+        10.979,
+        10.352,
+        9.993,
+        9.8
+      ],
+      "molecular weight": 102.47514,
+      "radius": 1.5
+    },
+    "S2--": {
+      "species": {
+        "H2O": -1.0,
+        "HS-": 2.0,
+        "O2(aq)": 0.5
+      },
+      "molecular weight": 64.132,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -31.838,
+        -28.81,
+        -26.211,
+        -23.958,
+        -18.703,
+        -14.948,
+        -12.126,
+        -10.144
+      ]
+    },
+    "S3--": {
+      "species": {
+        "H2O": -2.0,
+        "H+": 1.0,
+        "HS-": 3.0,
+        "O2(aq)": 1.0
+      },
+      "molecular weight": 96.198,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -76.474,
+        -69.767,
+        -64.061,
+        -59.154,
+        -47.896,
+        -40.129,
+        -34.672,
+        -31.286
+      ]
+    },
+    "S4--": {
+      "species": {
+        "H2O": -3.0,
+        "H+": 2.0,
+        "HS-": 4.0,
+        "O2(aq)": 1.5
+      },
+      "molecular weight": 128.264,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -120.891,
+        -110.52,
+        -101.72,
+        -94.17,
+        -76.936,
+        -65.176,
+        -57.101,
+        -52.341
+      ]
+    },
+    "S5--": {
+      "species": {
+        "H2O": -4.0,
+        "HS-": 5.0,
+        "H+": 3.0,
+        "O2(aq)": 2.0
+      },
+      "molecular weight": 160.33,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -165.089,
+        -151.071,
+        -139.19,
+        -129.01,
+        -105.829,
+        -90.096,
+        -79.417,
+        -73.319
+      ]
+    },
+    "S2O4--": {
+      "species": {
+        "S2O3--": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": -2.0,
+      "logk": [
+        -13.63,
+        -12.274,
+        -11.112,
+        -10.106,
+        -7.765,
+        -6.103,
+        -4.869,
+        -3.843
+      ],
+      "molecular weight": 128.1296,
+      "radius": 4.0
+    },
+    "S2O5--": {
+      "species": {
+        "S2O3--": 1.0,
+        "O2(aq)": 1.0
+      },
+      "molecular weight": 144.129,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -46.951,
+        -42.651,
+        -38.966,
+        -35.773,
+        -28.324,
+        -23.009,
+        -19.031,
+        -15.835
+      ]
+    },
+    "S2O6--": {
+      "species": {
+        "S2O3--": 1.0,
+        "O2(aq)": 1.5
+      },
+      "molecular weight": 160.128,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -77.699,
+        -70.689,
+        -64.681,
+        -59.476,
+        -47.332,
+        -38.663,
+        -32.173,
+        -26.974
+      ]
+    },
+    "S2O8--": {
+      "species": {
+        "S2O3--": 1.0,
+        "O2(aq)": 2.5
+      },
+      "molecular weight": 192.127,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -103.491,
+        -94.138,
+        -86.138,
+        -79.217,
+        -63.117,
+        -51.682,
+        -43.192,
+        -36.319
+      ]
+    },
+    "S3O6--": {
+      "species": {
+        "H2O": -0.5,
+        "H+": 1.0,
+        "S2O3--": 1.5,
+        "O2(aq)": 1.0
+      },
+      "molecular weight": 192.194,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -51.253,
+        -46.792,
+        -43.009,
+        -39.765,
+        -32.369,
+        -27.346,
+        -23.95,
+        -21.848
+      ]
+    },
+    "S4O6--": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 2.0,
+        "S2O3--": 2.0,
+        "O2(aq)": 0.5
+      },
+      "molecular weight": 224.26,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -40.634,
+        -37.937,
+        -35.721,
+        -33.881,
+        -29.993,
+        -27.809,
+        -26.987,
+        -27.519
+      ]
+    },
+    "S5O6--": {
+      "species": {
+        "H2O": -1.5,
+        "S2O3--": 2.5,
+        "H+": 3.0
+      },
+      "molecular weight": 256.326,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -1.288,
+        -1.718,
+        -2.204,
+        -2.729,
+        -4.47,
+        -6.489,
+        -9.095,
+        -13.046
+      ]
+    },
+    "SO2(aq)": {
+      "species": {
+        "H2O": -1.0,
+        "SO3--": 1.0,
+        "H+": 2.0
+      },
+      "molecular weight": 64.065,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        -8.705,
+        -9.158,
+        -9.684,
+        -10.252,
+        -12.105,
+        -14.153,
+        -16.604,
+        -19.996
+      ]
+    },
+    "SCN-": {
+      "species": {
+        "H2O": -1.0,
+        "HS-": 1.0,
+        "H+": 1.0,
+        "CN-": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": -1.0,
+      "logk": [
+        -57.55,
+        -52.923,
+        -49.004,
+        -45.648,
+        -38.015,
+        -32.847,
+        -29.36,
+        -27.387
+      ],
+      "molecular weight": 58.08374,
+      "radius": 4.0
+    },
+    "SeCN-": {
+      "species": {
+        "H2O": -1.0,
+        "HSe-": 1.0,
+        "H+": 1.0,
+        "CN-": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": -1.0,
+      "logk": [
+        -65.015,
+        -59.968,
+        -55.694,
+        -52.033,
+        -43.692,
+        -38.027,
+        -34.185,
+        -32.041
+      ],
+      "molecular weight": 104.97774,
+      "radius": 4.0
+    },
+    "SiF6--": {
+      "species": {
+        "H2O": -2.0,
+        "SiO2(aq)": 1.0,
+        "H+": 4.0,
+        "F-": 6.0
+      },
+      "molecular weight": 142.076,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -25.854,
+        -25.04,
+        -24.533,
+        -24.231,
+        -24.151,
+        -25.049,
+        -27.156,
+        -29.452
+      ]
+    },
+    "SnOH+": {
+      "species": {
+        "H+": -1.0,
+        "Sn++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        3.445,
+        3.084,
+        2.792,
+        2.554,
+        2.055,
+        1.733,
+        1.474,
+        1.87
+      ],
+      "molecular weight": 135.71734,
+      "radius": 4.0
+    },
+    "SnO(aq)": {
+      "species": {
+        "H+": -2.0,
+        "Sn++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        7.106,
+        6.549,
+        6.109,
+        5.757,
+        5.047,
+        4.621,
+        4.291,
+        4.671
+      ],
+      "molecular weight": 134.7094,
+      "radius": 1.5
+    },
+    "SrCO3(aq)": {
+      "species": {
+        "H+": -1.0,
+        "HCO3-": 1.0,
+        "Sr++": 1.0
+      },
+      "molecular weight": 147.629,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        7.332,
+        6.895,
+        6.539,
+        6.241,
+        5.551,
+        4.962,
+        4.221,
+        3.496
+      ]
+    },
+    "SrCl+": {
+      "species": {
+        "Cl-": 1.0,
+        "Sr++": 1.0
+      },
+      "molecular weight": 123.073,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        0.283,
+        0.146,
+        -0.021,
+        -0.209,
+        -0.861,
+        -1.648,
+        -2.679,
+        -3.75
+      ]
+    },
+    "SrF+": {
+      "species": {
+        "F-": 1.0,
+        "Sr++": 1.0
+      },
+      "molecular weight": 106.618,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        -0.104,
+        -0.204,
+        -0.34,
+        -0.498,
+        -1.072,
+        -1.793,
+        -2.767,
+        -3.69
+      ]
+    },
+    "SrOH+": {
+      "species": {
+        "H+": -1.0,
+        "Sr++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        13.339,
+        12.722,
+        12.213,
+        11.787,
+        10.852,
+        10.224,
+        9.742,
+        9.943
+      ],
+      "molecular weight": 104.62734,
+      "radius": 4.0
+    },
+    "TiCO3+": {
+      "species": {
+        "H+": -1.0,
+        "Ti+++": 1.0,
+        "HCO3-": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        2.769,
+        2.402,
+        2.071,
+        1.774,
+        1.027,
+        0.343,
+        -0.511,
+        -0.929
+      ],
+      "molecular weight": 107.9092,
+      "radius": 4.0
+    },
+    "TiCO3++": {
+      "species": {
+        "H+": -1.0,
+        "Ti++++": 1.0,
+        "HCO3-": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        -9.301,
+        -9.089,
+        -8.891,
+        -8.71,
+        -8.303,
+        -8.149,
+        -8.365,
+        -7.315
+      ],
+      "molecular weight": 107.9092,
+      "radius": 5.0
+    },
+    "TiHCO3++": {
+      "species": {
+        "HCO3-": 1.0,
+        "Ti+++": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        -2.345,
+        -2.0,
+        -1.796,
+        -1.691,
+        -1.772,
+        -2.254,
+        -3.117,
+        -4.328
+      ],
+      "molecular weight": 108.91714,
+      "radius": 5.0
+    },
+    "TiHCO3+++": {
+      "species": {
+        "HCO3-": 1.0,
+        "Ti++++": 1.0
+      },
+      "charge": 3.0,
+      "logk": [
+        -12.207,
+        -10.737,
+        -9.638,
+        -8.809,
+        -7.409,
+        -7.049,
+        -7.448,
+        -9.283
+      ],
+      "molecular weight": 108.91714,
+      "radius": 5.0
+    },
+    "Ti(HCO3)2+": {
+      "species": {
+        "HCO3-": 2.0,
+        "Ti+++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -3.856,
+        -3.186,
+        -2.784,
+        -2.571,
+        -2.688,
+        -3.581,
+        -5.236,
+        -7.92
+      ],
+      "molecular weight": 169.93428,
+      "radius": 4.0
+    },
+    "TiOH++": {
+      "species": {
+        "H+": -1.0,
+        "Ti+++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        1.346,
+        0.868,
+        0.454,
+        0.092,
+        -0.771,
+        -1.437,
+        -2.008,
+        -1.224
+      ],
+      "molecular weight": 64.90734,
+      "radius": 5.0
+    },
+    "TiOH+++": {
+      "species": {
+        "H+": -1.0,
+        "Ti++++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 3.0,
+      "logk": [
+        -3.777,
+        -3.824,
+        -3.91,
+        -4.02,
+        -4.426,
+        -4.902,
+        -5.424,
+        -4.553
+      ],
+      "molecular weight": 64.90734,
+      "radius": 5.0
+    },
+    "TiSO4+": {
+      "species": {
+        "SO4--": 1.0,
+        "Ti+++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -3.419,
+        -3.739,
+        -4.056,
+        -4.369,
+        -5.331,
+        -6.455,
+        -8.038,
+        -9.246
+      ],
+      "molecular weight": 143.9636,
+      "radius": 4.0
+    },
+    "TiSO4++": {
+      "species": {
+        "SO4--": 1.0,
+        "Ti++++": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        -6.326,
+        -6.821,
+        -7.285,
+        -7.725,
+        -8.982,
+        -10.33,
+        -12.084,
+        -12.448
+      ],
+      "molecular weight": 143.9636,
+      "radius": 5.0
+    },
+    "TiCl++": {
+      "species": {
+        "Cl-": 1.0,
+        "Ti+++": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        -1.17,
+        -1.275,
+        -1.443,
+        -1.653,
+        -2.444,
+        -3.425,
+        -4.668,
+        -5.67
+      ],
+      "molecular weight": 83.3527,
+      "radius": 5.0
+    },
+    "TiCl+++": {
+      "species": {
+        "Cl-": 1.0,
+        "Ti++++": 1.0
+      },
+      "charge": 3.0,
+      "logk": [
+        -2.145,
+        -2.425,
+        -2.811,
+        -3.262,
+        -4.834,
+        -6.61,
+        -8.618,
+        -9.796
+      ],
+      "molecular weight": 83.3527,
+      "radius": 5.0
+    },
+    "TiCl2+": {
+      "species": {
+        "Cl-": 2.0,
+        "Ti+++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -2.099,
+        -2.099,
+        -2.23,
+        -2.45,
+        -3.481,
+        -4.953,
+        -7.005,
+        -9.13
+      ],
+      "molecular weight": 118.8054,
+      "radius": 4.0
+    },
+    "TiCl2++": {
+      "species": {
+        "Cl-": 2.0,
+        "Ti++++": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        -3.961,
+        -4.291,
+        -4.854,
+        -5.567,
+        -8.23,
+        -11.391,
+        -15.082,
+        -17.842
+      ],
+      "molecular weight": 118.8054,
+      "radius": 5.0
+    },
+    "TiCl3+": {
+      "species": {
+        "Cl-": 3.0,
+        "Ti++++": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -5.565,
+        -5.719,
+        -6.257,
+        -7.047,
+        -10.335,
+        -14.505,
+        -19.582,
+        -24.448
+      ],
+      "molecular weight": 154.2581,
+      "radius": 4.0
+    },
+    "TiCl3(aq)": {
+      "species": {
+        "Cl-": 3.0,
+        "Ti+++": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -2.069,
+        -1.8,
+        -1.725,
+        -1.791,
+        -2.607,
+        -4.182,
+        -6.704,
+        -8.516
+      ],
+      "molecular weight": 154.2581,
+      "radius": 1.5
+    },
+    "TiCl4(aq)": {
+      "species": {
+        "Cl-": 4.0,
+        "Ti++++": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -7.058,
+        -6.778,
+        -7.058,
+        -7.72,
+        -11.139,
+        -15.969,
+        -22.142,
+        -26.419
+      ],
+      "molecular weight": 189.7108,
+      "radius": 1.5
+    },
+    "TiCl4-": {
+      "species": {
+        "Cl-": 4.0,
+        "Ti+++": 1.0
+      },
+      "charge": -1.0,
+      "logk": [
+        -3.348,
+        -2.422,
+        -1.785,
+        -1.364,
+        -1.014,
+        -1.701,
+        -3.522,
+        -7.147
+      ],
+      "molecular weight": 189.7108,
+      "radius": 4.0
+    },
+    "TiO++": {
+      "species": {
+        "H+": -2.0,
+        "Ti++++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 2.0,
+      "logk": [
+        -6.951,
+        -7.091,
+        -7.209,
+        -7.309,
+        -7.561,
+        -7.816,
+        -8.133,
+        -6.32
+      ],
+      "molecular weight": 63.8994,
+      "radius": 5.0
+    },
+    "TiO2(aq)": {
+      "species": {
+        "H+": -4.0,
+        "Ti++++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        -2.408,
+        -2.702,
+        -3.008,
+        -3.315,
+        -4.256,
+        -5.282,
+        -6.457,
+        -3.336
+      ],
+      "molecular weight": 79.8988,
+      "radius": 1.5
+    },
+    "ZnCl+": {
+      "species": {
+        "Cl-": 1.0,
+        "Zn++": 1.0
+      },
+      "molecular weight": 100.843,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        -0.167,
+        -0.79,
+        -1.376,
+        -1.928,
+        -3.441,
+        -4.871,
+        -6.423,
+        -7.362
+      ]
+    },
+    "ZnCl2(aq)": {
+      "species": {
+        "Zn++": 1.0,
+        "Cl-": 2.0
+      },
+      "molecular weight": 136.295,
+      "radius": 0.0,
+      "charge": 0.0,
+      "logk": [
+        -0.171,
+        -0.658,
+        -1.171,
+        -1.697,
+        -3.331,
+        -5.115,
+        -7.317,
+        -9.514
+      ]
+    },
+    "ZnCl3-": {
+      "species": {
+        "Zn++": 1.0,
+        "Cl-": 3.0
+      },
+      "molecular weight": 171.748,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        0.163,
+        -0.108,
+        -0.474,
+        -0.901,
+        -2.427,
+        -4.27,
+        -6.619,
+        -8.851
+      ]
+    },
+    "ZnCl4--": {
+      "species": {
+        "Zn++": 1.0,
+        "Cl-": 4.0
+      },
+      "molecular weight": 207.201,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        -0.626,
+        -0.811,
+        -1.134,
+        -1.549,
+        -3.147,
+        -5.148,
+        -7.696,
+        -10.098
+      ]
+    },
+    "ZnF+": {
+      "species": {
+        "Zn++": 1.0,
+        "F-": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        -1.118,
+        -1.195,
+        -1.313,
+        -1.457,
+        -2.003,
+        -2.709,
+        -3.682,
+        -4.549
+      ],
+      "molecular weight": 84.3884,
+      "radius": 4.0
+    },
+    "ZnOH+": {
+      "species": {
+        "H+": -1.0,
+        "Zn++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        7.847,
+        6.829,
+        5.965,
+        5.223,
+        3.514,
+        2.284,
+        1.309,
+        1.552
+      ],
+      "molecular weight": 82.39734,
+      "radius": 4.0
+    },
+    "ZnO(aq)": {
+      "species": {
+        "H+": -2.0,
+        "Zn++": 1.0,
+        "H2O": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        17.842,
+        16.349,
+        15.099,
+        14.039,
+        11.642,
+        9.966,
+        8.657,
+        8.718
+      ],
+      "molecular weight": 81.3894,
+      "radius": 1.5
+    },
+    "ZnO2--": {
+      "species": {
+        "H+": -4.0,
+        "Zn++": 1.0,
+        "H2O": 2.0
+      },
+      "charge": -2.0,
+      "logk": [
+        40.291,
+        37.994,
+        36.081,
+        34.476,
+        30.997,
+        28.922,
+        27.949,
+        28.526
+      ],
+      "molecular weight": 97.3888,
+      "radius": 4.0
+    },
+    "FORMALDEHYDE(aq)": {
+      "species": {
+        "HCO3-": 1.0,
+        "H+": 1.0,
+        "O2(aq)": -1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        83.687,
+        76.281,
+        69.902,
+        64.345,
+        51.216,
+        41.576,
+        33.934,
+        26.663
+      ],
+      "molecular weight": 30.02628,
+      "radius": 1.5
+    },
+    "METHANOL(aq)": {
+      "species": {
+        "HCO3-": 1.0,
+        "H+": 1.0,
+        "H2O": 1.0,
+        "O2(aq)": -1.5
+      },
+      "charge": 0.0,
+      "logk": [
+        113.529,
+        103.606,
+        95.068,
+        87.636,
+        70.125,
+        57.359,
+        47.42,
+        38.686
+      ],
+      "molecular weight": 32.04216,
+      "radius": 1.5
+    },
+    "FORMATE(aq)": {
+      "species": {
+        "H+": -1.0,
+        "FORMIC ACID(aq)": 1.0
+      },
+      "molecular weight": 45.018,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        3.701,
+        3.725,
+        3.79,
+        3.881,
+        4.266,
+        4.799,
+        5.59,
+        7.429
+      ]
+    },
+    "Na(For)(aq)": {
+      "species": {
+        "Na+": 1.0,
+        "H+": -1.0,
+        "FORMIC ACID(aq)": 1.0
+      },
+      "charge": 0.0,
+      "logk": [
+        3.701,
+        3.714,
+        3.746,
+        3.796,
+        4.014,
+        4.295,
+        4.622,
+        5.412
+      ],
+      "molecular weight": 68.00751,
+      "radius": 1.5
+    },
+    "Fe(For)+": {
+      "species": {
+        "Fe++": 1.0,
+        "H+": -1.0,
+        "FORMIC ACID(aq)": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        1.91,
+        2.042,
+        2.15,
+        2.243,
+        2.464,
+        2.623,
+        2.758,
+        3.958
+      ],
+      "molecular weight": 100.86474,
+      "radius": 4.0
+    },
+    "Fe(For)2(aq)": {
+      "species": {
+        "Fe++": 1.0,
+        "H+": -2.0,
+        "FORMIC ACID(aq)": 2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        4.478,
+        4.795,
+        5.063,
+        5.298,
+        5.878,
+        6.328,
+        6.719,
+        8.87
+      ],
+      "molecular weight": 145.88248,
+      "radius": 1.5
+    },
+    "Mg(For)+": {
+      "species": {
+        "Mg++": 1.0,
+        "H+": -1.0,
+        "FORMIC ACID(aq)": 1.0
+      },
+      "charge": 1.0,
+      "logk": [
+        2.308,
+        2.447,
+        2.56,
+        2.656,
+        2.889,
+        3.065,
+        3.221,
+        4.379
+      ],
+      "molecular weight": 69.32274,
+      "radius": 4.0
+    },
+    "Mg(For)2(aq)": {
+      "species": {
+        "Mg++": 1.0,
+        "H+": -2.0,
+        "FORMIC ACID(aq)": 2.0
+      },
+      "charge": 0.0,
+      "logk": [
+        5.197,
+        5.545,
+        5.832,
+        6.079,
+        6.668,
+        7.105,
+        7.471,
+        9.755
+      ],
+      "molecular weight": 114.34048,
+      "radius": 1.5
+    },
+    "NaHCO3(aq)": {
+      "species": {
+        "HCO3-": 1.0,
+        "Na+": 1.0
+      },
+      "molecular weight": 39.997,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        0.263,
+        0.237,
+        0.203,
+        0.166,
+        0.009,
+        -0.258,
+        -0.774,
+        -1.499
+      ]
+    }
+  },
+  "free electron": {},
+  "mineral species": {
+    "ACANTHITE": {
+      "species": {
+        "H+": -1.0,
+        "HS-": 1.0,
+        "Ag+": 2.0
+      },
+      "molecular weight": 247.802,
+      "molar volume": 34.2,
+      "logk": [
+        -35.949,
+        -32.901,
+        -30.307,
+        -28.076,
+        -22.968,
+        -19.585,
+        -17.42,
+        -16.417
+      ]
+    },
+    "AKERMANITE": {
+      "species": {
+        "H+": -6.0,
+        "Mg++": 1.0,
+        "Ca++": 2.0,
+        "SiO2(aq)": 2.0,
+        "H2O": 3.0
+      },
+      "molecular weight": 272.628,
+      "molar volume": 92.81,
+      "logk": [
+        45.694,
+        41.685,
+        38.158,
+        35.07,
+        27.81,
+        22.514,
+        18.243,
+        17.351
+      ]
+    },
+    "ALABANDITE": {
+      "species": {
+        "H+": -1.0,
+        "HS-": 1.0,
+        "Mn++": 1.0
+      },
+      "molecular weight": 87.004,
+      "molar volume": 21.46,
+      "logk": [
+        0.151,
+        -0.208,
+        -0.55,
+        -0.875,
+        -1.802,
+        -2.758,
+        -3.929,
+        -4.612
+      ]
+    },
+    "ALBITE": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "Na+": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 3.0
+      },
+      "molecular weight": 262.223,
+      "molar volume": 100.25,
+      "logk": [
+        2.44,
+        1.708,
+        0.922,
+        0.177,
+        -1.668,
+        -3.076,
+        -4.344,
+        -3.028
+      ]
+    },
+    "ALBITE,HIGH": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "Na+": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 3.0
+      },
+      "molecular weight": 262.223,
+      "molar volume": 100.43,
+      "logk": [
+        3.759,
+        2.878,
+        1.965,
+        1.109,
+        -0.994,
+        -2.586,
+        -3.984,
+        -2.759
+      ]
+    },
+    "ALBITE,LOW": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "Na+": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 3.0
+      },
+      "molecular weight": 262.223,
+      "molar volume": 100.07,
+      "logk": [
+        2.439,
+        1.707,
+        0.921,
+        0.176,
+        -1.669,
+        -3.076,
+        -4.336,
+        -3.002
+      ]
+    },
+    "ALUNITE": {
+      "species": {
+        "H+": -6.0,
+        "K+": 1.0,
+        "SO4--": 2.0,
+        "Al+++": 3.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 414.214,
+      "molar volume": 293.6,
+      "logk": [
+        -0.709,
+        -3.78,
+        -6.597,
+        -9.204,
+        -16.213,
+        -22.786,
+        -29.907,
+        -30.196
+      ]
+    },
+    "AMORPHOUS": {
+      "species": {
+        "AMORPHOUS SILICA": -1.0,
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 60.084,
+      "molar volume": 29.0,
+      "logk": [
+        -2.636,
+        -2.397,
+        -2.233,
+        -2.106,
+        -1.824,
+        -1.629,
+        -1.513,
+        -1.597
+      ]
+    },
+    "ANALCIME": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "Na+": 1.0,
+        "SiO2(aq)": 2.0,
+        "H2O": 3.0
+      },
+      "molecular weight": 219.279,
+      "molar volume": 97.1,
+      "logk": [
+        6.594,
+        5.45,
+        4.372,
+        3.404,
+        1.096,
+        -0.618,
+        -2.084,
+        -0.746
+      ]
+    },
+    "ANALCIME,DEHYDRATED": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "Na+": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 2.0
+      },
+      "molecular weight": 201.263,
+      "molar volume": 89.1,
+      "logk": [
+        11.362,
+        9.801,
+        8.359,
+        7.068,
+        3.978,
+        1.67,
+        -0.275,
+        0.653
+      ]
+    },
+    "ANDALUSITE": {
+      "species": {
+        "H+": -6.0,
+        "SiO2(aq)": 1.0,
+        "Al+++": 2.0,
+        "H2O": 3.0
+      },
+      "molecular weight": 162.046,
+      "molar volume": 51.53,
+      "logk": [
+        14.985,
+        11.944,
+        9.262,
+        6.895,
+        1.194,
+        -3.203,
+        -6.968,
+        -4.868
+      ]
+    },
+    "ANDRADITE": {
+      "species": {
+        "H+": -12.0,
+        "Fe+++": 2.0,
+        "Ca++": 3.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 508.177,
+      "molar volume": 131.85,
+      "logk": [
+        33.936,
+        29.705,
+        25.931,
+        22.597,
+        14.629,
+        8.555,
+        3.272,
+        5.512
+      ]
+    },
+    "ANGLESITE": {
+      "species": {
+        "Pb++": 1.0,
+        "SO4--": 1.0
+      },
+      "molecular weight": 303.264,
+      "molar volume": 47.95,
+      "logk": [
+        -7.556,
+        -7.494,
+        -7.534,
+        -7.647,
+        -8.304,
+        -9.378,
+        -11.036,
+        -13.074
+      ]
+    },
+    "ANHYDRITE": {
+      "species": {
+        "Ca++": 1.0,
+        "SO4--": 1.0
+      },
+      "molecular weight": 136.142,
+      "molar volume": 45.94,
+      "logk": [
+        -4.006,
+        -4.348,
+        -4.729,
+        -5.136,
+        -6.48,
+        -8.056,
+        -10.107,
+        -12.263
+      ]
+    },
+    "ANNITE": {
+      "species": {
+        "H+": -10.0,
+        "Al+++": 1.0,
+        "K+": 1.0,
+        "Fe++": 3.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 511.886,
+      "molar volume": 154.32,
+      "logk": [
+        29.362,
+        25.804,
+        22.603,
+        19.77,
+        13.025,
+        7.955,
+        3.619,
+        5.606
+      ]
+    },
+    "ANORTHITE": {
+      "species": {
+        "H+": -8.0,
+        "Ca++": 1.0,
+        "Al+++": 2.0,
+        "SiO2(aq)": 2.0,
+        "H2O": 4.0
+      },
+      "molecular weight": 278.207,
+      "molar volume": 100.79,
+      "logk": [
+        25.816,
+        21.802,
+        18.236,
+        15.082,
+        7.505,
+        1.722,
+        -3.186,
+        -1.368
+      ]
+    },
+    "ANTHOPHYLLITE": {
+      "species": {
+        "H+": -14.0,
+        "Mg++": 7.0,
+        "H2O": 8.0,
+        "SiO2(aq)": 8.0
+      },
+      "molecular weight": 780.82,
+      "molar volume": 264.4,
+      "logk": [
+        67.619,
+        60.753,
+        54.515,
+        48.999,
+        36.087,
+        26.812,
+        19.29,
+        20.906
+      ]
+    },
+    "ANTIGORITE": {
+      "species": {
+        "H+": -96.0,
+        "SiO2(aq)": 34.0,
+        "Mg++": 48.0,
+        "H2O": 79.0
+      },
+      "molecular weight": 4535.951,
+      "molar volume": 1749.13,
+      "logk": [
+        481.878,
+        435.108,
+        393.985,
+        358.262,
+        276.038,
+        217.607,
+        170.45,
+        188.495
+      ]
+    },
+    "ARAGONITE": {
+      "species": {
+        "H+": -1.0,
+        "Ca++": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 100.087,
+      "molar volume": 34.15,
+      "logk": [
+        2.156,
+        1.765,
+        1.399,
+        1.051,
+        0.064,
+        -0.942,
+        -2.148,
+        -3.195
+      ]
+    },
+    "ARTINITE": {
+      "species": {
+        "H+": -3.0,
+        "HCO3-": 1.0,
+        "Mg++": 2.0,
+        "H2O": 5.0
+      },
+      "molecular weight": 196.68,
+      "molar volume": 96.9,
+      "logk": [
+        19.801,
+        18.022,
+        16.516,
+        15.224,
+        12.214,
+        9.917,
+        7.792,
+        7.862
+      ]
+    },
+    "AZURITE": {
+      "species": {
+        "H+": -4.0,
+        "H2O": 2.0,
+        "HCO3-": 2.0,
+        "Cu++": 3.0
+      },
+      "molecular weight": 344.671,
+      "molar volume": 91.01,
+      "logk": [
+        9.626,
+        7.906,
+        6.403,
+        5.07,
+        1.726,
+        -1.195,
+        -4.327,
+        -5.106
+      ]
+    },
+    "BARITE": {
+      "species": {
+        "Ba++": 1.0,
+        "SO4--": 1.0
+      },
+      "molecular weight": 233.391,
+      "molar volume": 52.1,
+      "logk": [
+        -9.668,
+        -9.417,
+        -9.294,
+        -9.269,
+        -9.626,
+        -10.51,
+        -12.042,
+        -14.093
+      ]
+    },
+    "BERNDTITE": {
+      "species": {
+        "H2O": -1.0,
+        "Sn++": 1.0,
+        "HS-": 2.0,
+        "O2(aq)": 0.5
+      },
+      "molecular weight": 182.842,
+      "molar volume": 40.96,
+      "logk": [
+        -66.201,
+        -60.88,
+        -56.409,
+        -52.612,
+        -44.142,
+        -38.681,
+        -35.417,
+        -33.809
+      ]
+    },
+    "BOEHMITE": {
+      "species": {
+        "H+": -3.0,
+        "Al+++": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 59.988,
+      "molar volume": 19.535,
+      "logk": [
+        8.763,
+        7.146,
+        5.753,
+        4.54,
+        1.657,
+        -0.539,
+        -2.397,
+        -1.234
+      ]
+    },
+    "BORNITE": {
+      "species": {
+        "H+": -4.0,
+        "Cu++": 1.0,
+        "Fe++": 1.0,
+        "Cu+": 4.0,
+        "HS-": 4.0
+      },
+      "molecular weight": 501.841,
+      "molar volume": 98.6,
+      "logk": [
+        -101.886,
+        -94.814,
+        -88.837,
+        -83.736,
+        -72.317,
+        -65.161,
+        -61.522,
+        -58.895
+      ]
+    },
+    "BRUCITE": {
+      "species": {
+        "H+": -2.0,
+        "Mg++": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 58.32,
+      "molar volume": 24.63,
+      "logk": [
+        16.355,
+        14.853,
+        13.585,
+        12.503,
+        10.034,
+        8.282,
+        6.906,
+        7.082
+      ]
+    },
+    "Fe(OH)2": {
+      "species": {
+        "H+": -2.0,
+        "Fe++": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 58.32,
+      "molar volume": 24.63,
+      "logk": [
+        12.935,
+        11.724,
+        10.698,
+        9.818,
+        7.787,
+        6.315,
+        5.124,
+        5.264
+      ]
+    },
+    "BUNSENITE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Ni++": 1.0
+      },
+      "molecular weight": 74.689,
+      "molar volume": 10.97,
+      "logk": [
+        12.599,
+        11.235,
+        10.066,
+        9.053,
+        6.67,
+        4.894,
+        3.431,
+        3.432
+      ]
+    },
+    "CA-AL-PYROXENE": {
+      "species": {
+        "H+": -8.0,
+        "Ca++": 1.0,
+        "SiO2(aq)": 1.0,
+        "Al+++": 2.0,
+        "H2O": 4.0
+      },
+      "molecular weight": 218.123,
+      "molar volume": 63.5,
+      "logk": [
+        35.085,
+        30.326,
+        26.176,
+        22.541,
+        13.87,
+        7.299,
+        1.794,
+        3.283
+      ]
+    },
+    "CALCITE": {
+      "species": {
+        "H+": -1.0,
+        "Ca++": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 100.087,
+      "molar volume": 36.934,
+      "logk": [
+        2.028,
+        1.638,
+        1.27,
+        0.921,
+        -0.074,
+        -1.092,
+        -2.312,
+        -3.373
+      ]
+    },
+    "CASSITERITE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Sn++": 1.0,
+        "O2(aq)": 0.5
+      },
+      "molecular weight": 150.709,
+      "molar volume": 21.55,
+      "logk": [
+        -44.603,
+        -40.737,
+        -37.428,
+        -34.564,
+        -27.911,
+        -23.225,
+        -19.826,
+        -16.593
+      ]
+    },
+    "CELESTITE": {
+      "species": {
+        "SO4--": 1.0,
+        "Sr++": 1.0
+      },
+      "molecular weight": 183.684,
+      "molar volume": 46.25,
+      "logk": [
+        -5.381,
+        -5.559,
+        -5.802,
+        -6.09,
+        -7.154,
+        -8.516,
+        -10.389,
+        -12.52
+      ]
+    },
+    "CERUSSITE": {
+      "species": {
+        "H+": -1.0,
+        "HCO3-": 1.0,
+        "Pb++": 1.0
+      },
+      "molecular weight": 267.209,
+      "molar volume": 40.59,
+      "logk": [
+        -3.022,
+        -2.879,
+        -2.793,
+        -2.753,
+        -2.842,
+        -3.207,
+        -3.932,
+        -4.804
+      ]
+    },
+    "CHALCEDONY": {
+      "species": {
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 60.084,
+      "molar volume": 22.688,
+      "logk": [
+        -3.689,
+        -3.304,
+        -3.029,
+        -2.814,
+        -2.345,
+        -2.007,
+        -1.754,
+        -1.694
+      ]
+    },
+    "CHALCOCITE": {
+      "species": {
+        "H+": -1.0,
+        "HS-": 1.0,
+        "Cu+": 2.0
+      },
+      "molecular weight": 159.158,
+      "molar volume": 27.48,
+      "logk": [
+        -34.604,
+        -31.823,
+        -29.448,
+        -27.399,
+        -22.791,
+        -19.693,
+        -17.726,
+        -16.598
+      ]
+    },
+    "CHALCOPYRITE": {
+      "species": {
+        "H+": -2.0,
+        "Cu++": 1.0,
+        "Fe++": 1.0,
+        "HS-": 2.0
+      },
+      "molecular weight": 183.525,
+      "molar volume": 42.83,
+      "logk": [
+        -32.279,
+        -30.625,
+        -29.277,
+        -28.17,
+        -25.934,
+        -24.938,
+        -25.117,
+        -24.635
+      ]
+    },
+    "CHLORARGYRITE": {
+      "species": {
+        "Ag+": 1.0,
+        "Cl-": 1.0
+      },
+      "molecular weight": 143.321,
+      "molar volume": 25.727,
+      "logk": [
+        -9.694,
+        -8.832,
+        -8.124,
+        -7.54,
+        -6.324,
+        -5.69,
+        -5.571,
+        -6.164
+      ]
+    },
+    "CHRYSOTILE": {
+      "species": {
+        "H+": -6.0,
+        "SiO2(aq)": 2.0,
+        "Mg++": 3.0,
+        "H2O": 5.0
+      },
+      "molecular weight": 277.112,
+      "molar volume": 108.5,
+      "logk": [
+        31.419,
+        28.395,
+        25.747,
+        23.45,
+        18.167,
+        14.414,
+        11.393,
+        12.483
+      ]
+    },
+    "CINNABAR": {
+      "species": {
+        "H+": -1.0,
+        "HS-": 1.0,
+        "Hg++": 1.0
+      },
+      "molecular weight": 232.656,
+      "molar volume": 28.416,
+      "logk": [
+        -38.804,
+        -36.027,
+        -33.675,
+        -31.664,
+        -27.117,
+        -24.134,
+        -22.323,
+        -21.012
+      ]
+    },
+    "CLINOCHLORE,14A": {
+      "species": {
+        "H+": -16.0,
+        "Al+++": 2.0,
+        "SiO2(aq)": 3.0,
+        "Mg++": 5.0,
+        "H2O": 12.0
+      },
+      "molecular weight": 555.797,
+      "molar volume": 207.11,
+      "logk": [
+        66.674,
+        58.464,
+        51.328,
+        45.129,
+        30.659,
+        20.032,
+        11.258,
+        15.396
+      ]
+    },
+    "CLINOCHLORE,7A": {
+      "species": {
+        "H+": -16.0,
+        "Al+++": 2.0,
+        "SiO2(aq)": 3.0,
+        "Mg++": 5.0,
+        "H2O": 12.0
+      },
+      "molecular weight": 555.797,
+      "molar volume": 211.5,
+      "logk": [
+        70.074,
+        61.683,
+        54.398,
+        48.074,
+        33.323,
+        22.505,
+        13.59,
+        17.617
+      ]
+    },
+    "CLINOZOISITE": {
+      "species": {
+        "H+": -13.0,
+        "Ca++": 2.0,
+        "Al+++": 3.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 7.0
+      },
+      "molecular weight": 454.357,
+      "molar volume": 136.2,
+      "logk": [
+        41.965,
+        35.917,
+        30.551,
+        25.815,
+        14.451,
+        5.774,
+        -1.628,
+        1.459
+      ]
+    },
+    "COESITE": {
+      "species": {
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 60.084,
+      "molar volume": 20.641,
+      "logk": [
+        -3.163,
+        -2.814,
+        -2.57,
+        -2.382,
+        -1.974,
+        -1.679,
+        -1.456,
+        -1.419
+      ]
+    },
+    "COPPER,NATIVE": {
+      "species": {
+        "H+": -2.0,
+        "Cu++": 1.0,
+        "H2O": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 63.546,
+      "molar volume": 7.113,
+      "logk": [
+        30.14,
+        27.159,
+        24.617,
+        22.427,
+        17.348,
+        13.712,
+        10.906,
+        9.844
+      ]
+    },
+    "CORDIERITE": {
+      "species": {
+        "H+": -16.0,
+        "Mg++": 2.0,
+        "Al+++": 4.0,
+        "SiO2(aq)": 5.0,
+        "H2O": 8.0
+      },
+      "molecular weight": 584.953,
+      "molar volume": 233.22,
+      "logk": [
+        50.914,
+        42.579,
+        35.141,
+        28.561,
+        12.803,
+        0.875,
+        -9.173,
+        -4.902
+      ]
+    },
+    "CORDIERITE,HYDROUS": {
+      "species": {
+        "H+": -16.0,
+        "Mg++": 2.0,
+        "Al+++": 4.0,
+        "SiO2(aq)": 5.0,
+        "H2O": 9.0
+      },
+      "molecular weight": 602.968,
+      "molar volume": 241.22,
+      "logk": [
+        48.374,
+        40.283,
+        33.061,
+        26.676,
+        11.402,
+        -0.144,
+        -9.873,
+        -5.315
+      ]
+    },
+    "CORUNDUM": {
+      "species": {
+        "H+": -6.0,
+        "Al+++": 2.0,
+        "H2O": 3.0
+      },
+      "molecular weight": 101.961,
+      "molar volume": 25.575,
+      "logk": [
+        19.744,
+        16.237,
+        13.211,
+        10.569,
+        4.259,
+        -0.577,
+        -4.673,
+        -2.695
+      ]
+    },
+    "COVELLITE": {
+      "species": {
+        "H+": -1.0,
+        "Cu++": 1.0,
+        "HS-": 1.0
+      },
+      "molecular weight": 95.612,
+      "molar volume": 20.42,
+      "logk": [
+        -22.687,
+        -21.339,
+        -20.215,
+        -19.269,
+        -17.219,
+        -16.038,
+        -15.601,
+        -14.906
+      ]
+    },
+    "CRISTOBALITE": {
+      "species": {
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 60.084,
+      "molar volume": 25.74,
+      "logk": [
+        -3.391,
+        -3.037,
+        -2.789,
+        -2.598,
+        -2.185,
+        -1.887,
+        -1.674,
+        -1.648
+      ]
+    },
+    "CRISTOBALITE,ALPHA": {
+      "species": {
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 60.084,
+      "molar volume": 25.74,
+      "logk": [
+        -3.391,
+        -3.037,
+        -2.789,
+        -2.598,
+        -2.185,
+        -1.887,
+        -1.662,
+        -1.624
+      ]
+    },
+    "CRISTOBALITE,BETA": {
+      "species": {
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 60.084,
+      "molar volume": 27.38,
+      "logk": [
+        -2.938,
+        -2.643,
+        -2.441,
+        -2.288,
+        -1.954,
+        -1.706,
+        -1.518,
+        -1.507
+      ]
+    },
+    "CUPRITE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Cu+": 2.0
+      },
+      "molecular weight": 143.091,
+      "molar volume": 23.437,
+      "logk": [
+        -1.782,
+        -1.387,
+        -1.012,
+        -0.655,
+        0.3,
+        1.09,
+        1.708,
+        2.562
+      ]
+    },
+    "DAPHNITE,14A": {
+      "species": {
+        "H+": -16.0,
+        "Al+++": 2.0,
+        "SiO2(aq)": 3.0,
+        "Fe++": 5.0,
+        "H2O": 12.0
+      },
+      "molar volume": 213.42,
+      "logk": [
+        50.637,
+        43.773,
+        37.749,
+        32.477,
+        20.007,
+        10.641,
+        2.692,
+        6.566
+      ],
+      "molecular weight": 713.5073
+    },
+    "DIASPORE": {
+      "species": {
+        "H+": -3.0,
+        "Al+++": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 59.988,
+      "molar volume": 17.76,
+      "logk": [
+        7.908,
+        6.41,
+        5.119,
+        3.995,
+        1.319,
+        -0.731,
+        -2.478,
+        -1.23
+      ]
+    },
+    "DIOPSIDE": {
+      "species": {
+        "H+": -4.0,
+        "Ca++": 1.0,
+        "Mg++": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 2.0
+      },
+      "molecular weight": 216.55,
+      "molar volume": 66.09,
+      "logk": [
+        21.181,
+        19.284,
+        17.565,
+        16.043,
+        12.445,
+        9.812,
+        7.642,
+        7.639
+      ]
+    },
+    "DOLOMITE": {
+      "species": {
+        "H+": -2.0,
+        "Ca++": 1.0,
+        "Mg++": 1.0,
+        "HCO3-": 2.0
+      },
+      "molecular weight": 184.401,
+      "molar volume": 64.365,
+      "logk": [
+        2.836,
+        1.948,
+        1.13,
+        0.366,
+        -1.741,
+        -3.826,
+        -6.286,
+        -7.952
+      ]
+    },
+    "DOLOMITE,DISORDERED": {
+      "species": {
+        "H+": -2.0,
+        "Ca++": 1.0,
+        "Mg++": 1.0,
+        "HCO3-": 2.0
+      },
+      "molecular weight": 184.401,
+      "molar volume": 64.39,
+      "logk": [
+        4.38,
+        3.326,
+        2.366,
+        1.479,
+        -0.917,
+        -3.206,
+        -5.817,
+        -7.599
+      ]
+    },
+    "DOLOMITE,ORDERED": {
+      "species": {
+        "H+": -2.0,
+        "Ca++": 1.0,
+        "Mg++": 1.0,
+        "HCO3-": 2.0
+      },
+      "molecular weight": 184.401,
+      "molar volume": 64.34,
+      "logk": [
+        2.836,
+        1.948,
+        1.129,
+        0.365,
+        -1.743,
+        -3.828,
+        -6.285,
+        -7.948
+      ]
+    },
+    "ENSTATITE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Mg++": 1.0,
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 100.389,
+      "molar volume": 31.276,
+      "logk": [
+        11.435,
+        10.274,
+        9.236,
+        8.323,
+        6.187,
+        4.648,
+        3.407,
+        3.523
+      ]
+    },
+    "EPIDOTE": {
+      "species": {
+        "H+": -13.0,
+        "Fe+++": 1.0,
+        "Al+++": 2.0,
+        "Ca++": 2.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 7.0
+      },
+      "molecular weight": 483.223,
+      "molar volume": 139.2,
+      "logk": [
+        32.297,
+        27.114,
+        22.501,
+        18.424,
+        8.636,
+        1.128,
+        -5.366,
+        -1.888
+      ]
+    },
+    "EPIDOTE,ORDERED": {
+      "species": {
+        "H+": -13.0,
+        "Fe+++": 1.0,
+        "Al+++": 2.0,
+        "Ca++": 2.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 7.0
+      },
+      "molecular weight": 483.223,
+      "molar volume": 139.2,
+      "logk": [
+        32.297,
+        27.115,
+        22.504,
+        18.429,
+        8.652,
+        1.16,
+        -5.316,
+        -1.817
+      ]
+    },
+    "FAYALITE": {
+      "species": {
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "Fe++": 2.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 203.777,
+      "molar volume": 46.39,
+      "logk": [
+        19.334,
+        17.223,
+        15.366,
+        13.741,
+        9.91,
+        7.081,
+        4.742,
+        4.861
+      ]
+    },
+    "FERROUS": {
+      "species": {
+        "FERROUS OXIDE": -1.0,
+        "H+": -2.0,
+        "Fe++": 1.0,
+        "H2O": 1.0
+      },
+      "molecular weight": 71.846,
+      "molar volume": 12.0,
+      "logk": [
+        13.625,
+        12.183,
+        10.95,
+        9.883,
+        7.39,
+        5.556,
+        4.07,
+        3.95
+      ]
+    },
+    "FERROSILITE": {
+      "species": {
+        "H+": -2.0,
+        "Fe++": 1.0,
+        "H2O": 1.0,
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 131.931,
+      "molar volume": 32.952,
+      "logk": [
+        7.568,
+        6.742,
+        5.982,
+        5.303,
+        3.679,
+        2.471,
+        1.457,
+        1.569
+      ]
+    },
+    "FERROPARGASITE": {
+      "species": {
+        "H+": -22.0,
+        "Na+": 1.0,
+        "Ca++": 2.0,
+        "Al+++": 3.0,
+        "Fe++": 4.0,
+        "SiO2(aq)": 6.0,
+        "H2O": 12.0
+      },
+      "molar volume": 279.89,
+      "logk": [
+        82.195,
+        71.849,
+        62.668,
+        54.584,
+        35.366,
+        20.961,
+        8.857,
+        12.175
+      ],
+      "molecular weight": 961.99287
+    },
+    "FERROTREMOLITE": {
+      "species": {
+        "H+": -14.0,
+        "Ca++": 2.0,
+        "Fe++": 5.0,
+        "H2O": 8.0,
+        "SiO2(aq)": 8.0
+      },
+      "molar volume": 282.8,
+      "logk": [
+        53.329,
+        48.26,
+        43.51,
+        39.234,
+        28.985,
+        21.375,
+        14.933,
+        15.531
+      ],
+      "molecular weight": 970.07648
+    },
+    "FLUORITE": {
+      "species": {
+        "Ca++": 1.0,
+        "F-": 2.0
+      },
+      "molecular weight": 78.075,
+      "molar volume": 24.542,
+      "logk": [
+        -9.766,
+        -9.67,
+        -9.663,
+        -9.721,
+        -10.206,
+        -11.123,
+        -12.653,
+        -13.818
+      ]
+    },
+    "FORSTERITE": {
+      "species": {
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 2.0
+      },
+      "molecular weight": 140.693,
+      "molar volume": 43.79,
+      "logk": [
+        28.063,
+        25.236,
+        22.78,
+        20.648,
+        15.689,
+        12.112,
+        9.253,
+        9.324
+      ]
+    },
+    "Fo91": {
+      "species": {
+        "Fo91 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 1.82,
+        "Fe++": 0.18
+      },
+      "molecular weight": 146.984,
+      "molar volume": 43.79,
+      "logk": [
+        27.4098,
+        24.6473,
+        22.2431,
+        20.1578,
+        15.3003,
+        11.7915,
+        8.9794,
+        9.0538
+      ]
+    },
+    "Fo90": {
+      "species": {
+        "Fo90 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 1.8,
+        "Fe++": 0.2
+      },
+      "molecular weight": 146.984,
+      "molar volume": 43.79,
+      "logk": [
+        27.3323,
+        24.577,
+        22.1788,
+        20.0985,
+        15.2523,
+        11.751,
+        8.9441,
+        9.019
+      ]
+    },
+    "Fo80": {
+      "species": {
+        "Fo80 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 1.6,
+        "Fe++": 0.4
+      },
+      "molecular weight": 153.292,
+      "molar volume": 43.79,
+      "logk": [
+        26.5355,
+        23.8519,
+        21.5135,
+        19.4839,
+        14.7505,
+        11.3239,
+        8.5691,
+        8.6489
+      ]
+    },
+    "Fo70": {
+      "species": {
+        "Fo70 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 1.4,
+        "Fe++": 0.6
+      },
+      "molecular weight": 146.984,
+      "molar volume": 43.79,
+      "logk": [
+        25.7106,
+        23.0987,
+        20.8201,
+        18.8412,
+        14.2206,
+        10.8687,
+        8.166,
+        8.2507
+      ]
+    },
+    "Fo60": {
+      "species": {
+        "Fo60 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 1.2,
+        "Fe++": 0.8
+      },
+      "molecular weight": 146.984,
+      "molar volume": 43.79,
+      "logk": [
+        24.8647,
+        22.3245,
+        20.1057,
+        18.1775,
+        13.6697,
+        10.3925,
+        7.7419,
+        7.8315
+      ]
+    },
+    "Fo50": {
+      "species": {
+        "Fo50 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 1.0,
+        "Fe++": 1.0
+      },
+      "molar volume": 43.79,
+      "logk": [
+        24.0005,
+        21.532,
+        19.373,
+        17.4955,
+        13.1005,
+        9.898,
+        7.2995,
+        7.394
+      ],
+      "molecular weight": 172.2351
+    },
+    "Fo40": {
+      "species": {
+        "Fo40 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 0.8,
+        "Fe++": 1.2
+      },
+      "molar volume": 43.79,
+      "logk": [
+        23.1189,
+        20.7221,
+        18.6229,
+        16.7961,
+        12.5139,
+        9.3861,
+        6.8397,
+        6.9391
+      ],
+      "molecular weight": 178.5435
+    },
+    "Fo30": {
+      "species": {
+        "Fo30 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 0.6,
+        "Fe++": 1.4
+      },
+      "molar volume": 43.79,
+      "logk": [
+        22.219,
+        19.8939,
+        17.8545,
+        16.0784,
+        11.909,
+        8.8559,
+        6.3616,
+        6.4659
+      ],
+      "molecular weight": 184.8519
+    },
+    "Fo20": {
+      "species": {
+        "Fo20 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 0.4,
+        "Fe++": 1.6
+      },
+      "molar volume": 43.79,
+      "logk": [
+        21.2981,
+        19.0447,
+        17.0651,
+        15.3397,
+        11.2831,
+        8.3047,
+        5.8625,
+        5.9717
+      ],
+      "molecular weight": 191.1603
+    },
+    "Fo10": {
+      "species": {
+        "Fo10 Olivine": -1.0,
+        "H+": -4.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0,
+        "Mg++": 0.2,
+        "Fe++": 1.8
+      },
+      "molar volume": 43.79,
+      "logk": [
+        20.3491,
+        18.1674,
+        16.2476,
+        14.5729,
+        10.6291,
+        7.7254,
+        5.3353,
+        5.4494
+      ],
+      "molecular weight": 197.4687
+    },
+    "GALENA": {
+      "species": {
+        "H+": -1.0,
+        "HS-": 1.0,
+        "Pb++": 1.0
+      },
+      "molecular weight": 239.266,
+      "molar volume": 31.49,
+      "logk": [
+        -14.697,
+        -13.613,
+        -12.726,
+        -11.995,
+        -10.477,
+        -9.699,
+        -9.571,
+        -9.679
+      ]
+    },
+    "GEHLENITE": {
+      "species": {
+        "H+": -10.0,
+        "SiO2(aq)": 1.0,
+        "Al+++": 2.0,
+        "Ca++": 2.0,
+        "H2O": 5.0
+      },
+      "molecular weight": 274.2,
+      "molar volume": 90.24,
+      "logk": [
+        55.568,
+        49.057,
+        43.41,
+        38.481,
+        26.789,
+        18.016,
+        10.757,
+        11.627
+      ]
+    },
+    "GIBBSITE": {
+      "species": {
+        "H+": -3.0,
+        "Al+++": 1.0,
+        "H2O": 3.0
+      },
+      "molecular weight": 78.004,
+      "molar volume": 31.956,
+      "logk": [
+        7.095,
+        5.808,
+        4.711,
+        3.764,
+        1.536,
+        -0.163,
+        -1.633,
+        -0.152
+      ]
+    },
+    "GOLD,NATIVE": {
+      "species": {
+        "H+": -1.0,
+        "H2O": 0.5,
+        "Au+": 1.0,
+        "O2(aq)": -0.25
+      },
+      "molecular weight": 196.967,
+      "molar volume": 10.215,
+      "logk": [
+        -7.882,
+        -7.099,
+        -6.424,
+        -5.833,
+        -4.432,
+        -3.409,
+        -2.635,
+        -1.995
+      ]
+    },
+    "GRAPHITE": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 1.0,
+        "HCO3-": 1.0,
+        "O2(aq)": -1.0
+      },
+      "molar volume": 5.298,
+      "logk": [
+        61.266,
+        55.762,
+        51.013,
+        46.868,
+        37.045,
+        29.794,
+        24.024,
+        18.693
+      ],
+      "molecular weight": 12.011
+    },
+    "GREENALITE": {
+      "species": {
+        "H+": -6.0,
+        "SiO2(aq)": 2.0,
+        "Fe++": 3.0,
+        "H2O": 5.0
+      },
+      "molecular weight": 277.112,
+      "molar volume": 108.5,
+      "logk": [
+        23.864,
+        21.473,
+        19.341,
+        17.47,
+        13.084,
+        9.871,
+        7.183,
+        7.989
+      ]
+    },
+    "GROSSULAR": {
+      "species": {
+        "H+": -12.0,
+        "Al+++": 2.0,
+        "Ca++": 3.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 450.446,
+      "molar volume": 125.3,
+      "logk": [
+        51.201,
+        45.401,
+        40.259,
+        35.722,
+        24.873,
+        16.656,
+        9.706,
+        11.284
+      ]
+    },
+    "HALITE": {
+      "species": {
+        "Cl-": 1.0,
+        "Na+": 1.0
+      },
+      "molecular weight": 58.442,
+      "molar volume": 27.015,
+      "logk": [
+        1.647,
+        1.667,
+        1.657,
+        1.626,
+        1.426,
+        1.071,
+        0.459,
+        -0.63
+      ]
+    },
+    "HEDENBERGITE": {
+      "species": {
+        "H+": -4.0,
+        "Ca++": 1.0,
+        "Fe++": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 2.0
+      },
+      "molecular weight": 248.092,
+      "molar volume": 68.27,
+      "logk": [
+        19.839,
+        18.063,
+        16.44,
+        14.993,
+        11.538,
+        8.975,
+        6.833,
+        6.67
+      ]
+    },
+    "HEMATITE": {
+      "species": {
+        "H+": -6.0,
+        "Fe+++": 2.0,
+        "H2O": 3.0
+      },
+      "molecular weight": 159.692,
+      "molar volume": 30.274,
+      "logk": [
+        0.401,
+        -1.367,
+        -2.882,
+        -4.195,
+        -7.326,
+        -9.798,
+        -12.055,
+        -9.279
+      ]
+    },
+    "HERZENBERGITE": {
+      "species": {
+        "H+": -1.0,
+        "HS-": 1.0,
+        "Sn++": 1.0
+      },
+      "molecular weight": 150.776,
+      "molar volume": 29.01,
+      "logk": [
+        -15.48,
+        -14.418,
+        -13.552,
+        -12.841,
+        -11.381,
+        -10.657,
+        -10.581,
+        -10.688
+      ]
+    },
+    "HUNTITE": {
+      "species": {
+        "H+": -4.0,
+        "Ca++": 1.0,
+        "Mg++": 3.0,
+        "HCO3-": 4.0
+      },
+      "molecular weight": 353.03,
+      "molar volume": 122.9,
+      "logk": [
+        10.931,
+        8.469,
+        6.252,
+        4.229,
+        -1.107,
+        -6.041,
+        -11.509,
+        -14.792
+      ]
+    },
+    "HYDROMAGNESITE": {
+      "species": {
+        "H+": -6.0,
+        "HCO3-": 4.0,
+        "Mg++": 5.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 467.638,
+      "molar volume": 208.8,
+      "logk": [
+        31.498,
+        27.308,
+        23.668,
+        20.463,
+        12.587,
+        6.033,
+        -0.56,
+        -2.845
+      ]
+    },
+    "ILMENITE": {
+      "species": {
+        "H+": -6.0,
+        "H2O": 3.0,
+        "Fe++": 1.0,
+        "Ti++++": 1.0
+      },
+      "molar volume": 31.7,
+      "logk": [
+        -8.653,
+        -10.007,
+        -11.143,
+        -12.109,
+        -14.356,
+        -16.12,
+        -17.78,
+        -13.831
+      ],
+      "molecular weight": 151.7452
+    },
+    "IRON": {
+      "species": {
+        "H+": -2.0,
+        "Fe++": 1.0,
+        "H2O": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 55.847,
+      "molar volume": 7.092,
+      "logk": [
+        57.646,
+        52.521,
+        48.137,
+        44.344,
+        35.507,
+        29.162,
+        24.303,
+        21.565
+      ]
+    },
+    "JADEITE": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "Na+": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 2.0
+      },
+      "molecular weight": 202.139,
+      "molar volume": 60.4,
+      "logk": [
+        7.92,
+        6.795,
+        5.728,
+        4.762,
+        2.434,
+        0.676,
+        -0.851,
+        0.41
+      ]
+    },
+    "K-FELDSPAR": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "K+": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 3.0
+      },
+      "molecular weight": 278.332,
+      "molar volume": 108.87,
+      "logk": [
+        -0.609,
+        -0.961,
+        -1.429,
+        -1.907,
+        -3.176,
+        -4.229,
+        -5.263,
+        -3.86
+      ]
+    },
+    "KALSILITE": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "K+": 1.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 158.163,
+      "molar volume": 59.89,
+      "logk": [
+        10.465,
+        9.045,
+        7.768,
+        6.635,
+        3.906,
+        1.813,
+        0.009,
+        1.092
+      ]
+    },
+    "KAOLINITE": {
+      "species": {
+        "H+": -6.0,
+        "Al+++": 2.0,
+        "SiO2(aq)": 2.0,
+        "H2O": 5.0
+      },
+      "molecular weight": 258.16,
+      "molar volume": 99.52,
+      "logk": [
+        5.825,
+        3.89,
+        2.121,
+        0.538,
+        -3.304,
+        -6.301,
+        -8.962,
+        -6.076
+      ]
+    },
+    "KYANITE": {
+      "species": {
+        "H+": -6.0,
+        "SiO2(aq)": 1.0,
+        "Al+++": 2.0,
+        "H2O": 3.0
+      },
+      "molecular weight": 162.046,
+      "molar volume": 44.09,
+      "logk": [
+        14.669,
+        11.69,
+        9.061,
+        6.741,
+        1.148,
+        -3.173,
+        -6.882,
+        -4.738
+      ]
+    },
+    "LAUMONTITE": {
+      "species": {
+        "H+": -8.0,
+        "Ca++": 1.0,
+        "Al+++": 2.0,
+        "SiO2(aq)": 4.0,
+        "H2O": 8.0
+      },
+      "molecular weight": 470.437,
+      "molar volume": 207.55,
+      "logk": [
+        12.919,
+        10.449,
+        8.124,
+        6.026,
+        0.967,
+        -2.865,
+        -6.181,
+        -3.248
+      ]
+    },
+    "LAWSONITE": {
+      "species": {
+        "H+": -8.0,
+        "Ca++": 1.0,
+        "Al+++": 2.0,
+        "SiO2(aq)": 2.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 314.238,
+      "molar volume": 101.32,
+      "logk": [
+        21.235,
+        18.037,
+        15.186,
+        12.669,
+        6.642,
+        2.044,
+        -1.912,
+        0.724
+      ]
+    },
+    "LIME": {
+      "species": {
+        "H+": -2.0,
+        "Ca++": 1.0,
+        "H2O": 1.0
+      },
+      "molecular weight": 56.077,
+      "molar volume": 16.764,
+      "logk": [
+        32.674,
+        30.039,
+        27.786,
+        25.836,
+        21.282,
+        17.98,
+        15.396,
+        14.129
+      ]
+    },
+    "MAGNESITE": {
+      "species": {
+        "H+": -1.0,
+        "HCO3-": 1.0,
+        "Mg++": 1.0
+      },
+      "molecular weight": 84.314,
+      "molar volume": 28.018,
+      "logk": [
+        2.44,
+        1.803,
+        1.233,
+        0.715,
+        -0.638,
+        -1.877,
+        -3.243,
+        -3.945
+      ]
+    },
+    "MAGNETITE": {
+      "species": {
+        "H+": -8.0,
+        "Fe++": 1.0,
+        "Fe+++": 2.0,
+        "H2O": 4.0
+      },
+      "molecular weight": 231.539,
+      "molar volume": 44.524,
+      "logk": [
+        10.872,
+        7.916,
+        5.388,
+        3.2,
+        -1.98,
+        -5.972,
+        -9.489,
+        -6.67
+      ]
+    },
+    "MALACHITE": {
+      "species": {
+        "H+": -3.0,
+        "HCO3-": 1.0,
+        "Cu++": 2.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 221.116,
+      "molar volume": 54.86,
+      "logk": [
+        6.192,
+        5.132,
+        4.219,
+        3.421,
+        1.472,
+        -0.178,
+        -1.914,
+        -1.861
+      ]
+    },
+    "MANGANOSITE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Mn++": 1.0
+      },
+      "molecular weight": 70.937,
+      "molar volume": 13.221,
+      "logk": [
+        18.434,
+        16.78,
+        15.371,
+        14.157,
+        11.338,
+        9.293,
+        7.664,
+        7.386
+      ]
+    },
+    "MARGARITE": {
+      "species": {
+        "H+": -14.0,
+        "Ca++": 1.0,
+        "SiO2(aq)": 2.0,
+        "Al+++": 4.0,
+        "H2O": 8.0
+      },
+      "molecular weight": 398.184,
+      "molar volume": 129.4,
+      "logk": [
+        39.194,
+        32.413,
+        26.465,
+        21.24,
+        8.726,
+        -0.864,
+        -9.058,
+        -4.587
+      ]
+    },
+    "MERWINITE": {
+      "species": {
+        "H+": -8.0,
+        "Mg++": 1.0,
+        "SiO2(aq)": 2.0,
+        "Ca++": 3.0,
+        "H2O": 4.0
+      },
+      "molecular weight": 328.705,
+      "molar volume": 104.4,
+      "logk": [
+        68.955,
+        63.023,
+        57.854,
+        53.345,
+        42.763,
+        35.042,
+        28.843,
+        27.193
+      ]
+    },
+    "METACINNABAR": {
+      "species": {
+        "H+": -1.0,
+        "HS-": 1.0,
+        "Hg++": 1.0
+      },
+      "molecular weight": 232.656,
+      "molar volume": 30.169,
+      "logk": [
+        -38.425,
+        -35.702,
+        -33.398,
+        -31.427,
+        -26.975,
+        -24.059,
+        -22.299,
+        -21.028
+      ]
+    },
+    "MICROCLINE,MAXIMUM": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "K+": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 3.0
+      },
+      "molecular weight": 278.332,
+      "molar volume": 108.741,
+      "logk": [
+        -0.61,
+        -0.964,
+        -1.437,
+        -1.921,
+        -3.198,
+        -4.244,
+        -5.259,
+        -3.829
+      ]
+    },
+    "MONTICELLITE": {
+      "species": {
+        "H+": -4.0,
+        "Ca++": 1.0,
+        "Mg++": 1.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 156.466,
+      "molar volume": 51.47,
+      "logk": [
+        29.812,
+        27.11,
+        24.756,
+        22.704,
+        17.902,
+        14.405,
+        11.587,
+        11.218
+      ]
+    },
+    "MUSCOVITE": {
+      "species": {
+        "H+": -10.0,
+        "K+": 1.0,
+        "Al+++": 3.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 398.308,
+      "molar volume": 140.71,
+      "logk": [
+        12.162,
+        9.035,
+        6.174,
+        3.61,
+        -2.634,
+        -7.52,
+        -11.852,
+        -7.805
+      ]
+    },
+    "NEPHELINE": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "Na+": 1.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 2.0
+      },
+      "molecular weight": 142.054,
+      "molar volume": 54.16,
+      "logk": [
+        13.393,
+        11.613,
+        10.038,
+        8.654,
+        5.376,
+        2.93,
+        0.882,
+        1.87
+      ]
+    },
+    "NESQUEHONITE": {
+      "species": {
+        "H+": -1.0,
+        "HCO3-": 1.0,
+        "Mg++": 1.0,
+        "H2O": 3.0
+      },
+      "molecular weight": 138.36,
+      "molar volume": 74.79,
+      "logk": [
+        5.099,
+        4.938,
+        4.862,
+        4.793,
+        4.568,
+        4.209,
+        3.551,
+        3.459
+      ]
+    },
+    "NICKEL": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Ni++": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 58.69,
+      "molar volume": 6.588,
+      "logk": [
+        49.642,
+        45.032,
+        41.083,
+        37.665,
+        29.684,
+        23.93,
+        19.499,
+        17.195
+      ]
+    },
+    "PARAGONITE": {
+      "species": {
+        "H+": -10.0,
+        "Na+": 1.0,
+        "Al+++": 3.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 382.2,
+      "molar volume": 132.53,
+      "logk": [
+        16.11,
+        12.551,
+        9.332,
+        6.47,
+        -0.423,
+        -5.724,
+        -10.34,
+        -6.415
+      ]
+    },
+    "PARGASITE": {
+      "species": {
+        "H+": -22.0,
+        "Na+": 1.0,
+        "Ca++": 2.0,
+        "Al+++": 3.0,
+        "Mg++": 4.0,
+        "SiO2(aq)": 6.0,
+        "H2O": 12.0
+      },
+      "molecular weight": 835.825,
+      "molar volume": 273.5,
+      "logk": [
+        101.201,
+        89.307,
+        78.834,
+        69.66,
+        48.029,
+        32.037,
+        18.839,
+        22.031
+      ]
+    },
+    "PERICLASE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Mg++": 1.0
+      },
+      "molecular weight": 40.304,
+      "molar volume": 11.248,
+      "logk": [
+        21.42,
+        19.385,
+        17.652,
+        16.16,
+        12.705,
+        10.221,
+        8.27,
+        7.97
+      ]
+    },
+    "PHLOGOPITE": {
+      "species": {
+        "H+": -10.0,
+        "Al+++": 1.0,
+        "K+": 1.0,
+        "Mg++": 3.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 417.26,
+      "molar volume": 149.66,
+      "logk": [
+        37.294,
+        33.065,
+        29.313,
+        26.025,
+        18.315,
+        12.657,
+        7.951,
+        10.194
+      ]
+    },
+    "POTASSIUM-OXIDE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "K+": 2.0
+      },
+      "molecular weight": 94.196,
+      "molar volume": 40.38,
+      "logk": [
+        84.061,
+        78.271,
+        73.32,
+        69.04,
+        59.089,
+        52.003,
+        46.675,
+        42.604
+      ]
+    },
+    "PREHNITE": {
+      "species": {
+        "H+": -10.0,
+        "Al+++": 2.0,
+        "Ca++": 2.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 412.384,
+      "molar volume": 140.33,
+      "logk": [
+        32.196,
+        28.028,
+        24.287,
+        20.968,
+        12.997,
+        6.919,
+        1.708,
+        3.928
+      ]
+    },
+    "PYRITE": {
+      "species": {
+        "H2O": -1.0,
+        "Fe++": 1.0,
+        "HS-": 2.0,
+        "O2(aq)": 0.5
+      },
+      "molecular weight": 119.979,
+      "molar volume": 23.94,
+      "logk": [
+        -57.647,
+        -53.201,
+        -49.471,
+        -46.308,
+        -39.296,
+        -34.865,
+        -32.375,
+        -30.926
+      ]
+    },
+    "PYROPHYLLITE": {
+      "species": {
+        "H+": -6.0,
+        "Al+++": 2.0,
+        "H2O": 4.0,
+        "SiO2(aq)": 4.0
+      },
+      "molecular weight": 360.314,
+      "molar volume": 126.6,
+      "logk": [
+        -0.469,
+        -1.818,
+        -3.208,
+        -4.516,
+        -7.811,
+        -10.435,
+        -12.832,
+        -10.038
+      ]
+    },
+    "PYRRHOTITE": {
+      "species": {
+        "H+": -1.0,
+        "Fe++": 1.0,
+        "HS-": 1.0
+      },
+      "molecular weight": 87.913,
+      "molar volume": 18.2,
+      "logk": [
+        -3.603,
+        -3.748,
+        -3.911,
+        -4.088,
+        -4.724,
+        -5.534,
+        -6.628,
+        -7.215
+      ]
+    },
+    "QUARTZ": {
+      "species": {
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 60.084,
+      "molar volume": 22.688,
+      "logk": [
+        -3.96,
+        -3.554,
+        -3.261,
+        -3.03,
+        -2.525,
+        -2.161,
+        -1.888,
+        -1.813
+      ]
+    },
+    "RHODOCHROSITE": {
+      "species": {
+        "H+": -1.0,
+        "HCO3-": 1.0,
+        "Mn++": 1.0
+      },
+      "molecular weight": 114.947,
+      "molar volume": 31.075,
+      "logk": [
+        0.385,
+        0.052,
+        -0.26,
+        -0.557,
+        -1.408,
+        -2.298,
+        -3.409,
+        -4.137
+      ]
+    },
+    "ROMARCHITE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Sn++": 1.0
+      },
+      "molecular weight": 134.709,
+      "molar volume": 20.895,
+      "logk": [
+        1.426,
+        1.297,
+        1.183,
+        1.082,
+        0.828,
+        0.594,
+        0.313,
+        0.693
+      ]
+    },
+    "RUTILE": {
+      "species": {
+        "H+": -4.0,
+        "Ti++++": 1.0,
+        "H2O": 2.0
+      },
+      "molar volume": 18.82,
+      "logk": [
+        -19.976,
+        -20.077,
+        -20.142,
+        -20.183,
+        -20.268,
+        -20.437,
+        -20.789,
+        -16.857
+      ],
+      "molecular weight": 79.8988
+    },
+    "SANIDINE,HIGH": {
+      "species": {
+        "H+": -4.0,
+        "Al+++": 1.0,
+        "K+": 1.0,
+        "H2O": 2.0,
+        "SiO2(aq)": 3.0
+      },
+      "molecular weight": 278.332,
+      "molar volume": 109.008,
+      "logk": [
+        0.591,
+        0.086,
+        -0.516,
+        -1.11,
+        -2.647,
+        -3.879,
+        -5.033,
+        -3.711
+      ]
+    },
+    "SEPIOLITE": {
+      "species": {
+        "H+": -8.0,
+        "Mg++": 4.0,
+        "SiO2(aq)": 6.0,
+        "H2O": 11.0
+      },
+      "molecular weight": 647.83,
+      "molar volume": 285.6,
+      "logk": [
+        30.889,
+        28.557,
+        26.336,
+        24.367,
+        19.931,
+        16.999,
+        14.693,
+        17.212
+      ]
+    },
+    "SIDERITE": {
+      "species": {
+        "H+": -1.0,
+        "Fe++": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 115.856,
+      "molar volume": 29.378,
+      "logk": [
+        -0.034,
+        -0.51,
+        -0.949,
+        -1.359,
+        -2.482,
+        -3.581,
+        -4.861,
+        -5.675
+      ]
+    },
+    "SILLIMANITE": {
+      "species": {
+        "H+": -6.0,
+        "SiO2(aq)": 1.0,
+        "Al+++": 2.0,
+        "H2O": 3.0
+      },
+      "molecular weight": 162.046,
+      "molar volume": 49.9,
+      "logk": [
+        15.339,
+        12.255,
+        9.536,
+        7.138,
+        1.366,
+        -3.08,
+        -6.879,
+        -4.805
+      ]
+    },
+    "SILVER,NATIVE": {
+      "species": {
+        "H+": -1.0,
+        "H2O": 0.5,
+        "Ag+": 1.0,
+        "O2(aq)": -0.25
+      },
+      "molar volume": 10.272,
+      "logk": [
+        7.278,
+        6.778,
+        6.363,
+        6.015,
+        5.252,
+        4.756,
+        4.405,
+        4.201
+      ],
+      "molecular weight": 107.8682
+    },
+    "SMITHSONITE": {
+      "species": {
+        "H+": -1.0,
+        "HCO3-": 1.0,
+        "Zn++": 1.0
+      },
+      "molecular weight": 125.399,
+      "molar volume": 28.275,
+      "logk": [
+        0.627,
+        0.176,
+        -0.238,
+        -0.621,
+        -1.666,
+        -2.693,
+        -3.909,
+        -4.636
+      ]
+    },
+    "SODIUM-OXIDE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Na+": 2.0
+      },
+      "molecular weight": 61.979,
+      "molar volume": 25.0,
+      "logk": [
+        67.477,
+        62.712,
+        58.665,
+        55.188,
+        47.206,
+        41.621,
+        37.472,
+        34.513
+      ]
+    },
+    "SPHALERITE": {
+      "species": {
+        "H+": -1.0,
+        "HS-": 1.0,
+        "Zn++": 1.0
+      },
+      "molecular weight": 97.456,
+      "molar volume": 23.83,
+      "logk": [
+        -11.277,
+        -10.835,
+        -10.489,
+        -10.218,
+        -9.747,
+        -9.699,
+        -10.115,
+        -10.119
+      ]
+    },
+    "SPINEL": {
+      "species": {
+        "H+": -8.0,
+        "Mg++": 1.0,
+        "Al+++": 2.0,
+        "H2O": 4.0
+      },
+      "molecular weight": 142.266,
+      "molar volume": 39.71,
+      "logk": [
+        36.714,
+        31.505,
+        27.031,
+        23.145,
+        13.958,
+        7.048,
+        1.31,
+        3.227
+      ]
+    },
+    "STRONTIANITE": {
+      "species": {
+        "H+": -1.0,
+        "HCO3-": 1.0,
+        "Sr++": 1.0
+      },
+      "molecular weight": 147.629,
+      "molar volume": 39.01,
+      "logk": [
+        -0.127,
+        -0.267,
+        -0.421,
+        -0.585,
+        -1.137,
+        -1.819,
+        -2.77,
+        -3.737
+      ]
+    },
+    "SULFUR": {
+      "species": {
+        "H2O": -1.0,
+        "HS-": 1.0,
+        "H+": 1.0,
+        "O2(aq)": 0.5
+      },
+      "molar volume": 6.52,
+      "logk": [
+        -43.568,
+        -39.949,
+        -36.892,
+        -34.282,
+        -28.42,
+        -24.529,
+        -21.99,
+        -20.791
+      ],
+      "molecular weight": 32.066
+    },
+    "SYLVITE": {
+      "species": {
+        "Cl-": 1.0,
+        "K+": 1.0
+      },
+      "molecular weight": 74.551,
+      "molar volume": 37.524,
+      "logk": [
+        0.91,
+        1.113,
+        1.25,
+        1.337,
+        1.372,
+        1.143,
+        0.606,
+        -0.518
+      ]
+    },
+    "TALC": {
+      "species": {
+        "H+": -6.0,
+        "Mg++": 3.0,
+        "H2O": 4.0,
+        "SiO2(aq)": 4.0
+      },
+      "molecular weight": 379.266,
+      "molar volume": 136.25,
+      "logk": [
+        21.512,
+        19.34,
+        17.3,
+        15.475,
+        11.2,
+        8.148,
+        5.637,
+        6.827
+      ]
+    },
+    "MINNESOTAITE": {
+      "species": {
+        "H+": -6.0,
+        "Fe++": 3.0,
+        "H2O": 4.0,
+        "SiO2(aq)": 4.0
+      },
+      "molecular weight": 379.266,
+      "molar volume": 136.25,
+      "logk": [
+        29.57,
+        26.798,
+        24.22,
+        21.907,
+        16.398,
+        12.366,
+        9.049,
+        9.07
+      ]
+    },
+    "TENORITE": {
+      "species": {
+        "H+": -2.0,
+        "Cu++": 1.0,
+        "H2O": 1.0
+      },
+      "molecular weight": 79.545,
+      "molar volume": 12.22,
+      "logk": [
+        7.764,
+        6.89,
+        6.152,
+        5.521,
+        4.072,
+        3.016,
+        2.134,
+        2.563
+      ]
+    },
+    "TIN,NATIVE": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Sn++": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 118.71,
+      "molar volume": 16.289,
+      "logk": [
+        46.448,
+        42.446,
+        39.016,
+        36.044,
+        29.101,
+        24.071,
+        20.129,
+        17.666
+      ]
+    },
+    "TITANITE": {
+      "species": {
+        "H+": -6.0,
+        "H2O": 3.0,
+        "Ca++": 1.0,
+        "SiO2(aq)": 1.0,
+        "Ti++++": 1.0
+      },
+      "molar volume": 55.65,
+      "logk": [
+        -9.936,
+        -10.812,
+        -11.591,
+        -12.272,
+        -13.892,
+        -15.205,
+        -16.524,
+        -12.739
+      ],
+      "molecular weight": 196.0605
+    },
+    "TREMOLITE": {
+      "species": {
+        "H+": -14.0,
+        "Ca++": 2.0,
+        "Mg++": 5.0,
+        "H2O": 8.0,
+        "SiO2(aq)": 8.0
+      },
+      "molecular weight": 812.366,
+      "molar volume": 272.92,
+      "logk": [
+        62.07,
+        56.237,
+        50.873,
+        46.101,
+        34.856,
+        26.702,
+        19.974,
+        21.252
+      ]
+    },
+    "ULVOSPINEL": {
+      "species": {
+        "H+": -8.0,
+        "Fe++": 2.0,
+        "Ti++++": 1.0,
+        "H2O": 4.0
+      },
+      "molar volume": 46.82,
+      "logk": [
+        7.029,
+        4.011,
+        1.454,
+        -0.739,
+        -5.848,
+        -9.703,
+        -13.039,
+        -9.356
+      ],
+      "molecular weight": 223.5916
+    },
+    "WAIRAKITE": {
+      "species": {
+        "H+": -8.0,
+        "Ca++": 1.0,
+        "Al+++": 2.0,
+        "SiO2(aq)": 4.0,
+        "H2O": 6.0
+      },
+      "molecular weight": 434.406,
+      "molar volume": 186.87,
+      "logk": [
+        17.422,
+        14.217,
+        11.247,
+        8.578,
+        2.125,
+        -2.774,
+        -6.956,
+        -4.773
+      ]
+    },
+    "WITHERITE": {
+      "species": {
+        "H+": -1.0,
+        "Ba++": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 197.336,
+      "molar volume": 45.81,
+      "logk": [
+        -2.798,
+        -2.635,
+        -2.532,
+        -2.477,
+        -2.541,
+        -2.896,
+        -3.614,
+        -4.584
+      ]
+    },
+    "WOLLASTONITE": {
+      "species": {
+        "H+": -2.0,
+        "Ca++": 1.0,
+        "H2O": 1.0,
+        "SiO2(aq)": 1.0
+      },
+      "molecular weight": 116.162,
+      "molar volume": 39.93,
+      "logk": [
+        13.9,
+        12.814,
+        11.833,
+        10.962,
+        8.888,
+        7.358,
+        6.103,
+        5.732
+      ]
+    },
+    "WURTZITE": {
+      "species": {
+        "H+": -1.0,
+        "HS-": 1.0,
+        "Zn++": 1.0
+      },
+      "molecular weight": 97.456,
+      "molar volume": 23.846,
+      "logk": [
+        -8.977,
+        -8.715,
+        -8.522,
+        -8.383,
+        -8.223,
+        -8.396,
+        -8.978,
+        -9.111
+      ]
+    },
+    "ZOISITE": {
+      "species": {
+        "H+": -13.0,
+        "Ca++": 2.0,
+        "Al+++": 3.0,
+        "SiO2(aq)": 3.0,
+        "H2O": 7.0
+      },
+      "molecular weight": 454.357,
+      "molar volume": 135.9,
+      "logk": [
+        42.008,
+        35.954,
+        30.585,
+        25.844,
+        14.472,
+        5.789,
+        -1.618,
+        1.466
+      ]
+    },
+    "Fe+3SERPENTNE": {
+      "species": {
+        "H+": -4.0,
+        "H2(aq)": -1.0,
+        "Fe++": 2.0,
+        "SiO2(aq)": 2.0,
+        "H2O": 5.0
+      },
+      "molar volume": 105.03,
+      "logk": [
+        16.018,
+        14.723,
+        13.501,
+        12.395,
+        9.715,
+        7.667,
+        5.853,
+        6.0
+      ],
+      "molecular weight": 315.89136
+    },
+    "CRONSTEDTITE": {
+      "species": {
+        "H+": -10.0,
+        "Fe+++": 2.0,
+        "Fe++": 2.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 7.0
+      },
+      "molecular weight": 399.4997,
+      "molar volume": 110.9,
+      "logk": [
+        17.625,
+        14.189,
+        11.208,
+        8.615,
+        2.493,
+        -2.172,
+        -6.26,
+        -2.922
+      ]
+    },
+    "Mg-cronstedtite": {
+      "species": {
+        "H+": -10.0,
+        "Fe+++": 2.0,
+        "Mg++": 2.0,
+        "SiO2(aq)": 1.0,
+        "H2O": 7.0
+      },
+      "molar volume": 109.4,
+      "logk": [
+        28.338,
+        24.019,
+        20.299,
+        17.08,
+        9.563,
+        3.968,
+        -0.767,
+        2.429
+      ],
+      "molecular weight": 336.41586
+    },
+    "QUICKSILVER": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Hg++": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 200.59,
+      "molar volume": 14.822,
+      "logk": [
+        54.238,
+        49.76,
+        45.961,
+        42.701,
+        35.229,
+        30.004,
+        26.107,
+        23.5
+      ]
+    }
+  },
+  "gas species": {
+    "Ar(g)": {
+      "species": {
+        "Ar(aq)": 1.0
+      },
+      "molecular weight": 39.948,
+      "logk": [
+        -3.051,
+        -3.175,
+        -3.228,
+        -3.231,
+        -3.057,
+        -2.722,
+        -2.269,
+        -1.423
+      ]
+    },
+    "CH4(g)": {
+      "species": {
+        "H+": 1.0,
+        "H2O": 1.0,
+        "HCO3-": 1.0,
+        "O2(aq)": -2.0
+      },
+      "molecular weight": 16.043,
+      "logk": [
+        135.234,
+        123.027,
+        112.565,
+        103.496,
+        82.298,
+        67.053,
+        55.388,
+        45.576
+      ]
+    },
+    "CO(g)": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 1.0,
+        "HCO3-": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 28.01,
+      "logk": [
+        37.203,
+        33.198,
+        29.732,
+        26.698,
+        19.46,
+        14.055,
+        9.668,
+        5.415
+      ]
+    },
+    "CO2(g)": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 1.0,
+        "HCO3-": 1.0
+      },
+      "molecular weight": 44.01,
+      "logk": [
+        -7.855,
+        -8.023,
+        -8.203,
+        -8.389,
+        -8.986,
+        -9.653,
+        -10.49,
+        -11.984
+      ]
+    },
+    "H2(g)": {
+      "species": {
+        "H2O": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 2.016,
+      "logk": [
+        41.443,
+        37.581,
+        34.283,
+        31.434,
+        24.829,
+        20.159,
+        16.696,
+        14.044
+      ]
+    },
+    "H2O(g)": {
+      "species": {
+        "H2O": 1.0
+      },
+      "molecular weight": 18.015,
+      "logk": [
+        1.476,
+        0.892,
+        0.403,
+        -0.097,
+        -1.006,
+        -1.602,
+        -2.005,
+        -2.271
+      ]
+    },
+    "H2S(g)": {
+      "species": {
+        "H+": 1.0,
+        "HS-": 1.0
+      },
+      "molecular weight": 34.082,
+      "logk": [
+        -8.1,
+        -8.053,
+        -8.041,
+        -8.055,
+        -8.219,
+        -8.543,
+        -9.1,
+        -10.248
+      ]
+    },
+    "N2(g)": {
+      "species": {
+        "H2O": -3.0,
+        "NH3(aq)": 2.0,
+        "O2(aq)": 1.5
+      },
+      "molecular weight": 28.013,
+      "logk": [
+        -2.933,
+        -4.718,
+        -6.313,
+        -7.752,
+        -11.4,
+        -14.429,
+        -17.295,
+        -21.213
+      ]
+    },
+    "NH3(g)": {
+      "species": {
+        "NH3(aq)": 1.0
+      },
+      "molecular weight": 17.031,
+      "logk": [
+        57.816,
+        51.758,
+        46.558,
+        42.041,
+        31.443,
+        23.754,
+        17.764,
+        12.336
+      ]
+    },
+    "O2(g)": {
+      "species": {
+        "O2(aq)": 1.0
+      },
+      "molecular weight": 31.999,
+      "logk": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "S2(g)": {
+      "species": {
+        "H2O": -2.0,
+        "SO4--": 0.5,
+        "HS-": 1.5,
+        "H+": 2.5
+      },
+      "molecular weight": 64.132,
+      "logk": [
+        -7.155,
+        -7.716,
+        -8.302,
+        -8.902,
+        -10.759,
+        -12.751,
+        -15.158,
+        -18.817
+      ]
+    },
+    "SO2(g)": {
+      "species": {
+        "H2O": -1.0,
+        "SO4--": 1.0,
+        "H+": 2.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 64.065,
+      "logk": [
+        36.304,
+        31.803,
+        27.859,
+        24.364,
+        15.839,
+        9.202,
+        3.478,
+        -2.264
+      ]
+    }
+  },
+  "redox couples": {
+    "HS-": {
+      "species": {
+        "H+": 1.0,
+        "SO4--": 1.0,
+        "O2(aq)": -2.0
+      },
+      "molecular weight": 33.074,
+      "radius": 3.0,
+      "charge": -1.0,
+      "logk": [
+        132.559,
+        120.407,
+        109.948,
+        100.848,
+        79.427,
+        63.848,
+        51.781,
+        41.871
+      ]
+    },
+    "S2O3--": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 2.0,
+        "SO4--": 2.0,
+        "O2(aq)": -2.0
+      },
+      "molecular weight": 112.13,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        127.848,
+        115.83,
+        105.441,
+        96.361,
+        74.806,
+        58.86,
+        46.145,
+        35.129
+      ]
+    },
+    "Ag++": {
+      "species": {
+        "H2O": -0.5,
+        "Ag+": 1.0,
+        "H+": 1.0,
+        "O2(aq)": 0.25
+      },
+      "molecular weight": 107.868,
+      "radius": 4.5,
+      "charge": 2.0,
+      "logk": [
+        12.793,
+        12.52,
+        12.291,
+        12.099,
+        11.683,
+        11.459,
+        11.4,
+        10.548
+      ]
+    },
+    "Au+++": {
+      "species": {
+        "H2O": -1.0,
+        "Au+": 1.0,
+        "H+": 2.0,
+        "O2(aq)": 0.5
+      },
+      "molecular weight": 196.967,
+      "radius": 5.0,
+      "charge": 3.0,
+      "logk": [
+        5.646,
+        6.686,
+        7.57,
+        8.33,
+        10.115,
+        11.47,
+        12.648,
+        11.611
+      ]
+    },
+    "Br3-": {
+      "species": {
+        "H2O": -1.0,
+        "H+": 2.0,
+        "Br-": 3.0,
+        "O2(aq)": 0.5
+      },
+      "molecular weight": 239.712,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -5.651,
+        -5.019,
+        -4.591,
+        -4.315,
+        -4.127,
+        -4.636,
+        -5.86,
+        -8.455
+      ]
+    },
+    "CN-": {
+      "species": {
+        "H2O": -2.0,
+        "HCO3-": 1.0,
+        "NH3(aq)": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 26.018,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        54.664,
+        49.898,
+        45.804,
+        42.246,
+        33.896,
+        27.87,
+        23.302,
+        19.731
+      ]
+    },
+    "Co+++": {
+      "species": {
+        "H2O": -0.5,
+        "Co++": 1.0,
+        "H+": 1.0,
+        "O2(aq)": 0.25
+      },
+      "molecular weight": 58.933,
+      "radius": 5.0,
+      "charge": 3.0,
+      "logk": [
+        12.167,
+        12.069,
+        11.995,
+        11.939,
+        11.861,
+        11.894,
+        12.023,
+        10.7
+      ]
+    },
+    "Cu+": {
+      "species": {
+        "H+": -1.0,
+        "H2O": 0.5,
+        "Cu++": 1.0,
+        "O2(aq)": -0.25
+      },
+      "molecular weight": 63.546,
+      "radius": 4.0,
+      "charge": 1.0,
+      "logk": [
+        18.091,
+        16.068,
+        14.329,
+        12.817,
+        9.258,
+        6.65,
+        4.599,
+        3.937
+      ]
+    },
+    "Fe+++": {
+      "species": {
+        "H2O": -0.5,
+        "Fe++": 1.0,
+        "H+": 1.0,
+        "O2(aq)": 0.25
+      },
+      "molecular weight": 55.847,
+      "radius": 9.0,
+      "charge": 3.0,
+      "logk": [
+        -7.8,
+        -6.439,
+        -5.271,
+        -4.257,
+        -1.866,
+        -0.098,
+        1.312,
+        1.172
+      ]
+    },
+    "H2(aq)": {
+      "species": {
+        "H2O": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 2.016,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        44.702,
+        40.868,
+        37.556,
+        34.667,
+        27.844,
+        22.876,
+        19.052,
+        15.786
+      ]
+    },
+    "H2AsO3-": {
+      "species": {
+        "H2AsO4-": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 124.936,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        29.044,
+        26.408,
+        24.148,
+        22.19,
+        17.616,
+        14.344,
+        11.887,
+        9.965
+      ]
+    },
+    "HPO3--": {
+      "species": {
+        "HPO4--": 1.0,
+        "O2(aq)": -0.5
+      },
+      "charge": -2.0,
+      "logk": [
+        48.601,
+        44.21,
+        40.427,
+        37.133,
+        29.378,
+        23.757,
+        19.473,
+        16.304
+      ],
+      "molecular weight": 79.9799,
+      "radius": 4.0
+    },
+    "HPO2-": {
+      "species": {
+        "H2O": -0.5,
+        "H+": 1.0,
+        "HPO4--": 1.0,
+        "O2(aq)": -0.75
+      },
+      "charge": -1.0,
+      "logk": [
+        80.469,
+        72.902,
+        66.352,
+        60.622,
+        46.99,
+        36.879,
+        28.823,
+        22.283
+      ],
+      "molecular weight": 63.9805,
+      "radius": 4.0
+    },
+    "HSe-": {
+      "species": {
+        "H+": 1.0,
+        "SeO3--": 1.0,
+        "O2(aq)": -1.5
+      },
+      "charge": -1.0,
+      "logk": [
+        72.583,
+        65.427,
+        59.243,
+        53.842,
+        41.029,
+        31.567,
+        24.06,
+        17.762
+      ],
+      "molecular weight": 79.96794,
+      "radius": 4.0
+    },
+    "Hg2++": {
+      "species": {
+        "H+": -2.0,
+        "H2O": 1.0,
+        "Hg++": 2.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 401.18,
+      "radius": 4.5,
+      "charge": 2.0,
+      "logk": [
+        10.965,
+        9.97,
+        9.126,
+        8.404,
+        6.746,
+        5.547,
+        4.559,
+        4.789
+      ]
+    },
+    "MnO4--": {
+      "species": {
+        "H+": -4.0,
+        "Mn++": 1.0,
+        "H2O": 2.0,
+        "O2(aq)": 1.0
+      },
+      "molecular weight": 118.936,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        35.245,
+        33.447,
+        32.019,
+        30.876,
+        28.647,
+        27.621,
+        27.529,
+        29.919
+      ]
+    },
+    "N2(aq)": {
+      "species": {
+        "H2O": -3.0,
+        "NH3(aq)": 2.0,
+        "O2(aq)": 1.5
+      },
+      "molecular weight": 28.013,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        -111.883,
+        -102.38,
+        -94.308,
+        -87.368,
+        -71.411,
+        -60.282,
+        -52.18,
+        -46.376
+      ]
+    },
+    "NO2-": {
+      "species": {
+        "H+": -1.0,
+        "H2O": -1.0,
+        "NH3(aq)": 1.0,
+        "O2(aq)": 1.5
+      },
+      "molecular weight": 46.006,
+      "radius": 4.0,
+      "charge": -1.0,
+      "logk": [
+        -42.408,
+        -38.202,
+        -34.567,
+        -31.391,
+        -23.849,
+        -18.263,
+        -13.778,
+        -9.422
+      ]
+    },
+    "NO3-": {
+      "species": {
+        "H+": -1.0,
+        "H2O": -1.0,
+        "NH3(aq)": 1.0,
+        "O2(aq)": 2.0
+      },
+      "molecular weight": 62.005,
+      "radius": 3.0,
+      "charge": -1.0,
+      "logk": [
+        -56.169,
+        -50.576,
+        -45.759,
+        -41.563,
+        -31.658,
+        -24.401,
+        -18.683,
+        -13.371
+      ]
+    },
+    "SO3--": {
+      "species": {
+        "SO4--": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 80.064,
+      "radius": 4.0,
+      "charge": -2.0,
+      "logk": [
+        45.071,
+        41.353,
+        38.175,
+        35.426,
+        29.037,
+        24.503,
+        21.129,
+        18.32
+      ]
+    },
+    "SeO4--": {
+      "species": {
+        "SeO3--": 1.0,
+        "O2(aq)": 0.5
+      },
+      "charge": -2.0,
+      "logk": [
+        -12.439,
+        -11.227,
+        -10.191,
+        -9.295,
+        -7.212,
+        -5.736,
+        -4.641,
+        -3.652
+      ],
+      "molecular weight": 142.9576,
+      "radius": 4.0
+    },
+    "Ti+++": {
+      "species": {
+        "H+": -1.0,
+        "Ti++++": 1.0,
+        "H2O": 0.5,
+        "O2(aq)": -0.25
+      },
+      "charge": 3.0,
+      "logk": [
+        11.987,
+        10.206,
+        8.707,
+        7.427,
+        4.505,
+        2.446,
+        0.888,
+        1.434
+      ],
+      "molecular weight": 47.9,
+      "radius": 5.0
+    },
+    "Ti++": {
+      "species": {
+        "H+": -2.0,
+        "Ti++++": 1.0,
+        "H2O": 1.0,
+        "O2(aq)": -0.5
+      },
+      "charge": 2.0,
+      "logk": [
+        39.404,
+        34.401,
+        30.129,
+        26.436,
+        17.823,
+        11.591,
+        6.78,
+        6.497
+      ],
+      "molecular weight": 47.9,
+      "radius": 5.0
+    },
+    "METHANE(aq)": {
+      "species": {
+        "HCO3-": 1.0,
+        "H+": 1.0,
+        "H2O": 1.0,
+        "O2(aq)": -2.0
+      },
+      "molecular weight": 16.043,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        138.31,
+        126.235,
+        115.823,
+        106.751,
+        85.349,
+        69.738,
+        57.593,
+        46.902
+      ]
+    },
+    "FORMIC": {
+      "species": {
+        "FORMIC ACID(aq)": -1.0,
+        "HCO3-": 1.0,
+        "H+": 1.0,
+        "O2(aq)": -0.5
+      },
+      "molecular weight": 46.026,
+      "radius": 3.0,
+      "charge": 0.0,
+      "logk": [
+        37.662,
+        34.053,
+        30.922,
+        28.174,
+        21.58,
+        16.591,
+        12.437,
+        7.955
+      ]
+    }
+  },
+  "oxides": {}
+}
