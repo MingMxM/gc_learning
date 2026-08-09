@@ -4,7 +4,7 @@
       kinetic_species_name = Fo90
       intrinsic_rate_constant = 2.29087e-11    # 10^-10.64 mol/m^2/s at 25 C
       activation_energy = 79.0E3               # J/mol
-      area_quantity = 0.0225                   # m^2/g
+      area_quantity = 0.045                   # m^2/g
       multiply_by_mass = true
       one_over_T0 = 0.003354
   []
@@ -13,7 +13,7 @@
       kinetic_species_name = Fo90
       intrinsic_rate_constant = 1.41425e-7    # 10^-6.85 mol/m^2/s at 25 C
       activation_energy = 67.2E3              # J/mol
-      area_quantity = 0.0225                  # m^2/g
+      area_quantity = 0.045                  # m^2/g
       multiply_by_mass = true
       promoting_species_names = "H+"
       promoting_indices = "0.470"
@@ -25,7 +25,7 @@
       kinetic_species_name = Liz90
       intrinsic_rate_constant = 3.981072e-13   # 10^-12.40 mol/m^2/s at 25 C
       activation_energy = 56.6E3               # J/mol
-      area_quantity = 2.1e-4                   # m^2/g
+      area_quantity = 2e-3                   # m^2/g
       multiply_by_mass = true
       one_over_T0 = 0.003354
   []
@@ -34,7 +34,7 @@
     kinetic_species_name = Liz90
     intrinsic_rate_constant = 1.99526e-6      # 10^-5.70 mol/m^2/s at 25 C
     activation_energy = 75.5E3                # J/mol
-    area_quantity = 2.1e-4                    # m^2/g
+    area_quantity = 2e-3                    # m^2/g
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.800"
@@ -67,7 +67,7 @@
       kinetic_species_name = Brucite85
       intrinsic_rate_constant = 5.754399e-9    # 10^-8.24 mol/m^2/s at 25 C
       activation_energy = 42.0E3               # J/mol
-      area_quantity = 5e-5                     # m^2/g
+      area_quantity = 2e-4                     # m^2/g
       multiply_by_mass = true
       one_over_T0 = 0.003354
   []
@@ -76,7 +76,7 @@
     kinetic_species_name = Brucite85
     intrinsic_rate_constant = 1.86209e-5     # 10^-4.73 mol/m^2/s at 25 C
     activation_energy = 59.0E3               # J/mol
-    area_quantity = 5e-5                     # m^2/g
+    area_quantity = 2e-4                     # m^2/g
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.500"
@@ -110,7 +110,7 @@
     basis_species = "H2O H+ Na+ Cl- Mg++ Fe++ SiO2(aq) O2(aq)"
     # remove_all_extrapolated_secondary_species = true
     kinetic_minerals = "Fo90 Liz90 En90 Brucite85 Magnetite"
-    kinetic_rate_descriptions = "Fo90_rate Fo90_acid Liz90_rate Liz90_acid En90_rate En90_acid Brucite85_rate Brucite85_acid Magnetite_rate Magnetite_acid"
+    kinetic_rate_descriptions = "Fo90_rate Liz90_rate En90_rate Brucite85_rate Magnetite_rate"
   []
 []
 
@@ -130,7 +130,7 @@
     initial_temperature = 200
     temperature = 200
     kinetic_species_name = "         Fo90   Liz90  En90   Brucite85 Magnetite"
-    kinetic_species_initial_value = "0.1095 0.0118 0.0345 3e-3      1e-5"
+    kinetic_species_initial_value = "0.1095 0.0118 0.0345 1e-5      1e-5"
     kinetic_species_unit = "         moles  moles  moles  moles     moles"
     max_initial_residual = 1E-2
     abs_tol = 1e-12
