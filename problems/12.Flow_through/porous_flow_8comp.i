@@ -27,10 +27,10 @@
 # ==========================================================================
 
 # ---- injected brine composition (mass fractions) ----
-na_mf_in   = 0.00393
-cl_mf_in   = 0.00607
+h_mf_in   = 0.000844
+cl_mf_in   = 0.0297
 trace_mf   = 1e-10          # reactive ions: trace in the injected brine
-h2o_mf_in  = 0.98999999950  # = 1 - na - cl - 5*trace
+h2o_mf_in  = 0.9694662409  # = 1 - na - cl - 5*trace
 
 # ---- total injected mass flux at the inlet face (kg/m^2/s) ----
 # Planar 2D: inlet area = width * unit thickness = 0.025 * 1 = 0.025 m^2.
@@ -141,14 +141,14 @@ flux_total = 8.27e-6
     type = PorousFlowSink
     variable = f0
     boundary = inlet
-    flux_function = ${fparse -flux_total * trace_mf}
+    flux_function = ${fparse -flux_total * h_mf_in}
     fluid_phase = 0
   []
   [inject_Na]
     type = PorousFlowSink
     variable = f1
     boundary = inlet
-    flux_function = ${fparse -flux_total * na_mf_in}
+    flux_function = ${fparse -flux_total * trace_mf}
     fluid_phase = 0
   []
   [inject_Cl]
