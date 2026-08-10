@@ -33,16 +33,18 @@ trace_mf   = 1e-10          # reactive ions: trace in the injected brine
 h2o_mf_in  = 0.98999999950  # = 1 - na - cl - 5*trace
 
 # ---- total injected mass flux at the inlet face (kg/m^2/s) ----
-# 0.015 cm3/min * 827 kg/m3 / (pi*0.0125^2 m2) = 4.2119e-4
-flux_total = 4.2119e-4
+# Planar 2D: inlet area = width * unit thickness = 0.025 * 1 = 0.025 m^2.
+# To keep the real 0.015 cm3/min injection:
+#   flux = (0.015e-6/60 * 827) / 0.025 = 8.27e-6 kg/m^2/s
+flux_total = 8.27e-6
 
 [Mesh]
   [gen]
     type = GeneratedMeshGenerator
     dim  = 2
-    nx   = 6
+    nx   = 10
     xmin = 0.0
-    xmax = 0.0125            # radius = 1.25 cm
+    xmax = 0.025             # width = 2.5 cm (full width, planar 2D)
     ny   = 60
     ymin = 0.0
     ymax = 0.075             # length = 7.5 cm
@@ -51,10 +53,9 @@ flux_total = 4.2119e-4
     type = RenameBoundaryGenerator
     input = gen
     old_boundary = 'left right bottom top'
-    new_boundary = 'axis wall inlet outlet'
+    new_boundary = 'side1 side2 inlet outlet'
   []
-  coord_type = RZ
-  rz_coord_axis = Y
+  # planar 2D (Cartesian): no coord_type=RZ, no axis. A unit-thickness slab.
 []
 
 [GlobalParams]
@@ -346,6 +347,7 @@ flux_total = 4.2119e-4
 
 # ==========================================================================
 # COUPLING TO GEOCHEMISTRY (add when ready, GeoTES-style):
+
 [MultiApps]
   [react]
     type = TransientMultiApp

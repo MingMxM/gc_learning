@@ -27,7 +27,7 @@
     kinetic_species_name = Fo90
     intrinsic_rate_constant = 2.29087e-11
     activation_energy = 79.0E3
-    area_quantity = 0.0525
+    area_quantity = 0.0225
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -36,7 +36,7 @@
     kinetic_species_name = Fo90
     intrinsic_rate_constant = 1.41425e-7
     activation_energy = 67.2E3
-    area_quantity = 0.0525
+    area_quantity = 0.0225
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.470"
@@ -47,7 +47,7 @@
     kinetic_species_name = Liz90
     intrinsic_rate_constant = 3.981072e-13
     activation_energy = 56.6E3
-    area_quantity = 2.1e-3
+    area_quantity = 2.1e-4
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -56,7 +56,7 @@
     kinetic_species_name = Liz90
     intrinsic_rate_constant = 1.99526e-6
     activation_energy = 75.5E3
-    area_quantity = 2.1e-3
+    area_quantity = 2.1e-4
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.800"
@@ -67,7 +67,7 @@
     kinetic_species_name = En90
     intrinsic_rate_constant = 1.905461e-13
     activation_energy = 80.0E3
-    area_quantity = 0.015
+    area_quantity = 0.008
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -76,7 +76,7 @@
     kinetic_species_name = En90
     intrinsic_rate_constant = 9.549926e-10
     activation_energy = 80.0E3
-    area_quantity = 0.015
+    area_quantity = 0.008
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.600"
@@ -161,7 +161,7 @@
   remove_fixed_activity_name = 'H+'
   remove_fixed_activity_time = '0'
 
-  initial_temperature = 240
+  initial_temperature = 230
   temperature = temperature
 
   # kinetic minerals initial amounts (per your batch file)
@@ -197,9 +197,9 @@
   [gen]
     type = GeneratedMeshGenerator
     dim  = 2
-    nx   = 6
+    nx   = 10
     xmin = 0.0
-    xmax = 0.0125            # radius = 1.25 cm
+    xmax = 0.025             # width = 2.5 cm (full width, planar 2D)
     ny   = 60
     ymin = 0.0
     ymax = 0.075             # length = 7.5 cm
@@ -208,10 +208,10 @@
     type = RenameBoundaryGenerator
     input = gen
     old_boundary = 'left right bottom top'
-    new_boundary = 'axis wall inlet outlet'
+    new_boundary = 'side1 side2 inlet outlet'
   []
-  coord_type = RZ
-  rz_coord_axis = Y
+  # planar 2D (Cartesian), matches the main app. With clone_master_mesh=true
+  # in the main app the mesh is cloned from there; kept here for standalone runs.
 []
 
 [GlobalParams]
@@ -231,7 +231,7 @@
 
 [AuxVariables]
   [temperature]
-    initial_condition = 240
+    initial_condition = 230
   []
   [porosity]
     initial_condition = 0.334
