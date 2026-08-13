@@ -4,7 +4,7 @@
       kinetic_species_name = Fo91_IdealMix
       intrinsic_rate_constant = 1.41425e-7   # 10^-6.85 mol/m^2/s at 25 C
       activation_energy = 67.2E3             # J/mol
-      area_quantity = 0.0225                 # m^2/g
+      area_quantity = 0.00225                 # m^2/g
       multiply_by_mass = true
       promoting_species_names = "H+"
       promoting_indices = "0.470"
@@ -15,7 +15,7 @@
       kinetic_species_name = Fo91_IdealMix
       intrinsic_rate_constant = 2.29087e-11   # 10^-10.64 mol/m^2/s at 25 C
       activation_energy = 79.0E3              # J/mol
-      area_quantity = 0.0225                  # m^2/g
+      area_quantity = 0.00225                  # m^2/g
       multiply_by_mass = true
       one_over_T0 = 0.003354
   []
@@ -25,7 +25,7 @@
     kinetic_species_name = Serpentine_230_320C
     intrinsic_rate_constant = 1.99526e-6     # 10^-5.70 mol/m^2/s at 25 C
     activation_energy = 75.5E3               # J/mol
-    area_quantity = 0.0225                   # m^2/g
+    area_quantity = 0.00225                   # m^2/g
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.800"
@@ -36,7 +36,7 @@
       kinetic_species_name = Serpentine_230_320C
       intrinsic_rate_constant = 3.98107e-13   # 10^-12.40 mol/m^2/s at 25 C
       activation_energy = 56.6E3              # J/mol
-      area_quantity = 0.0225                  # m^2/g
+      area_quantity = 0.00225                  # m^2/g
       multiply_by_mass = true
       one_over_T0 = 0.003354
   []
@@ -46,7 +46,7 @@
     kinetic_species_name = Brucite_265_300C
     intrinsic_rate_constant = 1.86209e-5     # 10^-4.73 mol/m^2/s at 25 C
     activation_energy = 59.0E3               # J/mol
-    area_quantity = 0.0225                   # m^2/g
+    area_quantity = 0.00225                   # m^2/g
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.500"
@@ -57,7 +57,7 @@
       kinetic_species_name = Brucite_265_300C
       intrinsic_rate_constant = 5.754399e-9   # 10^-8.24 mol/m^2/s at 25 C
       activation_energy = 42.0E3              # J/mol
-      area_quantity = 0.0225                  # m^2/g
+      area_quantity = 0.00225                  # m^2/g
       multiply_by_mass = true
       one_over_T0 = 0.003354
   []
@@ -67,7 +67,7 @@
     kinetic_species_name = MAGNETITE
     intrinsic_rate_constant = 2.57039e-9     # 10^-8.59 mol/m^2/s at 25 C
     activation_energy = 18.6E3               # J/mol
-    area_quantity = 0.0225                   # m^2/g
+    area_quantity = 0.00225                   # m^2/g
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.279"
@@ -78,7 +78,7 @@
       kinetic_species_name = MAGNETITE
       intrinsic_rate_constant = 1.659587e-11   # 10^-10.78 mol/m^2/s at 25 C
       activation_energy = 18.6E3               # J/mol
-      area_quantity = 0.0225                   # m^2/g
+      area_quantity = 0.00225                   # m^2/g
       multiply_by_mass = true
       one_over_T0 = 0.003354
   []
@@ -127,7 +127,7 @@
   type = Transient
   [TimeStepper]
     type = FunctionDT
-    function = 'max(10, 0.2 * t)'
+    function = 'max(10, 0.1 * t)'
   []
   end_time = 8640000        # 100 day
 []

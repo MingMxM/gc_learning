@@ -27,7 +27,7 @@
     kinetic_species_name = Fo90
     intrinsic_rate_constant = 2.29087e-11
     activation_energy = 79.0E3
-    area_quantity = 2.25e-3
+    area_quantity = 2.25e-2
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -36,7 +36,7 @@
     kinetic_species_name = Fo90
     intrinsic_rate_constant = 1.41425e-7
     activation_energy = 67.2E3
-    area_quantity = 2.25e-3
+    area_quantity = 2.25e-2
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.470"
@@ -47,7 +47,7 @@
     kinetic_species_name = Liz90
     intrinsic_rate_constant = 3.981072e-13
     activation_energy = 56.6E3
-    area_quantity = 2.1e-5
+    area_quantity = 2.1e-4
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -56,7 +56,7 @@
     kinetic_species_name = Liz90
     intrinsic_rate_constant = 1.99526e-6
     activation_energy = 75.5E3
-    area_quantity = 2.1e-5
+    area_quantity = 2.1e-4
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.800"
@@ -67,7 +67,7 @@
     kinetic_species_name = En90
     intrinsic_rate_constant = 1.905461e-13
     activation_energy = 80.0E3
-    area_quantity = 8e-4
+    area_quantity = 8e-3
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -76,7 +76,7 @@
     kinetic_species_name = En90
     intrinsic_rate_constant = 9.549926e-10
     activation_energy = 80.0E3
-    area_quantity = 8e-4
+    area_quantity = 8e-3
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.600"
@@ -87,7 +87,7 @@
     kinetic_species_name = Brucite85
     intrinsic_rate_constant = 5.754399e-9
     activation_energy = 42.0E3
-    area_quantity = 5e-6
+    area_quantity = 5e-5
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -96,7 +96,7 @@
     kinetic_species_name = Brucite85
     intrinsic_rate_constant = 1.86209e-5
     activation_energy = 59.0E3
-    area_quantity = 5e-6
+    area_quantity = 5e-5
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.500"
@@ -312,6 +312,20 @@
   []
   [massfrac_H2O]
   []
+
+  # ---- mineral volumes percentage ----
+  [volpct_Fo90]
+  []
+  [volpct_Liz90]
+  []
+  [volpct_En90]
+  []
+  [volpct_Brucite85]
+  []
+  [volpct_Magnetite]
+  []
+  [total_solid_cm3]
+  []
 []
 
 [AuxKernels]
@@ -514,6 +528,52 @@
     expression = 'transported_H2O * 18.01801802 / transported_mass'
     execute_on = 'timestep_end'
   []
+
+# ---- total solid volume (cm3 per 1000 cm3 = per litre of solution basis) ----
+  [total_solid_cm3_auxk]
+    type = ParsedAux
+    coupled_variables = 'free_cm3_Fo90 free_cm3_Liz90 free_cm3_En90 free_cm3_Brucite85 free_cm3_Magnetite'
+    expression = 'free_cm3_Fo90 + free_cm3_Liz90 + free_cm3_En90 + free_cm3_Brucite85 + free_cm3_Magnetite'
+    variable = total_solid_cm3
+    execute_on = 'timestep_end'
+  []
+
+  # ---- each mineral volume as percent of solid volume (solids + 1000 cm3 solution) ----
+  [volpct_Fo90_auxk]
+    type = ParsedAux
+    coupled_variables = 'free_cm3_Fo90 total_solid_cm3'
+    expression = '100.0 * free_cm3_Fo90 / (total_solid_cm3)'
+    variable = volpct_Fo90
+    execute_on = 'timestep_end'
+  []
+  [volpct_Liz90_auxk]
+    type = ParsedAux
+    coupled_variables = 'free_cm3_Liz90 total_solid_cm3'
+    expression = '100.0 * free_cm3_Liz90 / (total_solid_cm3)'
+    variable = volpct_Liz90
+    execute_on = 'timestep_end'
+  []
+  [volpct_En90_auxk]
+    type = ParsedAux
+    coupled_variables = 'free_cm3_En90 total_solid_cm3'
+    expression = '100.0 * free_cm3_En90 / (total_solid_cm3)'
+    variable = volpct_En90
+    execute_on = 'timestep_end'
+  []
+  [volpct_Brucite85_auxk]
+    type = ParsedAux
+    coupled_variables = 'free_cm3_Brucite85 total_solid_cm3'
+    expression = '100.0 * free_cm3_Brucite85 / (total_solid_cm3)'
+    variable = volpct_Brucite85
+    execute_on = 'timestep_end'
+  []
+  [volpct_Magnetite_auxk]
+    type = ParsedAux
+    coupled_variables = 'free_cm3_Magnetite total_solid_cm3'
+    expression = '100.0 * free_cm3_Magnetite / (total_solid_cm3)'
+    variable = volpct_Magnetite
+    execute_on = 'timestep_end'
+  []
 []
 
 [Postprocessors]
@@ -548,6 +608,21 @@
   [H2_outlet]
     type = SideAverageValue
     variable = molal_H2(aq)
+    boundary = outlet
+  []
+  [Mg_outlet]
+    type = SideAverageValue
+    variable = molal_Mg++
+    boundary = outlet
+  []
+  [Fe_outlet]
+    type = SideAverageValue
+    variable = molal_Fe++
+    boundary = outlet
+  []
+  [SiO2_outlet]
+    type = SideAverageValue
+    variable = molal_SiO2(aq)
     boundary = outlet
   []
 []
