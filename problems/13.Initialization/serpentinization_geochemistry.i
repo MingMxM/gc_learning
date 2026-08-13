@@ -154,20 +154,20 @@
 
   # initial solution composition (per your batch file), assumed at each node
   constraint_species = "H2O               H+            Na+              Cl-              Mg++             Fe++             SiO2(aq)         H2(aq)"
-  constraint_value    = "1                -7.0          0.001            0.001            1e-5             1e-5             1e-5             1e-5"
+  constraint_value    = "1                -7.0          0.001            0.001            1e-8             1e-8             1e-8             1e-8"
   constraint_meaning  = "kg_solvent_water log10activity bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition"
   constraint_unit     = "kg               dimensionless moles            moles            moles            moles            moles            moles"
 
   remove_fixed_activity_name = 'H+'
   remove_fixed_activity_time = '0'
 
-  initial_temperature = 230
+  initial_temperature = 200
   temperature = temperature
 
   # kinetic minerals initial amounts (per your batch file)
-  kinetic_species_name          = "Fo90    Liz90    En90    Brucite85 Magnetite"
-  kinetic_species_initial_value = "42.1995 0.363789 3.06899 1e-3      1e-5"
-  kinetic_species_unit          = "moles   moles    moles   moles     moles"
+  kinetic_species_name          = "Fo90    Liz90 En90  Brucite85 Magnetite"
+  kinetic_species_initial_value = "690     5     40    1e-3      1e-5"
+  kinetic_species_unit          = "moles   moles moles moles     moles"
 
   # transport source terms from the main app (mol/s per litre of solution)
   source_species_names = 'H+            Na+            Cl-            Mg++           Fe++           SiO2(aq)         O2(aq)         H2O'
@@ -180,7 +180,7 @@
   abs_tol = 1e-12
 
   execute_console_output_on = ''
-  # add_aux_molal = false
+  add_aux_molal = false
   add_aux_mg_per_kg = false
   add_aux_free_mg = false
   add_aux_activity = false
@@ -545,11 +545,6 @@
   #   type = PointValue
   #   variable = 'molal_H2(aq)'
   # []
-  [H2_outlet]
-    type = SideAverageValue
-    variable = molal_H2(aq)
-    boundary = outlet
-  []
 []
 
 [Outputs]
