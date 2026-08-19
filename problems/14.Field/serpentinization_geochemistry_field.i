@@ -180,7 +180,7 @@
   stoichiometric_ionic_str_using_Cl_only = true
   evaluate_kinetic_rates_always = true
   max_initial_residual = 1E-2
-  abs_tol = 1e-12
+  abs_tol = 1e-10
 
   execute_console_output_on = ''
   # add_aux_molal = false
@@ -215,10 +215,10 @@
   type = Transient
   solve_type = Newton
   dt = 86400
-  end_time = 20736000      # 240 days (huff-n-puff cycle, matches main app)
+  end_time = 5.184e+6      # 240 days (huff-n-puff cycle, matches main app)
   # [TimeStepper]
   #   type = FunctionDT
-  #   function = 'min(max(100, 0.05 * t), 43200)'
+  #   function = 'min(max(100, 0.05 * t), 14400)'
   # []
 []
 

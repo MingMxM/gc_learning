@@ -33,28 +33,28 @@
 # ==========================================================================
 
 # ---- injected acid composition (mass fractions), pH ~ 2 dilute HCl ----
-h_mf_in    = 1e-5
-cl_mf_in   = 3.52e-4
+h_mf_in    = 5e-5
+cl_mf_in   = 1.76e-3
 trace_mf   = 1e-10          # Na, Mg, Fe, SiO2, O2: trace in injected acid
 # h2o_mf_in  = 0.9996379995   # = 1 - h - cl - 5*trace
 
 # ---- pressure-controlled injection / production ----
 p_inject   = 45e6           # 40 MPa injection bottomhole pressure (huff)
-p_produce  = 30e6           # 30 MPa production bottomhole pressure (puff)
+p_produce  = 25e6           # 30 MPa production bottomhole pressure (puff)
 
 # ---- huff-and-puff schedule (days) ----
-inject_days  = 30
+inject_days  = 15
 soak_days    = 30
-produce_days = 30
+produce_days = 15
 t_inject_end  = ${fparse inject_days * 86400}
 t_soak_end    = ${fparse (inject_days + soak_days) * 86400}
 t_produce_end = ${fparse (inject_days + soak_days + produce_days) * 86400}
 
 # ---- reservoir pressure / properties ----
-p_init   = 30e6            # 30 MPa formation pressure
+p_init   = 25e6            # 25 MPa formation pressure
 phi_mat  = 0.05
 phi_frac = 0.15
-k_mat    = 3e-18           # 0.003 mD
+k_mat    = 5e-18           # 0.005 mD
 k_frac   = 5e-14           # 50 mD
 
 [Mesh]
@@ -406,12 +406,19 @@ k_frac   = 5e-14           # 50 mD
 []
 
 [Preconditioning]
-  active = basic
-  [basic]
+  active = typically_efficient
+  [typically_efficient]
     type = SMP
     full = true
     petsc_options_iname = '-pc_type -pc_hypre_type'
     petsc_options_value = ' hypre    boomeramg'
+  []
+  [strong]
+    type = SMP
+    full = true
+    petsc_options = '-ksp_diagonal_scale -ksp_diagonal_scale_fix'
+    petsc_options_iname = '-pc_type -sub_pc_type -sub_pc_factor_shift_type -pc_asm_overlap'
+    petsc_options_value = ' asm      ilu           NONZERO                   2'
   []
 []
 
