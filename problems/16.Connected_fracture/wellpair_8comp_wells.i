@@ -32,13 +32,15 @@ p_produce = 10e6
 p_init   = 25e6
 phi_mat  = 0.05
 phi_frac = 0.35
+phi_nf   = 0.15                 # natural fracture porosity (15%)
 k_mat    = 1e-17
 k_frac   = 5e-14
+k_nf     = 5e-15                # natural fracture permeability (5 mD)
 
 [Mesh]
   [fmg]
     type = FileMeshGenerator
-    file = zipper_domain_light.msh
+    file = zipper_domain_nf.msh
   []
 []
 
@@ -109,6 +111,11 @@ k_frac   = 5e-14
     porosity = ${phi_frac}
     block = fracture
   []
+  [porosity_natural_fracture]
+    type = PorousFlowPorosityConst
+    porosity = ${phi_nf}
+    block = natural_fracture
+  []
   [permeability_matrix]
     type = PorousFlowPermeabilityConst
     permeability = '${k_mat} 0        0
@@ -122,6 +129,13 @@ k_frac   = 5e-14
                     0         ${k_frac} 0
                     0         0         ${k_frac}'
     block = fracture
+  []
+  [permeability_natural_fracture]
+    type = PorousFlowPermeabilityConst
+    permeability = '${k_nf} 0       0
+                    0       ${k_nf} 0
+                    0       0       ${k_nf}'
+    block = natural_fracture
   []
   # Diffusivity material required by PorousFlowDispersiveFlux: tortuosity per
   # phase and a diffusion coefficient per component (8). Dispersion smooths the

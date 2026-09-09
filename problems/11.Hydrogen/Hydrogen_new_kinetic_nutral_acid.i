@@ -149,7 +149,7 @@
     type = FunctionDT
     function = 'min(max(10, 0.1 * t),3600)'
   []
-  end_time = 2592000        # 30 day
+  end_time = 25920000        # 30 day
 []
 
 [Postprocessors]
