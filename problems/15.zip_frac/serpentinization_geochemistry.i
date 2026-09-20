@@ -27,7 +27,7 @@
     kinetic_species_name = Fo90
     intrinsic_rate_constant = 2.29087e-11
     activation_energy = 79.0E3
-    area_quantity = 2.25e-2
+    area_quantity = 2.25e-3
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -36,7 +36,7 @@
     kinetic_species_name = Fo90
     intrinsic_rate_constant = 1.41425e-7
     activation_energy = 67.2E3
-    area_quantity = 2.25e-2
+    area_quantity = 2.25e-3
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.470"
@@ -47,7 +47,7 @@
     kinetic_species_name = Liz90
     intrinsic_rate_constant = 3.981072e-13
     activation_energy = 56.6E3
-    area_quantity = 2.1e-4
+    area_quantity = 2.1e-5
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -56,7 +56,7 @@
     kinetic_species_name = Liz90
     intrinsic_rate_constant = 1.99526e-6
     activation_energy = 75.5E3
-    area_quantity = 2.1e-4
+    area_quantity = 2.1e-5
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.800"
@@ -67,7 +67,7 @@
     kinetic_species_name = En90
     intrinsic_rate_constant = 1.905461e-13
     activation_energy = 80.0E3
-    area_quantity = 8e-3
+    area_quantity = 8e-4
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -76,7 +76,7 @@
     kinetic_species_name = En90
     intrinsic_rate_constant = 9.549926e-10
     activation_energy = 80.0E3
-    area_quantity = 8e-3
+    area_quantity = 8e-4
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.600"
@@ -87,7 +87,7 @@
     kinetic_species_name = Brucite85
     intrinsic_rate_constant = 5.754399e-9
     activation_energy = 42.0E3
-    area_quantity = 5e-5
+    area_quantity = 5e-6
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -96,7 +96,7 @@
     kinetic_species_name = Brucite85
     intrinsic_rate_constant = 1.86209e-5
     activation_energy = 59.0E3
-    area_quantity = 5e-5
+    area_quantity = 5e-6
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.500"
@@ -107,7 +107,7 @@
     kinetic_species_name = Magnetite
     intrinsic_rate_constant = 1.659587e-11
     activation_energy = 18.6E3
-    area_quantity = 1e-10
+    area_quantity = 1e-11
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -116,7 +116,7 @@
     kinetic_species_name = Magnetite
     intrinsic_rate_constant = 2.57039e-9
     activation_energy = 18.6E3
-    area_quantity = 1e-10
+    area_quantity = 1e-11
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.279"
@@ -136,7 +136,10 @@
   [nodal_void_volume_uo]
     type = NodalVoidVolume
     porosity = porosity
-    execute_on = 'initial timestep_end'
+    # also compute at timestep_begin so the source-rate conversion (which runs
+    # at timestep_begin) divides by an up-to-date void volume rather than one
+    # left over from the previous step.
+    execute_on = 'initial timestep_begin timestep_end'
   []
 []
 
@@ -215,7 +218,8 @@
   type = Transient
   solve_type = Newton
   dt = 86400
-  end_time = 5.184e+6      # MUST match the main app end_time (adjust to your run)
+  # end_time = 5.184e+6      # MUST match the main app end_time (adjust to your run)
+  end_time = 1.5552e+7    # 180 days (adjust to your run)
   # [TimeStepper]
   #   type = FunctionDT
   #   function = 'min(max(100, 0.05 * t), 14400)'
@@ -227,7 +231,11 @@
     initial_condition = 200
   []
   [porosity]
-    initial_condition = 0.05
+    # block-dependent initial porosity set in [ICs]: matrix 0.05, fracture 0.35.
+    # The [ICs] block covers BOTH blocks, so the field is fully initialized
+    # everywhere before NodalVoidVolume reads it on 'initial'. Do not add an
+    # initial_condition here: it would duplicate the [ICs] and MOOSE errors on
+    # a doubly-defined initial condition.
   []
   [nodal_void_volume]
   []
@@ -327,13 +335,39 @@
   []
 []
 
+# --------------------------------------------------------------------------
+# Block-dependent initial porosity: matrix 0.05, fracture 0.35.
+# The fracture is a high-porosity flow conduit; giving it the correct (large)
+# pore-water volume prevents reaction products such as H2 from being computed
+# at spuriously high concentrations there. (Mineral initial amounts stay
+# uniform because the framework does not support spatially-varying initial
+# mineral values; the fracture's small volume and high porosity keep its
+# contribution minor.)
+# --------------------------------------------------------------------------
+[ICs]
+  [poro_matrix]
+    type = ConstantIC
+    variable = porosity
+    value = 0.05
+    block = matrix
+  []
+  [poro_fracture]
+    type = ConstantIC
+    variable = porosity
+    value = 0.35
+    block = fracture
+  []
+[]
+
 [AuxKernels]
   # nodal void volume
   [nodal_void_volume_auxk]
     type = NodalVoidVolumeAux
     variable = nodal_void_volume
     nodal_void_volume_uo = nodal_void_volume_uo
-    execute_on = 'initial timestep_end'
+    # update at timestep_begin too so the value is fresh before the
+    # rate_*_per_1l conversions (also timestep_begin) read it.
+    execute_on = 'initial timestep_begin timestep_end'
   []
 
   # porosity from kinetic mineral volumes (volume expansion -> porosity drop)
@@ -342,6 +376,7 @@
     coupled_variables = 'free_cm3_Fo90 free_cm3_Liz90 free_cm3_En90 free_cm3_Brucite85 free_cm3_Magnetite'
     expression = '1156.0 / (1156.0 + free_cm3_Fo90 + free_cm3_Liz90 + free_cm3_En90 + free_cm3_Brucite85 + free_cm3_Magnetite)'
     variable = porosity
+    block = matrix
     execute_on = 'timestep_end'
   []
 
@@ -350,56 +385,56 @@
     type = ParsedAux
     coupled_variables = 'pf_rate_H nodal_void_volume'
     variable = rate_H_per_1l
-    expression = 'pf_rate_H / 1.0079 / nodal_void_volume'
+    expression = 'pf_rate_H / 1.0079 / max(nodal_void_volume, 1e-6)'
     execute_on = 'timestep_begin'
   []
   [rate_Na_per_1l_auxk]
     type = ParsedAux
     coupled_variables = 'pf_rate_Na nodal_void_volume'
     variable = rate_Na_per_1l
-    expression = 'pf_rate_Na / 22.9898 / nodal_void_volume'
+    expression = 'pf_rate_Na / 22.9898 / max(nodal_void_volume, 1e-6)'
     execute_on = 'timestep_begin'
   []
   [rate_Cl_per_1l_auxk]
     type = ParsedAux
     coupled_variables = 'pf_rate_Cl nodal_void_volume'
     variable = rate_Cl_per_1l
-    expression = 'pf_rate_Cl / 35.453 / nodal_void_volume'
+    expression = 'pf_rate_Cl / 35.453 / max(nodal_void_volume, 1e-6)'
     execute_on = 'timestep_begin'
   []
   [rate_Mg_per_1l_auxk]
     type = ParsedAux
     coupled_variables = 'pf_rate_Mg nodal_void_volume'
     variable = rate_Mg_per_1l
-    expression = 'pf_rate_Mg / 24.305 / nodal_void_volume'
+    expression = 'pf_rate_Mg / 24.305 / max(nodal_void_volume, 1e-6)'
     execute_on = 'timestep_begin'
   []
   [rate_Fe_per_1l_auxk]
     type = ParsedAux
     coupled_variables = 'pf_rate_Fe nodal_void_volume'
     variable = rate_Fe_per_1l
-    expression = 'pf_rate_Fe / 55.847 / nodal_void_volume'
+    expression = 'pf_rate_Fe / 55.847 / max(nodal_void_volume, 1e-6)'
     execute_on = 'timestep_begin'
   []
   [rate_SiO2_per_1l_auxk]
     type = ParsedAux
     coupled_variables = 'pf_rate_SiO2 nodal_void_volume'
     variable = rate_SiO2_per_1l
-    expression = 'pf_rate_SiO2 / 60.0843 / nodal_void_volume'
+    expression = 'pf_rate_SiO2 / 60.0843 / max(nodal_void_volume, 1e-6)'
     execute_on = 'timestep_begin'
   []
   [rate_O2_per_1l_auxk]
     type = ParsedAux
     coupled_variables = 'pf_rate_O2 nodal_void_volume'
     variable = rate_O2_per_1l
-    expression = 'pf_rate_O2 / 31.9988 / nodal_void_volume'
+    expression = 'pf_rate_O2 / 31.9988 / max(nodal_void_volume, 1e-6)'
     execute_on = 'timestep_begin'
   []
   [rate_H2O_per_1l_auxk]
     type = ParsedAux
     coupled_variables = 'pf_rate_H2O nodal_void_volume'
     variable = rate_H2O_per_1l
-    expression = 'pf_rate_H2O / 18.01801802 / nodal_void_volume'
+    expression = 'pf_rate_H2O / 18.01801802 / max(nodal_void_volume, 1e-6)'
     execute_on = 'timestep_begin'
   []
 
@@ -652,6 +687,36 @@
   [H2_molal_domain]
     type = ElementIntegralVariablePostprocessor
     variable = h2_molal
+  []
+
+  # ---- diagnostics for the injection-face artifact ----
+  # If rate_H_per_1l_max is orders of magnitude larger than elsewhere and
+  # void_volume_min is tiny, the H2 spike is the void-volume division artifact,
+  # not real chemistry. Watch these two together at the injection well.
+  [rate_H_per_1l_max]
+    type = NodalExtremeValue
+    variable = rate_H_per_1l
+    value_type = max
+  []
+  [rate_H_per_1l_min]
+    type = NodalExtremeValue
+    variable = rate_H_per_1l
+    value_type = min
+  []
+  [void_volume_min]
+    type = NodalExtremeValue
+    variable = nodal_void_volume
+    value_type = min
+  []
+  [void_volume_max]
+    type = NodalExtremeValue
+    variable = nodal_void_volume
+    value_type = max
+  []
+  [H2_molal_max]
+    type = NodalExtremeValue
+    variable = h2_molal
+    value_type = max
   []
 []
 

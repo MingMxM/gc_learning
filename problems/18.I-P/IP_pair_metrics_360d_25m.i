@@ -1,78 +1,56 @@
 # ==========================================================================
-# 8-component PorousFlow HUFF-AND-PUFF (inject acid -> soak -> produce)
-# Unified baseline version for comparison with the injection-production cases.
-# Fracture + matrix mesh, closed unit, isothermal 200 C.
+# REACTIVE-METRICS VERSION
+# Injection-production pair, continuous acid injection/production for 360 d.
+# Metrics:
+#   I_i(t) = 1 when pH_i <= pH_crit, else 0
+#   A_rs_2D = sum(I_i A_i)
+#   V_rs    = A_rs_2D * out_of_plane_width
+#   V_p_rs  = sum(I_i phi_i A_i) * out_of_plane_width
+#   Q_eff   = V_w,inj(t) / t
+#   tau_h   = V_p_rs / Q_eff
+# The default out-of-plane width is defined in the geochemistry metrics file.
+# ==========================================================================
+# ==========================================================================
+# 8-component PorousFlow INJECTION-PRODUCTION WELL PAIR (zipper fractures)
+# FLOW STAGE: inject ACID at lower well, produce at upper well, both on.
 #
-# COMMON BASELINE PARAMETERS
-#   Formation pressure       = 25 MPa
-#   Injection BHP            = 40 MPa
-#   Production BHP           = 10 MPa
-#   Matrix porosity          = 0.05 (constant)
-#   Matrix permeability      = 1e-17 m^2 (~0.01 mD)
-#   Hydraulic-fracture phi   = 0.35 (constant)
-#   Hydraulic-fracture perm  = 5e-14 m^2 (~50 mD)
-#   Injected acid            = 0.05 M HCl
-#   Molecular diffusion      = 4e-9 m^2/s
-#   dtmax                    = 1 day
-#   nl_abs_tol               = 1e-7
-#   nl_max_its               = 10
+# Components (match the geochemistry basis H2O H+ Na+ Cl- Mg++ Fe++ SiO2 O2):
+#   f0=H+  f1=Na+  f2=Cl-  f3=Mg++  f4=Fe++  f5=SiO2  f6=O2 ; porepressure=H2O
 #
-# HNP BASELINE SCHEDULE (360-day common comparison horizon)
-#   Inject  : 0   - 30  day
-#   Soak    : 30  - 330 day
-#   Produce : 330 - 360 day
-# NOTE: only inject_days / soak_days / produce_days need to be changed if a
-# different HnP operating schedule is selected later.
+# Injected fluid at the lower well is 0.05 M HCl, matching the HnP baseline:
+#   H+ and Cl- at finite mass fractions, other ions at trace, H2O the balance.
+# Injection well: inlet held at p_inject AND at the acid composition.
+# Production well: outlet held at p_produce; solutes leave via OutflowBC.
 #
-# Well representation is now consistent with the I-P cases:
-#   PorousFlowPeacemanBorehole is used for both injection and production.
-#   Because HnP uses a single physical well, both huff and puff use the same
-#   point_file = injection.bh / production.bh.  The injection phase uses 40 MPa and the
-#   production phase uses 10 MPa.
-#
-# Eight fluid components (same order as the geochemistry basis):
-#   f0 = H+     (component 0)
-#   f1 = Na+    (component 1)
-#   f2 = Cl-    (component 2)
-#   f3 = Mg++   (component 3)
-#   f4 = Fe++   (component 4)
-#   f5 = SiO2   (component 5)
-#   f6 = O2     (component 6)
-#   porepressure = H2O (component 7, LAST component)
-#
-# Mesh blocks : "fracture", "matrix"
-# Mesh sides  : "inlet"(fracture bottom), "outlet_top", "left", "right", "bottom"
+# save_component_rate_in keeps per-node rates for later geochemistry coupling.
+# Mesh sides: "inlet"(inj frac bottom), "outlet"(prod frac top), left/right/bottom/top
 # ==========================================================================
 
 # ---- injected acid composition: 0.05 M HCl at rho = 865 kg/m3 ----
 h_mf_in   = 5.83e-5
 cl_mf_in  = 2.05e-3
-trace_mf  = 1e-10          # Na, Mg, Fe, SiO2, O2 trace in injected acid
+trace_mf  = 1e-10           # Na, Mg, Fe, SiO2, O2 trace in injected acid
 # H2O mass fraction is the balance (~0.9978917)
 
-# ---- pressure-controlled injection / production ----
-p_inject   = 40e6
-p_produce  = 25e6
+# ---- continuous injection-production stage length (days) ----
+flow_days = 360
+t_end     = ${fparse flow_days * 86400}
 
-# ---- HnP schedule (days), total = 360 days ----
-inject_days  = 30
-soak_days    = 300
-produce_days = 30
-t_inject_end  = ${fparse inject_days * 86400}
-t_soak_end    = ${fparse (inject_days + soak_days) * 86400}
-t_produce_end = ${fparse (inject_days + soak_days + produce_days) * 86400}
+# ---- well pressures ----
+p_inject  = 40e6
+p_produce = 10e6
 
-# ---- reservoir pressure / properties ----
+# ---- reservoir ----
 p_init   = 25e6
 phi_mat  = 0.05
 phi_frac = 0.35
-k_mat    = 1e-17           # ~0.01 mD
-k_frac   = 5e-14           # ~50 mD
+k_mat    = 1e-17
+k_frac   = 5e-14
 
 [Mesh]
   [fmg]
     type = FileMeshGenerator
-    file = fracture_domain.msh
+    file = zipper_domain_25m.msh
   []
 []
 
@@ -133,9 +111,6 @@ k_frac   = 5e-14           # ~50 mD
 []
 
 [Materials]
-  # Unified treatment: constant porosity in the PorousFlow model.
-  # Reaction-induced porosity change, if calculated in the geochemistry
-  # sub-app, is diagnostic only unless a separate feedback transfer is added.
   [porosity_matrix]
     type = PorousFlowPorosityConst
     porosity = ${phi_mat}
@@ -160,6 +135,9 @@ k_frac   = 5e-14           # ~50 mD
                     0         0         ${k_frac}'
     block = fracture
   []
+  # Diffusivity material required by PorousFlowDispersiveFlux: tortuosity per
+  # phase and a diffusion coefficient per component (8). Dispersion smooths the
+  # steep acid front and prevents mass fractions from overshooting negative.
   [diffusivity]
     type = PorousFlowDiffusivityConst
     diffusion_coeff = '4e-9 4e-9 4e-9 4e-9 4e-9 4e-9 4e-9 4e-9'
@@ -167,6 +145,11 @@ k_frac   = 5e-14           # ~50 mD
   []
 []
 
+# --------------------------------------------------------------------------
+# Dispersive flux kernels (the Action does NOT add these). One per component,
+# coexisting with the advection kernels the Action generates. Dispersion
+# spreads the steep concentration fronts and stabilizes the solve.
+# --------------------------------------------------------------------------
 [Kernels]
   [disp_H]
     type = PorousFlowDispersiveFlux
@@ -227,18 +210,22 @@ k_frac   = 5e-14           # ~50 mD
 []
 
 # --------------------------------------------------------------------------
-# Injection composition BCs only. Pressure drive is handled by the Peaceman
-# borehole, exactly as in the I-P cases. These composition BCs are enabled only
-# during the huff/injection period.
+# Well-pair BCs, both ON for the whole flow stage.
+#   INJECTION well (inlet): pressure 45 MPa + fixed acid composition.
+#   PRODUCTION well (outlet): pressure 25 MPa + free solute outflow.
+# Other edges: no BC = no-flow.
 # --------------------------------------------------------------------------
 [BCs]
+  # Injection-well fluid COMPOSITION is fixed at the injection well node so the
+  # borehole draws in acid-composition fluid. Pressure drive is via the
+  # Peaceman boreholes in [DiracKernels]. Production solutes leave through the
+  # production Peaceman boreholes (no OutflowBC needed).
   [inj_H]
     type = DirichletBC
     variable = f0
     boundary = inlet
     value = ${h_mf_in}
     preset = true
-    enable = false
   []
   [inj_Na]
     type = DirichletBC
@@ -246,7 +233,6 @@ k_frac   = 5e-14           # ~50 mD
     boundary = inlet
     value = ${trace_mf}
     preset = true
-    enable = false
   []
   [inj_Cl]
     type = DirichletBC
@@ -254,7 +240,6 @@ k_frac   = 5e-14           # ~50 mD
     boundary = inlet
     value = ${cl_mf_in}
     preset = true
-    enable = false
   []
   [inj_Mg]
     type = DirichletBC
@@ -262,7 +247,6 @@ k_frac   = 5e-14           # ~50 mD
     boundary = inlet
     value = ${trace_mf}
     preset = true
-    enable = false
   []
   [inj_Fe]
     type = DirichletBC
@@ -270,7 +254,6 @@ k_frac   = 5e-14           # ~50 mD
     boundary = inlet
     value = ${trace_mf}
     preset = true
-    enable = false
   []
   [inj_SiO2]
     type = DirichletBC
@@ -278,7 +261,6 @@ k_frac   = 5e-14           # ~50 mD
     boundary = inlet
     value = ${trace_mf}
     preset = true
-    enable = false
   []
   [inj_O2]
     type = DirichletBC
@@ -286,17 +268,18 @@ k_frac   = 5e-14           # ~50 mD
     boundary = inlet
     value = ${trace_mf}
     preset = true
-    enable = false
   []
 []
 
 # --------------------------------------------------------------------------
-# Single-well HnP represented using the same Peaceman borehole formulation as
-# the injection-production cases. Both phases use injection.bh because HnP
-# injects and produces through the same physical well.
+# Peaceman wells (injection at 0,0 ; production at 10,150 -> .bh files).
+#   Injection: character=-1, bottom_p_or_t = p_inject.
+#   Production: character=+1, bottom_p_or_t = p_produce, each paired with a
+#   PorousFlowSumQuantity to tally cumulative produced mass of each component.
+# line_length=1 (2D unit thickness), unit_weight=0 (no gravity), use_mobility.
 # --------------------------------------------------------------------------
 [DiracKernels]
-  # ---------- HUFF / INJECTION, 40 MPa ----------
+  # ---------- INJECTION borehole (all 8 components) ----------
   [inj_well_H]
     type = PorousFlowPeacemanBorehole
     variable = f0
@@ -304,12 +287,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 0
     point_file = injection.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
     character = -1
-    enable = false
   []
   [inj_well_Na]
     type = PorousFlowPeacemanBorehole
@@ -318,12 +299,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 1
     point_file = injection.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
     character = -1
-    enable = false
   []
   [inj_well_Cl]
     type = PorousFlowPeacemanBorehole
@@ -332,12 +311,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 2
     point_file = injection.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
     character = -1
-    enable = false
   []
   [inj_well_Mg]
     type = PorousFlowPeacemanBorehole
@@ -346,12 +323,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 3
     point_file = injection.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
     character = -1
-    enable = false
   []
   [inj_well_Fe]
     type = PorousFlowPeacemanBorehole
@@ -360,12 +335,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 4
     point_file = injection.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
     character = -1
-    enable = false
   []
   [inj_well_SiO2]
     type = PorousFlowPeacemanBorehole
@@ -374,12 +347,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 5
     point_file = injection.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
     character = -1
-    enable = false
   []
   [inj_well_O2]
     type = PorousFlowPeacemanBorehole
@@ -388,12 +359,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 6
     point_file = injection.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
     character = -1
-    enable = false
   []
   [inj_well_H2O]
     type = PorousFlowPeacemanBorehole
@@ -402,15 +371,13 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 7
     point_file = injection.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
     character = -1
-    enable = false
   []
 
-  # ---------- PUFF / PRODUCTION, same physical well, 10 MPa ----------
+  # ---------- PRODUCTION borehole (all 8 components, with tally) ----------
   [prod_well_H]
     type = PorousFlowPeacemanBorehole
     variable = f0
@@ -418,12 +385,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 0
     point_file = production.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_produce}
     unit_weight = '0 0 0'
     use_mobility = true
     character = 1
-    enable = false
   []
   [prod_well_Na]
     type = PorousFlowPeacemanBorehole
@@ -432,12 +397,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 1
     point_file = production.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_produce}
     unit_weight = '0 0 0'
     use_mobility = true
     character = 1
-    enable = false
   []
   [prod_well_Cl]
     type = PorousFlowPeacemanBorehole
@@ -446,12 +409,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 2
     point_file = production.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_produce}
     unit_weight = '0 0 0'
     use_mobility = true
     character = 1
-    enable = false
   []
   [prod_well_Mg]
     type = PorousFlowPeacemanBorehole
@@ -460,12 +421,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 3
     point_file = production.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_produce}
     unit_weight = '0 0 0'
     use_mobility = true
     character = 1
-    enable = false
   []
   [prod_well_Fe]
     type = PorousFlowPeacemanBorehole
@@ -474,12 +433,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 4
     point_file = production.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_produce}
     unit_weight = '0 0 0'
     use_mobility = true
     character = 1
-    enable = false
   []
   [prod_well_SiO2]
     type = PorousFlowPeacemanBorehole
@@ -488,12 +445,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 5
     point_file = production.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_produce}
     unit_weight = '0 0 0'
     use_mobility = true
     character = 1
-    enable = false
   []
   [prod_well_O2]
     type = PorousFlowPeacemanBorehole
@@ -502,12 +457,10 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 6
     point_file = production.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_produce}
     unit_weight = '0 0 0'
     use_mobility = true
     character = 1
-    enable = false
   []
   [prod_well_H2O]
     type = PorousFlowPeacemanBorehole
@@ -516,16 +469,15 @@ k_frac   = 5e-14           # ~50 mD
     mass_fraction_component = 7
     point_file = production.bh
     line_length = 1
-    line_direction = '0 0 1'
     bottom_p_or_t = ${p_produce}
     unit_weight = '0 0 0'
     use_mobility = true
     character = 1
-    enable = false
   []
 []
 
 [UserObjects]
+  # injection tallies (SumQuantityUO is required by every Peaceman borehole)
   [injected_H]
     type = PorousFlowSumQuantity
   []
@@ -550,7 +502,7 @@ k_frac   = 5e-14           # ~50 mD
   [injected_H2O]
     type = PorousFlowSumQuantity
   []
-
+  # production tallies
   [produced_H]
     type = PorousFlowSumQuantity
   []
@@ -577,33 +529,6 @@ k_frac   = 5e-14           # ~50 mD
   []
 []
 
-# --------------------------------------------------------------------------
-# Time-based activation.
-# Injection: acid-composition BCs + injection Peaceman well.
-# Soak: all well objects and composition BCs off.
-# Production: production Peaceman well only.
-# --------------------------------------------------------------------------
-[Controls]
-  [do_inject]
-    type = TimePeriod
-    enable_objects = 'BCs::inj_H BCs::inj_Na BCs::inj_Cl BCs::inj_Mg BCs::inj_Fe BCs::inj_SiO2 BCs::inj_O2 DiracKernels::inj_well_H DiracKernels::inj_well_Na DiracKernels::inj_well_Cl DiracKernels::inj_well_Mg DiracKernels::inj_well_Fe DiracKernels::inj_well_SiO2 DiracKernels::inj_well_O2 DiracKernels::inj_well_H2O'
-    start_time = 0
-    end_time = ${t_inject_end}
-    set_sync_times = true
-    execute_on = 'initial timestep_begin'
-    implicit = false
-  []
-  [do_produce]
-    type = TimePeriod
-    enable_objects = 'DiracKernels::prod_well_H DiracKernels::prod_well_Na DiracKernels::prod_well_Cl DiracKernels::prod_well_Mg DiracKernels::prod_well_Fe DiracKernels::prod_well_SiO2 DiracKernels::prod_well_O2 DiracKernels::prod_well_H2O'
-    start_time = ${t_soak_end}
-    end_time = ${t_produce_end}
-    set_sync_times = true
-    execute_on = 'initial timestep_begin'
-    implicit = false
-  []
-[]
-
 [AuxVariables]
   [temp]
     initial_condition = 200
@@ -616,6 +541,9 @@ k_frac   = 5e-14           # ~50 mD
   [rate_SiO2][]
   [rate_O2][]
   [rate_H2O][]
+  # H2 mass fraction received from the geochemistry sub-app (production metric).
+  # Not a transport variable; just carried here so it can be produced/tracked.
+  [massfrac_H2][]
 []
 
 [Preconditioning]
@@ -638,12 +566,9 @@ k_frac   = 5e-14           # ~50 mD
     growth_factor = 1.2
     cutback_factor = 0.5
     optimal_iterations = 10
-
-    time_t  = '0 28512000 28598400 28771200 29030400'
-    time_dt = '86400 100 1000 10000 86400'
   []
 
-  end_time = ${t_produce_end}
+  end_time = ${t_end}
   dtmax = 86400
   nl_rel_tol = 1e-6
   nl_abs_tol = 1e-7
@@ -656,96 +581,215 @@ k_frac   = 5e-14           # ~50 mD
     variable = porepressure
     boundary = inlet
   []
-  [p_max]
-    type = NodalExtremeValue
-    variable = porepressure
-  []
-  [H_inlet]
+  [p_outlet]
     type = SideAverageValue
-    variable = f0
-    boundary = inlet
+    variable = porepressure
+    boundary = outlet
   []
-  [Cl_inlet]
+  [Cl_outlet]
     type = SideAverageValue
     variable = f2
-    boundary = inlet
+    boundary = outlet
+  []
+  [H_outlet]
+    type = SideAverageValue
+    variable = f0
+    boundary = outlet
   []
   [water_mass]
     type = PorousFlowFluidMass
     fluid_component = 7
   []
-  [H_mass]
-    type = PorousFlowFluidMass
-    fluid_component = 0
-  []
-  [Mg_mass]
-    type = PorousFlowFluidMass
-    fluid_component = 3
-  []
-  [SiO2_mass]
-    type = PorousFlowFluidMass
-    fluid_component = 5
-  []
 
-  # Cumulative water injected/produced (kg) from the same Peaceman tallies
-  # used in the I-P cases. These are needed for the water-use metrics.
-  [cum_inj_H2O]
+  # ----------------------------------------------------------------------
+  # Injection bookkeeping for Q_eff.
+  # PorousFlowPlotQuantity is the H2O mass injected during THIS accepted
+  # timestep. Injection is negative in the PorousFlow outflow sign convention,
+  # so flip the sign first, then accumulate it explicitly.
+  # ----------------------------------------------------------------------
+  [inj_H2O_step_signed]
     type = PorousFlowPlotQuantity
     uo = injected_H2O
     execute_on = 'initial timestep_end'
   []
-  [cum_prod_H2O]
-    type = PorousFlowPlotQuantity
-    uo = produced_H2O
+  [inj_H2O_step]
+    type = ParsedPostprocessor
+    pp_names = 'inj_H2O_step_signed'
+    expression = '-inj_H2O_step_signed'
     execute_on = 'initial timestep_end'
   []
-  [cum_prod_H]
-    type = PorousFlowPlotQuantity
-    uo = produced_H
+  [cum_inj_H2O]
+    type = CumulativeValuePostprocessor
+    postprocessor = inj_H2O_step
     execute_on = 'initial timestep_end'
   []
-  [cum_prod_Cl]
-    type = PorousFlowPlotQuantity
-    uo = produced_Cl
-    execute_on = 'initial timestep_end'
+
+  # Reactive-sweep metrics returned from the geochemistry sub-app.
+  # A_rs_2D and A_p_rs_2D are native 2-D integrals (m2).
+  # V_rs and V_p_rs include the chosen out-of-plane representative width (m3).
+  [A_rs_2D]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
   []
-  [cum_prod_Mg]
-    type = PorousFlowPlotQuantity
-    uo = produced_Mg
-    execute_on = 'initial timestep_end'
+  [A_p_rs_2D]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [V_rs]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [V_p_rs]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [V_w_inj]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [Q_eff_m3s]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [Q_eff_m3day]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [tau_h_s]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [tau_h_day]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
   []
 []
 
 [Outputs]
+  file_base = IP_pair_metrics_360d
   exodus = true
   csv = true
 []
 
+
 # ==========================================================================
-# GEOCHEMISTRY COUPLING (operator split, sequential non-iterative).
-# IMPORTANT: the corresponding geochemistry sub-app must also be extended to
-# 360 days before this main file is used for the final 360-day simulations.
+# GEOCHEMISTRY COUPLING + REACTIVE-SWEEP METRICS
 # ==========================================================================
 [MultiApps]
   [react]
     type = TransientMultiApp
-    input_files = serpentinization_geochemistry_field.i
+    input_files = serpentinization_geochemistry_IP_metrics_360d_25m.i
     clone_master_mesh = true
     execute_on = 'timestep_end'
   []
 []
 
 [Transfers]
+  # main -> sub: transport-induced component mass-change rates + temperature
   [changes_due_to_flow]
     type = MultiAppCopyTransfer
     source_variable = 'rate_H rate_Na rate_Cl rate_Mg rate_Fe rate_SiO2 rate_O2 rate_H2O temp'
     variable        = 'pf_rate_H pf_rate_Na pf_rate_Cl pf_rate_Mg pf_rate_Fe pf_rate_SiO2 pf_rate_O2 pf_rate_H2O temperature'
     to_multi_app = react
   []
+
+  # sub -> main: geochemistry-updated transported component mass fractions
   [massfrac_from_geochem]
     type = MultiAppCopyTransfer
-    source_variable = 'massfrac_H massfrac_Na massfrac_Cl massfrac_Mg massfrac_Fe massfrac_SiO2 massfrac_O2'
-    variable        = 'f0 f1 f2 f3 f4 f5 f6'
+    source_variable = 'massfrac_H massfrac_Na massfrac_Cl massfrac_Mg massfrac_Fe massfrac_SiO2 massfrac_O2 massfrac_H2'
+    variable        = 'f0 f1 f2 f3 f4 f5 f6 massfrac_H2'
     from_multi_app = react
+  []
+
+  # cumulative injected H2O mass (kg, positive) -> geochemistry metrics app
+  [cum_inj_H2O_to_geochem]
+    type = MultiAppPostprocessorTransfer
+    to_multi_app = react
+    from_postprocessor = cum_inj_H2O
+    to_postprocessor = cum_inj_H2O_from_main
+    execute_on = 'timestep_end'
+  []
+
+  # metrics -> main CSV
+  [A_rs_2D_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = A_rs_2D
+    to_postprocessor = A_rs_2D
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [A_p_rs_2D_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = A_p_rs_2D
+    to_postprocessor = A_p_rs_2D
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [V_rs_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = V_rs
+    to_postprocessor = V_rs
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [V_p_rs_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = V_p_rs
+    to_postprocessor = V_p_rs
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [V_w_inj_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = V_w_inj
+    to_postprocessor = V_w_inj
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [Q_eff_m3s_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = Q_eff_m3s
+    to_postprocessor = Q_eff_m3s
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [Q_eff_m3day_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = Q_eff_m3day
+    to_postprocessor = Q_eff_m3day
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [tau_h_s_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = tau_h_s
+    to_postprocessor = tau_h_s
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [tau_h_day_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = tau_h_day
+    to_postprocessor = tau_h_day
+    reduction_type = average
+    execute_on = 'timestep_end'
   []
 []

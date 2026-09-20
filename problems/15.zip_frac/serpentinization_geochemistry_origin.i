@@ -18,12 +18,6 @@
 #
 # Kinetic system is copied verbatim from your batch file
 # Hydrogen_new_kinetic_nutral_acid.i (10 rate laws, 5 kinetic minerals).
-# HnP 360-day update:
-#   * preserves the original geochemistry/void-volume formulation
-#     (NodalVoidVolume uses the original reaction porosity variable)
-#   * 360-day end time
-#   * H2 molality/mass-fraction diagnostics enabled
-# No block-specific flow_porosity scaling is introduced here.
 #########################################################################
 
 [UserObjects]
@@ -33,7 +27,7 @@
     kinetic_species_name = Fo90
     intrinsic_rate_constant = 2.29087e-11
     activation_energy = 79.0E3
-    area_quantity = 2.25e-3
+    area_quantity = 2.25e-2
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -42,7 +36,7 @@
     kinetic_species_name = Fo90
     intrinsic_rate_constant = 1.41425e-7
     activation_energy = 67.2E3
-    area_quantity = 2.25e-3
+    area_quantity = 2.25e-2
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.470"
@@ -53,7 +47,7 @@
     kinetic_species_name = Liz90
     intrinsic_rate_constant = 3.981072e-13
     activation_energy = 56.6E3
-    area_quantity = 2.1e-5
+    area_quantity = 2.1e-4
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -62,7 +56,7 @@
     kinetic_species_name = Liz90
     intrinsic_rate_constant = 1.99526e-6
     activation_energy = 75.5E3
-    area_quantity = 2.1e-5
+    area_quantity = 2.1e-4
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.800"
@@ -73,7 +67,7 @@
     kinetic_species_name = En90
     intrinsic_rate_constant = 1.905461e-13
     activation_energy = 80.0E3
-    area_quantity = 8e-4
+    area_quantity = 8e-3
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -82,7 +76,7 @@
     kinetic_species_name = En90
     intrinsic_rate_constant = 9.549926e-10
     activation_energy = 80.0E3
-    area_quantity = 8e-4
+    area_quantity = 8e-3
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.600"
@@ -93,7 +87,7 @@
     kinetic_species_name = Brucite85
     intrinsic_rate_constant = 5.754399e-9
     activation_energy = 42.0E3
-    area_quantity = 5e-6
+    area_quantity = 5e-5
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -102,7 +96,7 @@
     kinetic_species_name = Brucite85
     intrinsic_rate_constant = 1.86209e-5
     activation_energy = 59.0E3
-    area_quantity = 5e-6
+    area_quantity = 5e-5
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.500"
@@ -113,7 +107,7 @@
     kinetic_species_name = Magnetite
     intrinsic_rate_constant = 1.659587e-11
     activation_energy = 18.6E3
-    area_quantity = 1e-11
+    area_quantity = 1e-10
     multiply_by_mass = true
     one_over_T0 = 0.003354
   []
@@ -122,7 +116,7 @@
     kinetic_species_name = Magnetite
     intrinsic_rate_constant = 2.57039e-9
     activation_energy = 18.6E3
-    area_quantity = 1e-11
+    area_quantity = 1e-10
     multiply_by_mass = true
     promoting_species_names = "H+"
     promoting_indices = "0.279"
@@ -189,7 +183,7 @@
   abs_tol = 1e-10
 
   execute_console_output_on = ''
-  add_aux_molal = true          # expose molal_H2(aq) and other molal_* variables
+  add_aux_molal = true          # need molal_H2(aq) for production tracking
   add_aux_mg_per_kg = false
   add_aux_free_mg = false
   add_aux_activity = false
@@ -208,7 +202,7 @@
   # the sub-app can be run standalone for testing.
   [fmg]
     type = FileMeshGenerator
-    file = fracture_domain.msh
+    file = zipper_domain_10m.msh
   []
 []
 
@@ -221,7 +215,7 @@
   type = Transient
   solve_type = Newton
   dt = 86400
-  end_time = 3.1104e+7      # 360 days; matches the HnP main app
+  end_time = 5.184e+6      # MUST match the main app end_time (adjust to your run)
   # [TimeStepper]
   #   type = FunctionDT
   #   function = 'min(max(100, 0.05 * t), 14400)'
@@ -312,10 +306,10 @@
   [massfrac_H2O]
   []
 
-  # ---- H2 tracking (diagnostic / optional transfer to main app) ----
-  [h2_molal]
+  # ---- H2 tracking (production metric) ----
+  [h2_molal]              # copy of molal_H2(aq) with a paren-free name for ParsedAux
   []
-  [massfrac_H2]
+  [massfrac_H2]           # H2 mass fraction (to transfer back to main app)
   []
 
   # ---- mineral volumes percentage ----
@@ -467,6 +461,7 @@
     execute_on = 'timestep_begin'
   []
 
+
   # ---- total transported mass (sum of moles * MW) ----
   [transported_mass_auxk]
     type = ParsedAux
@@ -533,9 +528,7 @@
     expression = 'transported_H2O * 18.01801802 / transported_mass'
     execute_on = 'timestep_end'
   []
-
-  # ---- H2 diagnostics ----
-  # Copy geochemical H2(aq) molality to a paren-free variable.
+  # copy molal_H2(aq) into a paren-free variable so ParsedAux can use it
   [h2_molal_auxk]
     type = GeochemistryQuantityAux
     variable = h2_molal
@@ -543,9 +536,7 @@
     quantity = molal
     execute_on = 'timestep_end'
   []
-
-  # Approximate dissolved-H2 mass fraction for diagnostic/output purposes.
-  # For dilute H2: w_H2 ~ molality_H2 * MW_H2 / 1000.
+  # H2 mass fraction from molality: massfrac ~ molal_H2 * MW_H2 / 1000
   [massfrac_H2_auxk]
     type = ParsedAux
     coupled_variables = 'h2_molal'
@@ -630,25 +621,37 @@
   #   type = PointValue
   #   variable = 'molal_H2(aq)'
   # []
+  # production-well (outlet) aqueous molalities: shows what is being produced
   [H2_outlet]
     type = SideAverageValue
-    variable = molal_H2(aq)
-    boundary = inlet
+    variable = 'molal_H2(aq)'
+    boundary = outlet
   []
   [Mg_outlet]
     type = SideAverageValue
-    variable = molal_Mg++
-    boundary = inlet
+    variable = 'molal_Mg++'
+    boundary = outlet
   []
   [Fe_outlet]
     type = SideAverageValue
-    variable = molal_Fe++
-    boundary = inlet
+    variable = 'molal_Fe++'
+    boundary = outlet
   []
   [SiO2_outlet]
     type = SideAverageValue
-    variable = molal_SiO2(aq)
-    boundary = inlet
+    variable = 'molal_SiO2(aq)'
+    boundary = outlet
+  []
+  # also track H2 at the injection well region for reference
+  [H2_domain_avg]
+    type = ElementAverageValue
+    variable = 'molal_H2(aq)'
+  []
+  # ---- headline hydrogen metric: domain-integrated H2 molality proxy ----
+  # integral of molal_H2(aq) over the domain; rising curve = H2 being generated.
+  [H2_molal_domain]
+    type = ElementIntegralVariablePostprocessor
+    variable = h2_molal
   []
 []
 

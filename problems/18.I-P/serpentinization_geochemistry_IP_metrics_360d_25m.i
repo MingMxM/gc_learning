@@ -18,13 +18,26 @@
 #
 # Kinetic system is copied verbatim from your batch file
 # Hydrogen_new_kinetic_nutral_acid.i (10 rate laws, 5 kinetic minerals).
-# HnP 360-day update:
+# Injection-production pair metrics update:
 #   * preserves the original geochemistry/void-volume formulation
 #     (NodalVoidVolume uses the original reaction porosity variable)
 #   * 360-day end time
 #   * H2 molality/mass-fraction diagnostics enabled
 # No block-specific flow_porosity scaling is introduced here.
 #########################################################################
+
+# --------------------------------------------------------------------------
+# Reactive-sweep metrics for the injection-production pair.
+# pH_crit = 6.4 defines the reactive region.
+# rho_ref converts cumulative injected-water mass to reference volume.
+# out_of_plane_width converts native 2-D area integrals and unit-width injection
+# quantities to representative 3-D extensive quantities consistently.
+# --------------------------------------------------------------------------
+pH_crit = 6.4
+rho_ref = 865.0
+phi_mat_metric = 0.05
+phi_frac_metric = 0.35
+out_of_plane_width = 1.0   # m; keep 1.0 for unit-width 2-D results; scale both V_rs and V_w,inj consistently if changed
 
 [UserObjects]
   # ----- kinetic rate laws (copied from your batch calibration) -----
@@ -208,7 +221,7 @@
   # the sub-app can be run standalone for testing.
   [fmg]
     type = FileMeshGenerator
-    file = fracture_domain.msh
+    file = zipper_domain_25m.msh
   []
 []
 
@@ -221,7 +234,7 @@
   type = Transient
   solve_type = Newton
   dt = 86400
-  end_time = 3.1104e+7      # 360 days; matches the HnP main app
+  end_time = 3.1104e+7      # 360 days; continuous injection-production pair
   # [TimeStepper]
   #   type = FunctionDT
   #   function = 'min(max(100, 0.05 * t), 14400)'
@@ -331,6 +344,22 @@
   []
   [total_solid_cm3]
   []
+
+  # ---- fields for reactive swept volume and hydraulic characteristic time ----
+  [pH_field]
+  []
+  [reactive_indicator]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+  [hydraulic_porosity]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+  [reactive_pore_fraction]
+    family = MONOMIAL
+    order = CONSTANT
+  []
 []
 
 [AuxKernels]
@@ -349,6 +378,55 @@
     expression = '1156.0 / (1156.0 + free_cm3_Fo90 + free_cm3_Liz90 + free_cm3_En90 + free_cm3_Brucite85 + free_cm3_Magnetite)'
     variable = porosity
     execute_on = 'timestep_end'
+  []
+
+  # ---- pH-based reactive swept region ----
+  # pH is -log10(activity_H+), extracted directly from the geochemical reactor.
+  [pH_field_auxk]
+    type = GeochemistryQuantityAux
+    variable = pH_field
+    species = 'H+'
+    quantity = neglog10a
+    execute_on = 'initial timestep_end'
+  []
+
+  # Hydraulic porosity used in tau_h.  This is the PorousFlow porosity, not
+  # the reaction-derived diagnostic porosity above.
+  [hydraulic_porosity_matrix]
+    type = ConstantAux
+    variable = hydraulic_porosity
+    value = ${phi_mat_metric}
+    block = matrix
+    execute_on = 'initial'
+  []
+  [hydraulic_porosity_fracture]
+    type = ConstantAux
+    variable = hydraulic_porosity
+    value = ${phi_frac_metric}
+    block = fracture
+    execute_on = 'initial'
+  []
+
+  # I_i(t) = 1 when pH_i <= pH_crit, otherwise 0.
+  # Because this AuxVariable is MONOMIAL CONSTANT, the threshold is evaluated
+  # once per element (using the element-level evaluation of the nodal pH field).
+  [reactive_indicator_auxk]
+    type = ParsedAux
+    variable = reactive_indicator
+    coupled_variables = 'pH_field'
+    constant_names = 'pHcrit'
+    constant_expressions = '${pH_crit}'
+    expression = 'if(pH_field <= pHcrit, 1.0, 0.0)'
+    execute_on = 'initial timestep_end'
+  []
+
+  # phi_i * I_i, whose volume integral is the reactive pore volume.
+  [reactive_pore_fraction_auxk]
+    type = ParsedAux
+    variable = reactive_pore_fraction
+    coupled_variables = 'reactive_indicator hydraulic_porosity'
+    expression = 'reactive_indicator * hydraulic_porosity'
+    execute_on = 'initial timestep_end'
   []
 
   # ---- unit conversion: kg/s -> mol/s/litre (divide by MW and void volume) ----
@@ -650,9 +728,96 @@
     variable = molal_SiO2(aq)
     boundary = inlet
   []
-[]
 
+  # Cumulative injected-water mass transferred from the main app (kg, positive,
+  # for the native 1-m-thick 2-D slice).
+  [cum_inj_H2O_from_main]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+
+  # Native 2-D reactive swept area:
+  # A_rs_2D = integral I dA = sum I_i A_i  [m2].
+  [A_rs_2D]
+    type = ElementIntegralVariablePostprocessor
+    variable = reactive_indicator
+    execute_on = 'initial timestep_end'
+  []
+
+  # Native 2-D reactive pore-area equivalent:
+  # A_p_rs_2D = integral phi I dA = sum phi_i I_i A_i  [m2].
+  [A_p_rs_2D]
+    type = ElementIntegralVariablePostprocessor
+    variable = reactive_pore_fraction
+    execute_on = 'initial timestep_end'
+  []
+
+  # Convert the 2-D integrals to representative 3-D volumes with the selected
+  # out-of-plane width.  At width=1 m, numerical values equal the 2-D integrals.
+  [V_rs]
+    type = ParsedPostprocessor
+    pp_names = 'A_rs_2D'
+    expression = 'A_rs_2D * width'
+    constant_names = 'width'
+    constant_expressions = '${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+  [V_p_rs]
+    type = ParsedPostprocessor
+    pp_names = 'A_p_rs_2D'
+    expression = 'A_p_rs_2D * width'
+    constant_names = 'width'
+    constant_expressions = '${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+
+  # Cumulative injected-water volume.  The main-app Peaceman tally corresponds
+  # to the same native 1-m-thick slice, so apply the SAME width scaling here.
+  [V_w_inj]
+    type = ParsedPostprocessor
+    pp_names = 'cum_inj_H2O_from_main'
+    expression = 'cum_inj_H2O_from_main / rho_ref * width'
+    constant_names = 'rho_ref width'
+    constant_expressions = '${rho_ref} ${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+
+  # Effective flow rate: Q_eff(t) = V_w,inj(t) / t.
+  [Q_eff_m3s]
+    type = ParsedPostprocessor
+    pp_names = 'V_w_inj'
+    expression = 'V_w_inj / (t + 1e-30)'
+    use_t = true
+    execute_on = 'initial timestep_end'
+  []
+  [Q_eff_m3day]
+    type = ParsedPostprocessor
+    pp_names = 'Q_eff_m3s'
+    expression = 'Q_eff_m3s * 86400.0'
+    execute_on = 'initial timestep_end'
+  []
+
+  # Hydraulic characteristic time:
+  # tau_h = V_p,rs / Q_eff = V_p,rs * t / V_w,inj.
+  # Because V_p,rs and V_w,inj are scaled by the same representative width,
+  # tau_h is independent of the chosen out-of-plane width.
+  [tau_h_s]
+    type = ParsedPostprocessor
+    pp_names = 'V_p_rs V_w_inj'
+    expression = 'V_p_rs * t / (V_w_inj + 1e-30)'
+    use_t = true
+    execute_on = 'initial timestep_end'
+  []
+  [tau_h_day]
+    type = ParsedPostprocessor
+    pp_names = 'tau_h_s'
+    expression = 'tau_h_s / 86400.0'
+    execute_on = 'initial timestep_end'
+  []
+[]
 [Outputs]
+  file_base = IP_pair_metrics_360d_react
   exodus = true
   csv = true
 []

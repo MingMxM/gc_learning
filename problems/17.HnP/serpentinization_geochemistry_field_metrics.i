@@ -26,6 +26,17 @@
 # No block-specific flow_porosity scaling is introduced here.
 #########################################################################
 
+# --------------------------------------------------------------------------
+# Reactive-sweep metrics
+# pH_crit = 6.4: approximately the Fo90 acid/neutral-rate crossover at 200 C
+# (direct evaluation of the calibrated rate laws gives ~6.44).
+# rho_ref is used only to convert cumulative injected-water mass to reference volume.
+# --------------------------------------------------------------------------
+pH_crit = 6.4
+rho_ref = 865.0
+phi_mat_metric = 0.05
+phi_frac_metric = 0.35
+
 [UserObjects]
   # ----- kinetic rate laws (copied from your batch calibration) -----
   [Fo90_rate]
@@ -221,7 +232,7 @@
   type = Transient
   solve_type = Newton
   dt = 86400
-  end_time = 3.1104e+7      # 360 days; matches the HnP main app
+  end_time = 2.8512e+7      # 330 days; injection + soak metrics test, no production
   # [TimeStepper]
   #   type = FunctionDT
   #   function = 'min(max(100, 0.05 * t), 14400)'
@@ -331,6 +342,22 @@
   []
   [total_solid_cm3]
   []
+
+  # ---- fields for reactive swept volume and hydraulic characteristic time ----
+  [pH_field]
+  []
+  [reactive_indicator]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+  [hydraulic_porosity]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+  [reactive_pore_fraction]
+    family = MONOMIAL
+    order = CONSTANT
+  []
 []
 
 [AuxKernels]
@@ -349,6 +376,55 @@
     expression = '1156.0 / (1156.0 + free_cm3_Fo90 + free_cm3_Liz90 + free_cm3_En90 + free_cm3_Brucite85 + free_cm3_Magnetite)'
     variable = porosity
     execute_on = 'timestep_end'
+  []
+
+  # ---- pH-based reactive swept region ----
+  # pH is -log10(activity_H+), extracted directly from the geochemical reactor.
+  [pH_field_auxk]
+    type = GeochemistryQuantityAux
+    variable = pH_field
+    species = 'H+'
+    quantity = neglog10a
+    execute_on = 'initial timestep_end'
+  []
+
+  # Hydraulic porosity used in tau_h.  This is the PorousFlow porosity, not
+  # the reaction-derived diagnostic porosity above.
+  [hydraulic_porosity_matrix]
+    type = ConstantAux
+    variable = hydraulic_porosity
+    value = ${phi_mat_metric}
+    block = matrix
+    execute_on = 'initial'
+  []
+  [hydraulic_porosity_fracture]
+    type = ConstantAux
+    variable = hydraulic_porosity
+    value = ${phi_frac_metric}
+    block = fracture
+    execute_on = 'initial'
+  []
+
+  # I_i(t) = 1 when pH_i <= pH_crit, otherwise 0.
+  # Because this AuxVariable is MONOMIAL CONSTANT, the threshold is evaluated
+  # once per element (using the element-level evaluation of the nodal pH field).
+  [reactive_indicator_auxk]
+    type = ParsedAux
+    variable = reactive_indicator
+    coupled_variables = 'pH_field'
+    constant_names = 'pHcrit'
+    constant_expressions = '${pH_crit}'
+    expression = 'if(pH_field <= pHcrit, 1.0, 0.0)'
+    execute_on = 'initial timestep_end'
+  []
+
+  # phi_i * I_i, whose volume integral is the reactive pore volume.
+  [reactive_pore_fraction_auxk]
+    type = ParsedAux
+    variable = reactive_pore_fraction
+    coupled_variables = 'reactive_indicator hydraulic_porosity'
+    expression = 'reactive_indicator * hydraulic_porosity'
+    execute_on = 'initial timestep_end'
   []
 
   # ---- unit conversion: kg/s -> mol/s/litre (divide by MW and void volume) ----
@@ -649,6 +725,68 @@
     type = SideAverageValue
     variable = molal_SiO2(aq)
     boundary = inlet
+  []
+
+  # Cumulative injected-water mass transferred from the main app (kg, positive).
+  [cum_inj_H2O_from_main]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+
+  # Reactive swept bulk volume: V_rs = integral I dV = sum I_i V_i.
+  [V_rs]
+    type = ElementIntegralVariablePostprocessor
+    variable = reactive_indicator
+    execute_on = 'initial timestep_end'
+  []
+
+  # Reactive pore volume: V_p,rs = integral phi I dV = sum phi_i I_i V_i.
+  [V_p_rs]
+    type = ElementIntegralVariablePostprocessor
+    variable = reactive_pore_fraction
+    execute_on = 'initial timestep_end'
+  []
+
+  # Reference cumulative injected-water volume, using rho_ref = 865 kg/m3.
+  [V_w_inj]
+    type = ParsedPostprocessor
+    pp_names = 'cum_inj_H2O_from_main'
+    expression = 'cum_inj_H2O_from_main / rho_ref'
+    constant_names = 'rho_ref'
+    constant_expressions = '${rho_ref}'
+    execute_on = 'initial timestep_end'
+  []
+
+  # Effective flow rate: Q_eff(t) = V_w,inj(t) / t.
+  [Q_eff_m3s]
+    type = ParsedPostprocessor
+    pp_names = 'V_w_inj'
+    expression = 'V_w_inj / (t + 1e-30)'
+    use_t = true
+    execute_on = 'initial timestep_end'
+  []
+  [Q_eff_m3day]
+    type = ParsedPostprocessor
+    pp_names = 'Q_eff_m3s'
+    expression = 'Q_eff_m3s * 86400.0'
+    execute_on = 'initial timestep_end'
+  []
+
+  # Hydraulic characteristic time:
+  # tau_h = V_p,rs / Q_eff = V_p,rs * t / V_w,inj.
+  [tau_h_s]
+    type = ParsedPostprocessor
+    pp_names = 'V_p_rs V_w_inj'
+    expression = 'V_p_rs * t / (V_w_inj + 1e-30)'
+    use_t = true
+    execute_on = 'initial timestep_end'
+  []
+  [tau_h_day]
+    type = ParsedPostprocessor
+    pp_names = 'tau_h_s'
+    expression = 'tau_h_s / 86400.0'
+    execute_on = 'initial timestep_end'
   []
 []
 

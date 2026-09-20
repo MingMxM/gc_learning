@@ -57,10 +57,10 @@ p_produce  = 25e6
 # ---- HnP schedule (days), total = 360 days ----
 inject_days  = 30
 soak_days    = 300
-produce_days = 30
+# produce_days = 30
 t_inject_end  = ${fparse inject_days * 86400}
 t_soak_end    = ${fparse (inject_days + soak_days) * 86400}
-t_produce_end = ${fparse (inject_days + soak_days + produce_days) * 86400}
+# t_produce_end = ${fparse (inject_days + soak_days + produce_days) * 86400}
 
 # ---- reservoir pressure / properties ----
 p_init   = 25e6
@@ -593,15 +593,15 @@ k_frac   = 5e-14           # ~50 mD
     execute_on = 'initial timestep_begin'
     implicit = false
   []
-  [do_produce]
-    type = TimePeriod
-    enable_objects = 'DiracKernels::prod_well_H DiracKernels::prod_well_Na DiracKernels::prod_well_Cl DiracKernels::prod_well_Mg DiracKernels::prod_well_Fe DiracKernels::prod_well_SiO2 DiracKernels::prod_well_O2 DiracKernels::prod_well_H2O'
-    start_time = ${t_soak_end}
-    end_time = ${t_produce_end}
-    set_sync_times = true
-    execute_on = 'initial timestep_begin'
-    implicit = false
-  []
+  # [do_produce]
+  #   type = TimePeriod
+  #   enable_objects = 'DiracKernels::prod_well_H DiracKernels::prod_well_Na DiracKernels::prod_well_Cl DiracKernels::prod_well_Mg DiracKernels::prod_well_Fe DiracKernels::prod_well_SiO2 DiracKernels::prod_well_O2 DiracKernels::prod_well_H2O'
+  #   start_time = ${t_produce_end}
+  #   end_time = ${t_produce_end}
+  #   set_sync_times = true
+  #   execute_on = 'initial timestep_begin'
+  #   implicit = false
+  # []
 []
 
 [AuxVariables]
@@ -643,7 +643,7 @@ k_frac   = 5e-14           # ~50 mD
     time_dt = '86400 100 1000 10000 86400'
   []
 
-  end_time = ${t_produce_end}
+  end_time = ${t_soak_end}   # 330 days: injection + soak only; production excluded
   dtmax = 86400
   nl_rel_tol = 1e-6
   nl_abs_tol = 1e-7
@@ -689,9 +689,24 @@ k_frac   = 5e-14           # ~50 mD
 
   # Cumulative water injected/produced (kg) from the same Peaceman tallies
   # used in the I-P cases. These are needed for the water-use metrics.
-  [cum_inj_H2O]
+  # Injection-water bookkeeping for hydraulic characteristic time.
+  # PorousFlowPlotQuantity is the mass injected in THIS timestep (kg), not cumulative.
+  # Injection is negative in the PorousFlow outflow sign convention, so first flip the sign,
+  # then accumulate the positive injected mass over accepted timesteps.
+  [inj_H2O_step_signed]
     type = PorousFlowPlotQuantity
     uo = injected_H2O
+    execute_on = 'initial timestep_end'
+  []
+  [inj_H2O_step]
+    type = ParsedPostprocessor
+    pp_names = 'inj_H2O_step_signed'
+    expression = '-inj_H2O_step_signed'
+    execute_on = 'initial timestep_end'
+  []
+  [cum_inj_H2O]
+    type = CumulativeValuePostprocessor
+    postprocessor = inj_H2O_step
     execute_on = 'initial timestep_end'
   []
   [cum_prod_H2O]
@@ -714,9 +729,49 @@ k_frac   = 5e-14           # ~50 mD
     uo = produced_Mg
     execute_on = 'initial timestep_end'
   []
+
+  # Reactive-sweep metrics received from the geochemistry sub-app.
+  # The sub-app CSV is the authoritative same-timestep record; these receivers
+  # also expose the quantities in the main-app CSV for convenience.
+  [V_rs]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [V_p_rs]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [V_w_inj]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [Q_eff_m3s]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [Q_eff_m3day]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [tau_h_s]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [tau_h_day]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
 []
 
 [Outputs]
+  file_base = HnP_metrics
   exodus = true
   csv = true
 []
@@ -729,7 +784,7 @@ k_frac   = 5e-14           # ~50 mD
 [MultiApps]
   [react]
     type = TransientMultiApp
-    input_files = serpentinization_geochemistry_field.i
+    input_files = serpentinization_geochemistry_field_metrics.i
     clone_master_mesh = true
     execute_on = 'timestep_end'
   []
@@ -747,5 +802,72 @@ k_frac   = 5e-14           # ~50 mD
     source_variable = 'massfrac_H massfrac_Na massfrac_Cl massfrac_Mg massfrac_Fe massfrac_SiO2 massfrac_O2'
     variable        = 'f0 f1 f2 f3 f4 f5 f6'
     from_multi_app = react
+  []
+
+  # Send cumulative injected-water mass (kg, positive) to the geochemistry app.
+  [cum_inj_H2O_to_geochem]
+    type = MultiAppPostprocessorTransfer
+    to_multi_app = react
+    from_postprocessor = cum_inj_H2O
+    to_postprocessor = cum_inj_H2O_from_main
+    execute_on = 'timestep_end'
+  []
+
+  # Bring the reactive-sweep metrics back to the main app for convenient CSV output.
+  [V_rs_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = V_rs
+    to_postprocessor = V_rs
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [V_p_rs_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = V_p_rs
+    to_postprocessor = V_p_rs
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [V_w_inj_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = V_w_inj
+    to_postprocessor = V_w_inj
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [Q_eff_m3s_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = Q_eff_m3s
+    to_postprocessor = Q_eff_m3s
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [Q_eff_m3day_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = Q_eff_m3day
+    to_postprocessor = Q_eff_m3day
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [tau_h_s_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = tau_h_s
+    to_postprocessor = tau_h_s
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [tau_h_day_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = tau_h_day
+    to_postprocessor = tau_h_day
+    reduction_type = average
+    execute_on = 'timestep_end'
   []
 []
