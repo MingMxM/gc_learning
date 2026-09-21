@@ -56,11 +56,11 @@ p_produce  = 25e6
 
 # ---- HnP schedule (days), total = 360 days ----
 inject_days  = 30
-soak_days    = 300
-# produce_days = 30
+soak_days    = 30
+produce_days = 30
 t_inject_end  = ${fparse inject_days * 86400}
 t_soak_end    = ${fparse (inject_days + soak_days) * 86400}
-# t_produce_end = ${fparse (inject_days + soak_days + produce_days) * 86400}
+t_produce_end = ${fparse (inject_days + soak_days + produce_days) * 86400}
 
 # ---- reservoir pressure / properties ----
 p_init   = 25e6
@@ -68,6 +68,20 @@ phi_mat  = 0.05
 phi_frac = 0.35
 k_mat    = 1e-17           # ~0.01 mD
 k_frac   = 5e-14           # ~50 mD
+
+
+# --------------------------------------------------------------------------
+# Injection-well switch for robust cumulative-injection bookkeeping.
+# Keep Peaceman injection kernels active throughout injection + soak so their
+# PorousFlowSumQuantity objects are reset every timestep.  Actual injection is
+# active only for t < t_inject_end; during soak the well character is zero.
+# --------------------------------------------------------------------------
+[Functions]
+  [inj_character]
+    type = ParsedFunction
+    expression = 'if(t < ${t_inject_end}, -1, 0)'
+  []
+[]
 
 [Mesh]
   [fmg]
@@ -308,8 +322,8 @@ k_frac   = 5e-14           # ~50 mD
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
-    character = -1
-    enable = false
+    character = inj_character
+
   []
   [inj_well_Na]
     type = PorousFlowPeacemanBorehole
@@ -322,8 +336,8 @@ k_frac   = 5e-14           # ~50 mD
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
-    character = -1
-    enable = false
+    character = inj_character
+
   []
   [inj_well_Cl]
     type = PorousFlowPeacemanBorehole
@@ -336,8 +350,8 @@ k_frac   = 5e-14           # ~50 mD
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
-    character = -1
-    enable = false
+    character = inj_character
+
   []
   [inj_well_Mg]
     type = PorousFlowPeacemanBorehole
@@ -350,8 +364,8 @@ k_frac   = 5e-14           # ~50 mD
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
-    character = -1
-    enable = false
+    character = inj_character
+
   []
   [inj_well_Fe]
     type = PorousFlowPeacemanBorehole
@@ -364,8 +378,8 @@ k_frac   = 5e-14           # ~50 mD
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
-    character = -1
-    enable = false
+    character = inj_character
+
   []
   [inj_well_SiO2]
     type = PorousFlowPeacemanBorehole
@@ -378,8 +392,8 @@ k_frac   = 5e-14           # ~50 mD
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
-    character = -1
-    enable = false
+    character = inj_character
+
   []
   [inj_well_O2]
     type = PorousFlowPeacemanBorehole
@@ -392,8 +406,8 @@ k_frac   = 5e-14           # ~50 mD
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
-    character = -1
-    enable = false
+    character = inj_character
+
   []
   [inj_well_H2O]
     type = PorousFlowPeacemanBorehole
@@ -406,8 +420,8 @@ k_frac   = 5e-14           # ~50 mD
     bottom_p_or_t = ${p_inject}
     unit_weight = '0 0 0'
     use_mobility = true
-    character = -1
-    enable = false
+    character = inj_character
+
   []
 
   # ---------- PUFF / PRODUCTION, same physical well, 10 MPa ----------
@@ -579,29 +593,29 @@ k_frac   = 5e-14           # ~50 mD
 
 # --------------------------------------------------------------------------
 # Time-based activation.
-# Injection: acid-composition BCs + injection Peaceman well.
-# Soak: all well objects and composition BCs off.
+# Injection: acid-composition BCs on; Peaceman well character = -1.
+# Soak: composition BCs off; Peaceman well remains active with character = 0.
 # Production: production Peaceman well only.
 # --------------------------------------------------------------------------
 [Controls]
   [do_inject]
     type = TimePeriod
-    enable_objects = 'BCs::inj_H BCs::inj_Na BCs::inj_Cl BCs::inj_Mg BCs::inj_Fe BCs::inj_SiO2 BCs::inj_O2 DiracKernels::inj_well_H DiracKernels::inj_well_Na DiracKernels::inj_well_Cl DiracKernels::inj_well_Mg DiracKernels::inj_well_Fe DiracKernels::inj_well_SiO2 DiracKernels::inj_well_O2 DiracKernels::inj_well_H2O'
+    enable_objects = 'BCs::inj_H BCs::inj_Na BCs::inj_Cl BCs::inj_Mg BCs::inj_Fe BCs::inj_SiO2 BCs::inj_O2'
     start_time = 0
     end_time = ${t_inject_end}
     set_sync_times = true
     execute_on = 'initial timestep_begin'
     implicit = false
   []
-  # [do_produce]
-  #   type = TimePeriod
-  #   enable_objects = 'DiracKernels::prod_well_H DiracKernels::prod_well_Na DiracKernels::prod_well_Cl DiracKernels::prod_well_Mg DiracKernels::prod_well_Fe DiracKernels::prod_well_SiO2 DiracKernels::prod_well_O2 DiracKernels::prod_well_H2O'
-  #   start_time = ${t_produce_end}
-  #   end_time = ${t_produce_end}
-  #   set_sync_times = true
-  #   execute_on = 'initial timestep_begin'
-  #   implicit = false
-  # []
+  [do_produce]
+    type = TimePeriod
+    enable_objects = 'DiracKernels::prod_well_H DiracKernels::prod_well_Na DiracKernels::prod_well_Cl DiracKernels::prod_well_Mg DiracKernels::prod_well_Fe DiracKernels::prod_well_SiO2 DiracKernels::prod_well_O2 DiracKernels::prod_well_H2O'
+    start_time = ${t_soak_end}
+    end_time = ${t_produce_end}
+    set_sync_times = true
+    execute_on = 'initial timestep_begin'
+    implicit = false
+  []
 []
 
 [AuxVariables]
@@ -639,11 +653,11 @@ k_frac   = 5e-14           # ~50 mD
     cutback_factor = 0.5
     optimal_iterations = 10
 
-    time_t  = '0 28512000 28598400 28771200 29030400'
-    time_dt = '86400 100 1000 10000 86400'
+    # time_t  = '0 28512000 28598400 28771200 29030400'
+    # time_dt = '86400 100 1000 10000 86400'
   []
 
-  end_time = ${t_soak_end}   # 330 days: injection + soak only; production excluded
+  end_time = ${t_produce_end}   # 330 days: injection + soak only; production excluded
   dtmax = 86400
   nl_rel_tol = 1e-6
   nl_abs_tol = 1e-7
@@ -784,7 +798,7 @@ k_frac   = 5e-14           # ~50 mD
 [MultiApps]
   [react]
     type = TransientMultiApp
-    input_files = serpentinization_geochemistry_field_metrics.i
+    input_files = serpentinization_geochemistry_field_metrics_fracture_matrix.i
     clone_master_mesh = true
     execute_on = 'timestep_end'
   []

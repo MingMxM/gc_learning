@@ -23,7 +23,12 @@
 #     (NodalVoidVolume uses the original reaction porosity variable)
 #   * 360-day end time
 #   * H2 molality/mass-fraction diagnostics enabled
-# No block-specific flow_porosity scaling is introduced here.
+# Fracture/matrix mineral-inventory update:
+#   * matrix initial mineral inventory is retained at the 5% porosity reference
+#   * fracture initial mineral inventory is scaled to 35% porosity using
+#       [(1-phi_f)/phi_f] / [(1-phi_m)/phi_m] = 0.0977443609
+#   * two block-restricted GeochemistrySpatialReactor objects are used
+#   * NodalVoidVolume uses the fixed hydraulic porosity field (0.05 / 0.35)
 #########################################################################
 
 # --------------------------------------------------------------------------
@@ -36,6 +41,24 @@ pH_crit = 6.4
 rho_ref = 865.0
 phi_mat_metric = 0.05
 phi_frac_metric = 0.35
+
+# Same mineral proportions in matrix and fracture, but different rock inventory
+# per unit pore water.  Scale = [(1-phi_f)/phi_f] / [(1-phi_m)/phi_m].
+# fracture_rock_water_scale = 0.0977443609022557
+
+# Matrix mineral inventory (moles per reference geochemical reactor)
+Fo90_matrix = 464.851
+Liz90_matrix = 4.00733
+En90_matrix = 33.8066
+Brucite85_matrix = 1e-3
+Magnetite_matrix = 1e-5
+
+# Fracture mineral inventory = matrix inventory * fracture_rock_water_scale
+Fo90_fracture = 45.43656391
+Liz90_fracture = 0.3916939098
+En90_fracture = 3.304404511
+Brucite85_fracture = 9.77443609e-05
+Magnetite_fracture = 9.77443609e-07
 
 [UserObjects]
   # ----- kinetic rate laws (copied from your batch calibration) -----
@@ -150,62 +173,85 @@ phi_frac_metric = 0.35
   []
 
   # ----- nodal void volume: converts per-node -> per-litre-of-solution -----
+  # Use the fixed hydraulic porosity so matrix and fracture are normalized
+  # consistently with the PorousFlow model from the first timestep onward.
   [nodal_void_volume_uo]
     type = NodalVoidVolume
-    porosity = porosity
+    porosity = hydraulic_porosity
     execute_on = 'initial timestep_end'
   []
-[]
 
-# --------------------------------------------------------------------------
-# SpatialReactionSolver: the spatial version of your batch reaction solver.
-# Same swaps/constraints/kinetics as your batch file, but now it also takes
-# transport source rates (rate_*_per_1l) from the main app at every node.
-# --------------------------------------------------------------------------
-[SpatialReactionSolver]
-  model_definition = definition
-  geochemistry_reactor_name = reactor
-  swap_out_of_basis = "O2(aq)"
-  swap_into_basis = "H2(aq)"
-  charge_balance_species = "Cl-"
+  # ----- matrix geochemistry reactor (5% porosity reference inventory) -----
+  [reactor_matrix]
+    type = GeochemistrySpatialReactor
+    model_definition = definition
+    swap_out_of_basis = "O2(aq)"
+    swap_into_basis = "H2(aq)"
+    charge_balance_species = "Cl-"
 
-  # initial solution composition (per your batch file), assumed at each node
-  constraint_species = "H2O               H+            Na+              Cl-              Mg++             Fe++             SiO2(aq)         H2(aq)"
-  constraint_value    = "1                -7.0          0.001            0.001            1e-5             1e-5             1e-5             1e-5"
-  constraint_meaning  = "kg_solvent_water log10activity bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition"
-  constraint_unit     = "kg               dimensionless moles            moles            moles            moles            moles            moles"
+    constraint_species = "H2O               H+            Na+              Cl-              Mg++             Fe++             SiO2(aq)         H2(aq)"
+    constraint_value    = "1                -7.0          0.001            0.001            1e-5             1e-5             1e-5             1e-5"
+    constraint_meaning  = "kg_solvent_water log10activity bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition"
+    constraint_unit     = "kg               dimensionless moles            moles            moles            moles            moles            moles"
 
-  remove_fixed_activity_name = 'H+'
-  remove_fixed_activity_time = '0'
+    remove_fixed_activity_name = 'H+'
+    remove_fixed_activity_time = '0'
 
-  initial_temperature = 200
-  temperature = temperature
+    initial_temperature = 200
+    temperature = temperature
 
-  # kinetic minerals initial amounts (per your batch file)
-  # field-scale initial mineral amounts, recomputed for 5% porosity
-  # (per 1 kg solvent water, 200 C). Composition Fo 93.7 / En 4.8 / Liz 1.5 wt%.
-  # Brucite85 and Magnetite start as trace seeds (products, may precipitate).
-  kinetic_species_name          = "Fo90     Liz90    En90     Brucite85 Magnetite"
-  kinetic_species_initial_value = "464.851  4.00733  33.8066  1e-3      1e-5"
-  kinetic_species_unit          = "moles    moles    moles    moles     moles"
+    kinetic_species_name = "Fo90 Liz90 En90 Brucite85 Magnetite"
+    kinetic_species_unit = "moles moles moles moles moles"
 
-  # transport source terms from the main app (mol/s per litre of solution)
-  source_species_names = 'H+            Na+            Cl-            Mg++           Fe++           SiO2(aq)         O2(aq)         H2O'
-  source_species_rates = 'rate_H_per_1l rate_Na_per_1l rate_Cl_per_1l rate_Mg_per_1l rate_Fe_per_1l rate_SiO2_per_1l rate_O2_per_1l rate_H2O_per_1l'
+    source_species_names = 'H+            Na+            Cl-            Mg++           Fe++           SiO2(aq)         O2(aq)         H2O'
+    source_species_rates = 'rate_H_per_1l rate_Na_per_1l rate_Cl_per_1l rate_Mg_per_1l rate_Fe_per_1l rate_SiO2_per_1l rate_O2_per_1l rate_H2O_per_1l'
 
-  ramp_max_ionic_strength_initial = 0
-  stoichiometric_ionic_str_using_Cl_only = true
-  evaluate_kinetic_rates_always = true
-  max_initial_residual = 1E-2
-  abs_tol = 1e-10
+    ramp_max_ionic_strength_initial = 0
+    stoichiometric_ionic_str_using_Cl_only = true
+    evaluate_kinetic_rates_always = true
+    max_initial_residual = 1E-2
+    abs_tol = 1e-10
+    adaptive_timestepping = true
+    execute_on = 'timestep_end'
+    block = matrix
+    kinetic_species_initial_value = "${Fo90_matrix} ${Liz90_matrix} ${En90_matrix} ${Brucite85_matrix} ${Magnetite_matrix}"
+  []
 
-  execute_console_output_on = ''
-  add_aux_molal = true          # expose molal_H2(aq) and other molal_* variables
-  add_aux_mg_per_kg = false
-  add_aux_free_mg = false
-  add_aux_activity = false
-  add_aux_bulk_moles = false
-  adaptive_timestepping = true
+  # ----- fracture geochemistry reactor (35% porosity, lower rock/water ratio) -----
+  [reactor_fracture]
+    type = GeochemistrySpatialReactor
+    model_definition = definition
+    swap_out_of_basis = "O2(aq)"
+    swap_into_basis = "H2(aq)"
+    charge_balance_species = "Cl-"
+
+    constraint_species = "H2O               H+            Na+              Cl-              Mg++             Fe++             SiO2(aq)         H2(aq)"
+    constraint_value    = "1                -7.0          0.001            0.001            1e-5             1e-5             1e-5             1e-5"
+    constraint_meaning  = "kg_solvent_water log10activity bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition"
+    constraint_unit     = "kg               dimensionless moles            moles            moles            moles            moles            moles"
+
+    remove_fixed_activity_name = 'H+'
+    remove_fixed_activity_time = '0'
+
+    initial_temperature = 200
+    temperature = temperature
+
+    kinetic_species_name = "Fo90 Liz90 En90 Brucite85 Magnetite"
+    kinetic_species_unit = "moles moles moles moles moles"
+
+    source_species_names = 'H+            Na+            Cl-            Mg++           Fe++           SiO2(aq)         O2(aq)         H2O'
+    source_species_rates = 'rate_H_per_1l rate_Na_per_1l rate_Cl_per_1l rate_Mg_per_1l rate_Fe_per_1l rate_SiO2_per_1l rate_O2_per_1l rate_H2O_per_1l'
+
+    ramp_max_ionic_strength_initial = 0
+    stoichiometric_ionic_str_using_Cl_only = true
+    evaluate_kinetic_rates_always = true
+    max_initial_residual = 1E-2
+    abs_tol = 1e-10
+    adaptive_timestepping = true
+    execute_on = 'timestep_end'
+    block = fracture
+    kinetic_species_initial_value = "${Fo90_fracture} ${Liz90_fracture} ${En90_fracture} ${Brucite85_fracture} ${Magnetite_fracture}"
+  []
 []
 
 # --------------------------------------------------------------------------
@@ -225,7 +271,12 @@ phi_frac_metric = 0.35
 
 [GlobalParams]
   point = '0 0 0'
-  reactor = reactor
+[]
+
+[Problem]
+  type = FEProblem
+  solve = false
+  # kernel_converage_check = false
 []
 
 [Executioner]
@@ -329,6 +380,26 @@ phi_frac_metric = 0.35
   [massfrac_H2]
   []
 
+  # ---- mineral volumes extracted from the two geochemistry reactors ----
+  [free_cm3_Fo90]
+  []
+  [free_cm3_Liz90]
+  []
+  [free_cm3_En90]
+  []
+  [free_cm3_Brucite85]
+  []
+  [free_cm3_Magnetite]
+  []
+
+  # ---- selected aqueous molalities for diagnostics ----
+  [molal_Mg_diag]
+  []
+  [molal_Fe_diag]
+  []
+  [molal_SiO2_diag]
+  []
+
   # ---- mineral volumes percentage ----
   [volpct_Fo90]
   []
@@ -360,6 +431,24 @@ phi_frac_metric = 0.35
   []
 []
 
+# Fixed PorousFlow porosity used for flow-volume normalization and tau_h.
+# Because this is an elemental MONOMIAL variable, the two block ICs do not
+# conflict on matrix/fracture interface nodes.
+[ICs]
+  [hydraulic_porosity_matrix_ic]
+    type = ConstantIC
+    variable = hydraulic_porosity
+    value = ${phi_mat_metric}
+    block = matrix
+  []
+  [hydraulic_porosity_fracture_ic]
+    type = ConstantIC
+    variable = hydraulic_porosity
+    value = ${phi_frac_metric}
+    block = fracture
+  []
+[]
+
 [AuxKernels]
   # nodal void volume
   [nodal_void_volume_auxk]
@@ -369,7 +458,10 @@ phi_frac_metric = 0.35
     execute_on = 'initial timestep_end'
   []
 
-  # porosity from kinetic mineral volumes (volume expansion -> porosity drop)
+  # porosity from kinetic mineral volumes (volume expansion -> porosity drop).
+  # With the fracture mineral inventory scaled by 0.097744..., the same
+  # 1156-cm3 solvent-water reference gives ~35% initial fracture porosity,
+  # while the matrix inventory remains on the ~5% reference.
   [porosity_auxk]
     type = ParsedAux
     coupled_variables = 'free_cm3_Fo90 free_cm3_Liz90 free_cm3_En90 free_cm3_Brucite85 free_cm3_Magnetite'
@@ -379,31 +471,119 @@ phi_frac_metric = 0.35
   []
 
   # ---- pH-based reactive swept region ----
-  # pH is -log10(activity_H+), extracted directly from the geochemical reactor.
-  [pH_field_auxk]
+  # Two block-restricted AuxKernels write into the same pH field.
+  [pH_field_matrix_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = pH_field
     species = 'H+'
     quantity = neglog10a
+    block = matrix
+    execute_on = 'initial timestep_end'
+  []
+  [pH_field_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = pH_field
+    species = 'H+'
+    quantity = neglog10a
+    block = fracture
     execute_on = 'initial timestep_end'
   []
 
-  # Hydraulic porosity used in tau_h.  This is the PorousFlow porosity, not
-  # the reaction-derived diagnostic porosity above.
-  [hydraulic_porosity_matrix]
-    type = ConstantAux
-    variable = hydraulic_porosity
-    value = ${phi_mat_metric}
+  # ---- kinetic-mineral volumes from the appropriate block reactor ----
+  [free_cm3_Fo90_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
+    variable = free_cm3_Fo90
+    species = 'Fo90'
+    quantity = free_cm3
     block = matrix
-    execute_on = 'initial'
+    execute_on = 'initial timestep_end'
   []
-  [hydraulic_porosity_fracture]
-    type = ConstantAux
-    variable = hydraulic_porosity
-    value = ${phi_frac_metric}
+  [free_cm3_Fo90_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = free_cm3_Fo90
+    species = 'Fo90'
+    quantity = free_cm3
     block = fracture
-    execute_on = 'initial'
+    execute_on = 'initial timestep_end'
   []
+  [free_cm3_Liz90_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
+    variable = free_cm3_Liz90
+    species = 'Liz90'
+    quantity = free_cm3
+    block = matrix
+    execute_on = 'initial timestep_end'
+  []
+  [free_cm3_Liz90_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = free_cm3_Liz90
+    species = 'Liz90'
+    quantity = free_cm3
+    block = fracture
+    execute_on = 'initial timestep_end'
+  []
+  [free_cm3_En90_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
+    variable = free_cm3_En90
+    species = 'En90'
+    quantity = free_cm3
+    block = matrix
+    execute_on = 'initial timestep_end'
+  []
+  [free_cm3_En90_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = free_cm3_En90
+    species = 'En90'
+    quantity = free_cm3
+    block = fracture
+    execute_on = 'initial timestep_end'
+  []
+  [free_cm3_Brucite85_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
+    variable = free_cm3_Brucite85
+    species = 'Brucite85'
+    quantity = free_cm3
+    block = matrix
+    execute_on = 'initial timestep_end'
+  []
+  [free_cm3_Brucite85_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = free_cm3_Brucite85
+    species = 'Brucite85'
+    quantity = free_cm3
+    block = fracture
+    execute_on = 'initial timestep_end'
+  []
+  [free_cm3_Magnetite_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
+    variable = free_cm3_Magnetite
+    species = 'Magnetite'
+    quantity = free_cm3
+    block = matrix
+    execute_on = 'initial timestep_end'
+  []
+  [free_cm3_Magnetite_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = free_cm3_Magnetite
+    species = 'Magnetite'
+    quantity = free_cm3
+    block = fracture
+    execute_on = 'initial timestep_end'
+  []
+
+  # hydraulic_porosity is initialized by block in [ICs] and then remains fixed.
 
   # I_i(t) = 1 when pH_i <= pH_crit, otherwise 0.
   # Because this AuxVariable is MONOMIAL CONSTANT, the threshold is evaluated
@@ -485,61 +665,149 @@ phi_frac_metric = 0.35
     execute_on = 'timestep_begin'
   []
 
-  # ---- transported moles of each component (from geochem reactor) ----
-  [transported_H_auxk]
+  # ---- transported moles of each component from block-specific reactors ----
+  [transported_H_matrix_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = transported_H
     species = 'H+'
     quantity = transported_moles_in_original_basis
+    block = matrix
     execute_on = 'timestep_begin'
   []
-  [transported_Na_auxk]
+  [transported_H_fracture_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = transported_H
+    species = 'H+'
+    quantity = transported_moles_in_original_basis
+    block = fracture
+    execute_on = 'timestep_begin'
+  []
+  [transported_Na_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = transported_Na
     species = 'Na+'
     quantity = transported_moles_in_original_basis
+    block = matrix
     execute_on = 'timestep_begin'
   []
-  [transported_Cl_auxk]
+  [transported_Na_fracture_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = transported_Na
+    species = 'Na+'
+    quantity = transported_moles_in_original_basis
+    block = fracture
+    execute_on = 'timestep_begin'
+  []
+  [transported_Cl_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = transported_Cl
     species = 'Cl-'
     quantity = transported_moles_in_original_basis
+    block = matrix
     execute_on = 'timestep_begin'
   []
-  [transported_Mg_auxk]
+  [transported_Cl_fracture_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = transported_Cl
+    species = 'Cl-'
+    quantity = transported_moles_in_original_basis
+    block = fracture
+    execute_on = 'timestep_begin'
+  []
+  [transported_Mg_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = transported_Mg
     species = 'Mg++'
     quantity = transported_moles_in_original_basis
+    block = matrix
     execute_on = 'timestep_begin'
   []
-  [transported_Fe_auxk]
+  [transported_Mg_fracture_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = transported_Mg
+    species = 'Mg++'
+    quantity = transported_moles_in_original_basis
+    block = fracture
+    execute_on = 'timestep_begin'
+  []
+  [transported_Fe_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = transported_Fe
     species = 'Fe++'
     quantity = transported_moles_in_original_basis
+    block = matrix
     execute_on = 'timestep_begin'
   []
-  [transported_SiO2_auxk]
+  [transported_Fe_fracture_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = transported_Fe
+    species = 'Fe++'
+    quantity = transported_moles_in_original_basis
+    block = fracture
+    execute_on = 'timestep_begin'
+  []
+  [transported_SiO2_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = transported_SiO2
     species = 'SiO2(aq)'
     quantity = transported_moles_in_original_basis
+    block = matrix
     execute_on = 'timestep_begin'
   []
-  [transported_O2_auxk]
+  [transported_SiO2_fracture_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = transported_SiO2
+    species = 'SiO2(aq)'
+    quantity = transported_moles_in_original_basis
+    block = fracture
+    execute_on = 'timestep_begin'
+  []
+  [transported_O2_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = transported_O2
     species = 'O2(aq)'
     quantity = transported_moles_in_original_basis
+    block = matrix
     execute_on = 'timestep_begin'
   []
-  [transported_H2O_auxk]
+  [transported_O2_fracture_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = transported_O2
+    species = 'O2(aq)'
+    quantity = transported_moles_in_original_basis
+    block = fracture
+    execute_on = 'timestep_begin'
+  []
+  [transported_H2O_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = transported_H2O
     species = 'H2O'
     quantity = transported_moles_in_original_basis
+    block = matrix
+    execute_on = 'timestep_begin'
+  []
+  [transported_H2O_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = transported_H2O
+    species = 'H2O'
+    quantity = transported_moles_in_original_basis
+    block = fracture
     execute_on = 'timestep_begin'
   []
 
@@ -610,13 +878,77 @@ phi_frac_metric = 0.35
     execute_on = 'timestep_end'
   []
 
-  # ---- H2 diagnostics ----
-  # Copy geochemical H2(aq) molality to a paren-free variable.
-  [h2_molal_auxk]
+  # ---- H2 and selected aqueous-molality diagnostics ----
+  [h2_molal_matrix_auxk]
     type = GeochemistryQuantityAux
+    reactor = reactor_matrix
     variable = h2_molal
     species = 'H2(aq)'
     quantity = molal
+    block = matrix
+    execute_on = 'timestep_end'
+  []
+  [h2_molal_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = h2_molal
+    species = 'H2(aq)'
+    quantity = molal
+    block = fracture
+    execute_on = 'timestep_end'
+  []
+  [molal_Mg_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
+    variable = molal_Mg_diag
+    species = 'Mg++'
+    quantity = molal
+    block = matrix
+    execute_on = 'timestep_end'
+  []
+  [molal_Mg_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = molal_Mg_diag
+    species = 'Mg++'
+    quantity = molal
+    block = fracture
+    execute_on = 'timestep_end'
+  []
+  [molal_Fe_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
+    variable = molal_Fe_diag
+    species = 'Fe++'
+    quantity = molal
+    block = matrix
+    execute_on = 'timestep_end'
+  []
+  [molal_Fe_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = molal_Fe_diag
+    species = 'Fe++'
+    quantity = molal
+    block = fracture
+    execute_on = 'timestep_end'
+  []
+  [molal_SiO2_matrix_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_matrix
+    variable = molal_SiO2_diag
+    species = 'SiO2(aq)'
+    quantity = molal
+    block = matrix
+    execute_on = 'timestep_end'
+  []
+  [molal_SiO2_fracture_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_fracture
+    variable = molal_SiO2_diag
+    species = 'SiO2(aq)'
+    quantity = molal
+    block = fracture
     execute_on = 'timestep_end'
   []
 
@@ -708,22 +1040,22 @@ phi_frac_metric = 0.35
   # []
   [H2_outlet]
     type = SideAverageValue
-    variable = molal_H2(aq)
+    variable = h2_molal
     boundary = inlet
   []
   [Mg_outlet]
     type = SideAverageValue
-    variable = molal_Mg++
+    variable = molal_Mg_diag
     boundary = inlet
   []
   [Fe_outlet]
     type = SideAverageValue
-    variable = molal_Fe++
+    variable = molal_Fe_diag
     boundary = inlet
   []
   [SiO2_outlet]
     type = SideAverageValue
-    variable = molal_SiO2(aq)
+    variable = molal_SiO2_diag
     boundary = inlet
   []
 
