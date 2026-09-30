@@ -41,10 +41,16 @@ pH_crit = 6.4
 rho_ref = 865.0
 phi_mat_metric = 0.05
 phi_frac_metric = 0.35
+phi_nf_metric = 0.15
+# out_of_plane_width converts native 2-D area integrals and unit-width injection
+# quantities to representative 3-D extensive quantities consistently.
+out_of_plane_width = 1.0   # m; keep 1.0 for unit-width 2-D results
 
-# Same mineral proportions in matrix and fracture, but different rock inventory
-# per unit pore water.  Scale = [(1-phi_f)/phi_f] / [(1-phi_m)/phi_m].
-# fracture_rock_water_scale = 0.0977443609022557
+# Same mineral proportions in matrix, fracture and natural fracture, but a
+# different rock inventory per unit pore water.
+# Scale = [(1-phi_x)/phi_x] / [(1-phi_m)/phi_m].
+# fracture_rock_water_scale        = 0.0977443609022557
+# natural_fracture_rock_water_scale = 0.2982456140350878
 
 # Matrix mineral inventory (moles per reference geochemical reactor)
 Fo90_matrix = 464.851
@@ -59,6 +65,13 @@ Liz90_fracture = 0.3916939098
 En90_fracture = 3.304404511
 Brucite85_fracture = 9.77443609e-05
 Magnetite_fracture = 9.77443609e-07
+
+# Natural-fracture mineral inventory = matrix inventory * 0.2982456140350878
+Fo90_natural = 138.6404912
+Liz90_natural = 1.195166897
+En90_natural = 10.08266316
+Brucite85_natural = 2.982456140e-04
+Magnetite_natural = 2.982456140e-06
 
 [UserObjects]
   # ----- kinetic rate laws (copied from your batch calibration) -----
@@ -252,6 +265,42 @@ Magnetite_fracture = 9.77443609e-07
     block = fracture
     kinetic_species_initial_value = "${Fo90_fracture} ${Liz90_fracture} ${En90_fracture} ${Brucite85_fracture} ${Magnetite_fracture}"
   []
+
+  # ----- natural-fracture geochemistry reactor (15% porosity) -----
+  [reactor_natural_fracture]
+    type = GeochemistrySpatialReactor
+    model_definition = definition
+    swap_out_of_basis = "O2(aq)"
+    swap_into_basis = "H2(aq)"
+    charge_balance_species = "Cl-"
+
+    constraint_species = "H2O               H+            Na+              Cl-              Mg++             Fe++             SiO2(aq)         H2(aq)"
+    constraint_value    = "1                -7.0          0.001            0.001            1e-5             1e-5             1e-5             1e-5"
+    constraint_meaning  = "kg_solvent_water log10activity bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition bulk_composition"
+    constraint_unit     = "kg               dimensionless moles            moles            moles            moles            moles            moles"
+
+    remove_fixed_activity_name = 'H+'
+    remove_fixed_activity_time = '0'
+
+    initial_temperature = 200
+    temperature = temperature
+
+    kinetic_species_name = "Fo90 Liz90 En90 Brucite85 Magnetite"
+    kinetic_species_unit = "moles moles moles moles moles"
+
+    source_species_names = 'H+            Na+            Cl-            Mg++           Fe++           SiO2(aq)         O2(aq)         H2O'
+    source_species_rates = 'rate_H_per_1l rate_Na_per_1l rate_Cl_per_1l rate_Mg_per_1l rate_Fe_per_1l rate_SiO2_per_1l rate_O2_per_1l rate_H2O_per_1l'
+
+    ramp_max_ionic_strength_initial = 0
+    stoichiometric_ionic_str_using_Cl_only = true
+    evaluate_kinetic_rates_always = true
+    max_initial_residual = 1E-2
+    abs_tol = 1e-10
+    adaptive_timestepping = true
+    execute_on = 'timestep_end'
+    block = natural_fracture
+    kinetic_species_initial_value = "${Fo90_natural} ${Liz90_natural} ${En90_natural} ${Brucite85_natural} ${Magnetite_natural}"
+  []
 []
 
 # --------------------------------------------------------------------------
@@ -265,7 +314,7 @@ Magnetite_fracture = 9.77443609e-07
   # the sub-app can be run standalone for testing.
   [fmg]
     type = FileMeshGenerator
-    file = fracture_domain.msh
+    file = zipper_domain_nf.msh
   []
 []
 
@@ -283,7 +332,7 @@ Magnetite_fracture = 9.77443609e-07
   type = Transient
   solve_type = Newton
   dt = 86400
-  end_time = 2.8512e+7      # 330 days; injection + soak metrics test, no production
+   end_time = 3.1104e+7      # 360 days; continuous injection-production pair
   # [TimeStepper]
   #   type = FunctionDT
   #   function = 'min(max(100, 0.05 * t), 14400)'
@@ -377,13 +426,13 @@ Magnetite_fracture = 9.77443609e-07
   # ---- H2 tracking (diagnostic / optional transfer to main app) ----
   [h2_molal]
   []
-  [massfrac_H2]
-  []
   # H2 mass per unit bulk (rock) volume, kg H2 / m^3 rock
-  #   = porosity * fluid_density * massfrac_H2
+  #   = hydraulic_porosity * fluid_density * massfrac_H2
   [h2_mass_density]
     family = MONOMIAL
     order = CONSTANT
+  []
+  [massfrac_H2]
   []
 
   # ---- mineral volumes extracted from the two geochemistry reactors ----
@@ -453,6 +502,12 @@ Magnetite_fracture = 9.77443609e-07
     value = ${phi_frac_metric}
     block = fracture
   []
+  [hydraulic_porosity_natural_fracture_ic]
+    type = ConstantIC
+    variable = hydraulic_porosity
+    value = ${phi_nf_metric}
+    block = natural_fracture
+  []
 []
 
 [AuxKernels]
@@ -497,6 +552,16 @@ Magnetite_fracture = 9.77443609e-07
     execute_on = 'initial timestep_end'
   []
 
+  [pH_field_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = pH_field
+    species = 'H+'
+    quantity = neglog10a
+    block = natural_fracture
+    execute_on = 'initial timestep_end'
+  []
+
   # ---- kinetic-mineral volumes from the appropriate block reactor ----
   [free_cm3_Fo90_matrix_auxk]
     type = GeochemistryQuantityAux
@@ -514,6 +579,16 @@ Magnetite_fracture = 9.77443609e-07
     species = 'Fo90'
     quantity = free_cm3
     block = fracture
+    execute_on = 'initial timestep_end'
+  []
+
+  [free_cm3_Fo90_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = free_cm3_Fo90
+    species = 'Fo90'
+    quantity = free_cm3
+    block = natural_fracture
     execute_on = 'initial timestep_end'
   []
   [free_cm3_Liz90_matrix_auxk]
@@ -534,6 +609,16 @@ Magnetite_fracture = 9.77443609e-07
     block = fracture
     execute_on = 'initial timestep_end'
   []
+
+  [free_cm3_Liz90_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = free_cm3_Liz90
+    species = 'Liz90'
+    quantity = free_cm3
+    block = natural_fracture
+    execute_on = 'initial timestep_end'
+  []
   [free_cm3_En90_matrix_auxk]
     type = GeochemistryQuantityAux
     reactor = reactor_matrix
@@ -550,6 +635,16 @@ Magnetite_fracture = 9.77443609e-07
     species = 'En90'
     quantity = free_cm3
     block = fracture
+    execute_on = 'initial timestep_end'
+  []
+
+  [free_cm3_En90_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = free_cm3_En90
+    species = 'En90'
+    quantity = free_cm3
+    block = natural_fracture
     execute_on = 'initial timestep_end'
   []
   [free_cm3_Brucite85_matrix_auxk]
@@ -570,6 +665,16 @@ Magnetite_fracture = 9.77443609e-07
     block = fracture
     execute_on = 'initial timestep_end'
   []
+
+  [free_cm3_Brucite85_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = free_cm3_Brucite85
+    species = 'Brucite85'
+    quantity = free_cm3
+    block = natural_fracture
+    execute_on = 'initial timestep_end'
+  []
   [free_cm3_Magnetite_matrix_auxk]
     type = GeochemistryQuantityAux
     reactor = reactor_matrix
@@ -586,6 +691,16 @@ Magnetite_fracture = 9.77443609e-07
     species = 'Magnetite'
     quantity = free_cm3
     block = fracture
+    execute_on = 'initial timestep_end'
+  []
+
+  [free_cm3_Magnetite_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = free_cm3_Magnetite
+    species = 'Magnetite'
+    quantity = free_cm3
+    block = natural_fracture
     execute_on = 'initial timestep_end'
   []
 
@@ -690,6 +805,16 @@ Magnetite_fracture = 9.77443609e-07
     block = fracture
     execute_on = 'timestep_begin'
   []
+
+  [transported_H_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = transported_H
+    species = 'H+'
+    quantity = transported_moles_in_original_basis
+    block = natural_fracture
+    execute_on = 'timestep_begin'
+  []
   [transported_Na_matrix_auxk]
     type = GeochemistryQuantityAux
     reactor = reactor_matrix
@@ -706,6 +831,16 @@ Magnetite_fracture = 9.77443609e-07
     species = 'Na+'
     quantity = transported_moles_in_original_basis
     block = fracture
+    execute_on = 'timestep_begin'
+  []
+
+  [transported_Na_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = transported_Na
+    species = 'Na+'
+    quantity = transported_moles_in_original_basis
+    block = natural_fracture
     execute_on = 'timestep_begin'
   []
   [transported_Cl_matrix_auxk]
@@ -726,6 +861,16 @@ Magnetite_fracture = 9.77443609e-07
     block = fracture
     execute_on = 'timestep_begin'
   []
+
+  [transported_Cl_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = transported_Cl
+    species = 'Cl-'
+    quantity = transported_moles_in_original_basis
+    block = natural_fracture
+    execute_on = 'timestep_begin'
+  []
   [transported_Mg_matrix_auxk]
     type = GeochemistryQuantityAux
     reactor = reactor_matrix
@@ -742,6 +887,16 @@ Magnetite_fracture = 9.77443609e-07
     species = 'Mg++'
     quantity = transported_moles_in_original_basis
     block = fracture
+    execute_on = 'timestep_begin'
+  []
+
+  [transported_Mg_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = transported_Mg
+    species = 'Mg++'
+    quantity = transported_moles_in_original_basis
+    block = natural_fracture
     execute_on = 'timestep_begin'
   []
   [transported_Fe_matrix_auxk]
@@ -762,6 +917,16 @@ Magnetite_fracture = 9.77443609e-07
     block = fracture
     execute_on = 'timestep_begin'
   []
+
+  [transported_Fe_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = transported_Fe
+    species = 'Fe++'
+    quantity = transported_moles_in_original_basis
+    block = natural_fracture
+    execute_on = 'timestep_begin'
+  []
   [transported_SiO2_matrix_auxk]
     type = GeochemistryQuantityAux
     reactor = reactor_matrix
@@ -778,6 +943,16 @@ Magnetite_fracture = 9.77443609e-07
     species = 'SiO2(aq)'
     quantity = transported_moles_in_original_basis
     block = fracture
+    execute_on = 'timestep_begin'
+  []
+
+  [transported_SiO2_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = transported_SiO2
+    species = 'SiO2(aq)'
+    quantity = transported_moles_in_original_basis
+    block = natural_fracture
     execute_on = 'timestep_begin'
   []
   [transported_O2_matrix_auxk]
@@ -798,6 +973,16 @@ Magnetite_fracture = 9.77443609e-07
     block = fracture
     execute_on = 'timestep_begin'
   []
+
+  [transported_O2_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = transported_O2
+    species = 'O2(aq)'
+    quantity = transported_moles_in_original_basis
+    block = natural_fracture
+    execute_on = 'timestep_begin'
+  []
   [transported_H2O_matrix_auxk]
     type = GeochemistryQuantityAux
     reactor = reactor_matrix
@@ -814,6 +999,16 @@ Magnetite_fracture = 9.77443609e-07
     species = 'H2O'
     quantity = transported_moles_in_original_basis
     block = fracture
+    execute_on = 'timestep_begin'
+  []
+
+  [transported_H2O_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = transported_H2O
+    species = 'H2O'
+    quantity = transported_moles_in_original_basis
+    block = natural_fracture
     execute_on = 'timestep_begin'
   []
 
@@ -903,6 +1098,16 @@ Magnetite_fracture = 9.77443609e-07
     block = fracture
     execute_on = 'timestep_end'
   []
+
+  [h2_molal_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = h2_molal
+    species = 'H2(aq)'
+    quantity = molal
+    block = natural_fracture
+    execute_on = 'timestep_end'
+  []
   [molal_Mg_matrix_auxk]
     type = GeochemistryQuantityAux
     reactor = reactor_matrix
@@ -921,6 +1126,16 @@ Magnetite_fracture = 9.77443609e-07
     block = fracture
     execute_on = 'timestep_end'
   []
+
+  [molal_Mg_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = molal_Mg_diag
+    species = 'Mg++'
+    quantity = molal
+    block = natural_fracture
+    execute_on = 'timestep_end'
+  []
   [molal_Fe_matrix_auxk]
     type = GeochemistryQuantityAux
     reactor = reactor_matrix
@@ -937,6 +1152,16 @@ Magnetite_fracture = 9.77443609e-07
     species = 'Fe++'
     quantity = molal
     block = fracture
+    execute_on = 'timestep_end'
+  []
+
+  [molal_Fe_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = molal_Fe_diag
+    species = 'Fe++'
+    quantity = molal
+    block = natural_fracture
     execute_on = 'timestep_end'
   []
   [molal_SiO2_matrix_auxk]
@@ -958,6 +1183,16 @@ Magnetite_fracture = 9.77443609e-07
     execute_on = 'timestep_end'
   []
 
+  [molal_SiO2_natural_auxk]
+    type = GeochemistryQuantityAux
+    reactor = reactor_natural_fracture
+    variable = molal_SiO2_diag
+    species = 'SiO2(aq)'
+    quantity = molal
+    block = natural_fracture
+    execute_on = 'timestep_end'
+  []
+
   # Approximate dissolved-H2 mass fraction for diagnostic/output purposes.
   # For dilute H2: w_H2 ~ molality_H2 * MW_H2 / 1000.
   [massfrac_H2_auxk]
@@ -968,8 +1203,8 @@ Magnetite_fracture = 9.77443609e-07
     execute_on = 'timestep_end'
   []
   # H2 mass per unit bulk volume (kg H2 / m^3 rock) = phi * rho_fluid * massfrac_H2.
-  # rho_ref (865 kg/m3) is used as the aqueous-phase density, consistent with the
-  # SimpleFluidProperties density0 in the main app.
+  # Uses the fixed hydraulic porosity (0.05 matrix / 0.35 fracture) and rho_ref,
+  # consistent with the SimpleFluidProperties density0 in the main app.
   [h2_mass_density_auxk]
     type = ParsedAux
     coupled_variables = 'hydraulic_porosity massfrac_H2'
@@ -1083,25 +1318,45 @@ Magnetite_fracture = 9.77443609e-07
   []
 
   # Cumulative H2 generated in the unit (kg): integral of H2 mass per bulk
-  # volume over the whole domain. This is the total in-situ H2 inventory,
-  # the standard "cumulative H2 production" for a closed reactive unit.
+  # volume over the whole domain. This is the total in-situ H2 inventory
+  # generated by serpentinization across matrix and fracture.
   [cum_H2_mass]
     type = ElementIntegralVariablePostprocessor
     variable = h2_mass_density
     execute_on = 'initial timestep_end'
   []
 
-  # Reactive swept bulk volume: V_rs = integral I dV = sum I_i V_i.
-  [V_rs]
+  # A_rs_2D = integral I dA = sum I_i A_i  [m2] (native 2-D area).
+  [A_rs_2D]
     type = ElementIntegralVariablePostprocessor
     variable = reactive_indicator
     execute_on = 'initial timestep_end'
   []
 
-  # Reactive pore volume: V_p,rs = integral phi I dV = sum phi_i I_i V_i.
-  [V_p_rs]
+  # A_p_rs_2D = integral phi I dA = sum phi_i I_i A_i  [m2].
+  [A_p_rs_2D]
     type = ElementIntegralVariablePostprocessor
     variable = reactive_pore_fraction
+    execute_on = 'initial timestep_end'
+  []
+
+  # Reactive swept bulk volume: V_rs = A_rs_2D * out_of_plane_width  [m3].
+  [V_rs]
+    type = ParsedPostprocessor
+    pp_names = 'A_rs_2D'
+    expression = 'A_rs_2D * width'
+    constant_names = 'width'
+    constant_expressions = '${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+
+  # Reactive pore volume: V_p,rs = A_p_rs_2D * out_of_plane_width  [m3].
+  [V_p_rs]
+    type = ParsedPostprocessor
+    pp_names = 'A_p_rs_2D'
+    expression = 'A_p_rs_2D * width'
+    constant_names = 'width'
+    constant_expressions = '${out_of_plane_width}'
     execute_on = 'initial timestep_end'
   []
 
@@ -1109,9 +1364,9 @@ Magnetite_fracture = 9.77443609e-07
   [V_w_inj]
     type = ParsedPostprocessor
     pp_names = 'cum_inj_H2O_from_main'
-    expression = 'cum_inj_H2O_from_main / rho_ref'
-    constant_names = 'rho_ref'
-    constant_expressions = '${rho_ref}'
+    expression = 'cum_inj_H2O_from_main / rho_ref * width'
+    constant_names = 'rho_ref width'
+    constant_expressions = '${rho_ref} ${out_of_plane_width}'
     execute_on = 'initial timestep_end'
   []
 
