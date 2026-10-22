@@ -4,11 +4,11 @@
 # Fracture + matrix mesh, closed unit, isothermal 200 C.
 #
 # COMMON BASELINE PARAMETERS
-#   Formation pressure       = 25 MPa
-#   Injection BHP            = 40 MPa
-#   Production BHP           = 10 MPa
+#   Formation pressure       = 35 MPa
+#   Injection BHP            = 45 MPa
+#   Production BHP           = 35 MPa
 #   Matrix porosity          = 0.05 (constant)
-#   Matrix permeability      = 1e-17 m^2 (~0.01 mD)
+#   Matrix permeability      = 3e-18 m^2 (~0.01 mD)
 #   Hydraulic-fracture phi   = 0.35 (constant)
 #   Hydraulic-fracture perm  = 5e-14 m^2 (~50 mD)
 #   Injected acid            = 0.05 M HCl
@@ -51,8 +51,8 @@ trace_mf  = 1e-10          # Na, Mg, Fe, SiO2, O2 trace in injected acid
 # H2O mass fraction is the balance (~0.9978917)
 
 # ---- pressure-controlled injection / production ----
-p_inject   = 40e6
-p_produce  = 25e6
+p_inject   = 45e6
+p_produce  = 35e6
 
 # ---- HnP schedule (days), total = 360 days ----
 inject_days  = 30
@@ -63,10 +63,10 @@ t_soak_end    = ${fparse (inject_days + soak_days) * 86400}
 t_produce_end = ${fparse (inject_days + soak_days + produce_days) * 86400}
 
 # ---- reservoir pressure / properties ----
-p_init   = 25e6
+p_init   = 35e6
 phi_mat  = 0.05
 phi_frac = 0.35
-k_mat    = 1e-17           # ~0.01 mD
+k_mat    = 3e-18           # ~0.01 mD
 k_frac   = 5e-14           # ~50 mD
 
 

@@ -65,25 +65,25 @@ flux_total = 8.27e-6
 
 [Variables]
   [f0]                              # H+   (component 0)
-    initial_condition = 0.0
+    initial_condition = 1e-10
   []
   [f1]                              # Na+  (component 1)
-    initial_condition = 0.0
+    initial_condition = 1e-10
   []
   [f2]                              # Cl-  (component 2)
-    initial_condition = 0.0
+    initial_condition = 1e-10
   []
   [f3]                              # Mg++ (component 3)
-    initial_condition = 0.0
+    initial_condition = 1e-10
   []
   [f4]                              # Fe++ (component 4)
-    initial_condition = 0.0
+    initial_condition = 1e-10
   []
   [f5]                              # SiO2 (component 5)
-    initial_condition = 0.0
+    initial_condition = 1e-10
   []
   [f6]                              # O2   (component 6)
-    initial_condition = 0.0
+    initial_condition = 1e-10
   []
   [porepressure]                    # H2O  (component 7, last)
     initial_condition = 3.4474e6    # 500 psi

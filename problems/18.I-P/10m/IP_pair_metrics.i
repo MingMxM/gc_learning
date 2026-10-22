@@ -1,3 +1,9 @@
+# H2 MASS-BALANCE OUTPUT REVISION
+# NET generated H2 = current inventory + cumulative produced - initial - injected.
+# Dissolved, single-phase diagnostic estimate; see README.md for assumptions.
+# Plot time_days against H2_generated_kg_per_tonne_water (valid flag = 1).
+# Use these TWO revised inputs together.
+
 # ==========================================================================
 # REACTIVE-METRICS VERSION
 # Injection-production pair, continuous acid injection/production for 360 d.
@@ -673,7 +679,7 @@ k_frac   = 5e-14
     execute_on = 'initial timestep_end transfer'
   []
 
-  # Cumulative in-situ H2 generated (kg), received from the geochemistry sub-app.
+  # Net mass-balance H2 generation estimate (kg), received after geochemistry.
   [cum_H2_mass]
     type = Receiver
     default = 0
@@ -696,13 +702,9 @@ k_frac   = 5e-14
     execute_on = 'initial timestep_end'
   []
 
-  # ---------------- Well-produced H2 (kg) ----------------
-  # H2 is not a transported flow component, so there is no Peaceman H2 tally.
-  # H2 travels with the aqueous phase, so the H2 mass leaving the well each step
-  # equals the produced water mass that step times the H2/H2O mass-fraction ratio
-  # at the production boundary:
-  #   prod_H2_step = prod_H2O_step * (w_H2 / w_H2O)|_outlet
-  # with w_H2O = 1 - sum(f0..f6) the water mass fraction at the outlet.
+  # Outlet diagnostics below are retained for reference. The H2 balance uses
+  # molality directly (kg H2/kg solvent water = molality * MW), so no division
+  # by an approximate outlet water mass fraction is needed.
   [w_H2_outlet]
     type = SideAverageValue
     variable = massfrac_H2
@@ -758,20 +760,71 @@ k_frac   = 5e-14
     execute_on = 'initial timestep_end'
   []
   [prod_H2_step]
-    type = ParsedPostprocessor
-    pp_names = 'prod_H2O_step w_H2_outlet w_H2O_outlet'
-    expression = 'prod_H2O_step * w_H2_outlet / (w_H2O_outlet + 1e-30)'
-    execute_on = 'initial timestep_end'
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
   []
   [cum_prod_H2]
-    type = CumulativeValuePostprocessor
-    postprocessor = prod_H2_step
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [H2_inventory_kg]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [H2_initial_kg]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [H2_produced_kg]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [H2_injected_kg]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [H2_generated_net_kg]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [water_injected_kg]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [H2_generated_kg_per_kg_water]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [H2_generated_kg_per_tonne_water]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [H2_generation_ratio_valid]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+  [time_days]
+    type = ParsedPostprocessor
+    expression = 't / 86400'
+    use_t = true
     execute_on = 'initial timestep_end'
   []
+
 []
 
 [Outputs]
-  file_base = IP_pair_metrics
+  file_base = IP_pair_H2_balance
   exodus = true
   csv = true
 []
@@ -785,6 +838,7 @@ k_frac   = 5e-14
     type = TransientMultiApp
     input_files = serpentinization_geochemistry_IP_metrics.i
     clone_master_mesh = true
+    sub_cycling = false  # one water-step tally per geochemistry timestep
     execute_on = 'timestep_end'
   []
 []
@@ -889,7 +943,7 @@ k_frac   = 5e-14
     execute_on = 'timestep_end'
   []
 
-  # Cumulative in-situ H2 generated (kg) back to the main app for CSV output.
+  # Net mass-balance H2 generation estimate (kg) back to the main CSV.
   [cum_H2_mass_from_geochem]
     type = MultiAppPostprocessorTransfer
     from_multi_app = react
@@ -898,4 +952,101 @@ k_frac   = 5e-14
     reduction_type = average
     execute_on = 'timestep_end'
   []
+  # Main step water tally is available before the timestep_end sub-app solve.
+  [prod_H2O_step_to_geochem]
+    type = MultiAppPostprocessorTransfer
+    to_multi_app = react
+    from_postprocessor = prod_H2O_step
+    to_postprocessor = prod_H2O_step_from_main
+    execute_on = 'timestep_end'
+  []
+  [prod_H2_step_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = prod_H2_step
+    to_postprocessor = prod_H2_step
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [cum_prod_H2_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = cum_prod_H2
+    to_postprocessor = cum_prod_H2
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [H2_inventory_kg_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = H2_inventory_kg
+    to_postprocessor = H2_inventory_kg
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [H2_initial_kg_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = H2_initial_kg
+    to_postprocessor = H2_initial_kg
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [H2_produced_kg_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = H2_produced_kg
+    to_postprocessor = H2_produced_kg
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [H2_injected_kg_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = H2_injected_kg
+    to_postprocessor = H2_injected_kg
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [H2_generated_net_kg_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = H2_generated_net_kg
+    to_postprocessor = H2_generated_net_kg
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [water_injected_kg_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = water_injected_kg
+    to_postprocessor = water_injected_kg
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [H2_generated_kg_per_kg_water_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = H2_generated_kg_per_kg_water
+    to_postprocessor = H2_generated_kg_per_kg_water
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [H2_generated_kg_per_tonne_water_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = H2_generated_kg_per_tonne_water
+    to_postprocessor = H2_generated_kg_per_tonne_water
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+  [H2_generation_ratio_valid_balance_from_geochem]
+    type = MultiAppPostprocessorTransfer
+    from_multi_app = react
+    from_postprocessor = H2_generation_ratio_valid
+    to_postprocessor = H2_generation_ratio_valid
+    reduction_type = average
+    execute_on = 'timestep_end'
+  []
+
 []

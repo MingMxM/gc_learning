@@ -3,8 +3,8 @@
 # Fracture + matrix mesh, closed unit, isothermal 200 C.
 #
 # BASELINE PARAMETERS
-#   Formation pressure       = 25 MPa
-#   Injection BHP            = 40 MPa
+#   Formation pressure       = 35 MPa
+#   Injection BHP            = 45 MPa
 #   Matrix porosity          = 0.05 (constant)
 #   Matrix permeability      = 1e-17 m^2 (~0.01 mD)
 #   Hydraulic-fracture phi   = 0.35 (constant)
@@ -20,7 +20,7 @@
 #   Soak and production are not simulated in this file.
 #   Change inject_days to alter the injection duration.
 #
-# Well: PorousFlowPeacemanBorehole at injection.bh, 40 MPa, active for the
+# Well: PorousFlowPeacemanBorehole at injection.bh, 45 MPa, active for the
 # whole run (character = -1). Acid composition is fixed by Dirichlet BCs on
 # "inlet" for the whole run.
 #
@@ -45,17 +45,17 @@ trace_mf  = 1e-10          # Na, Mg, Fe, SiO2, O2 trace in injected acid
 # H2O mass fraction is the balance (~0.9978917)
 
 # ---- pressure-controlled injection ----
-p_inject   = 40e6
+p_inject   = 45e6
 
 # ---- schedule (days) ----
 inject_days  = 30
 t_inject_end = ${fparse inject_days * 86400}
 
 # ---- reservoir pressure / properties ----
-p_init   = 25e6
+p_init   = 35e6
 phi_mat  = 0.05
 phi_frac = 0.35
-k_mat    = 1e-17           # ~0.01 mD
+k_mat    = 3e-18           # ~0.01 mD
 k_frac   = 5e-14           # ~50 mD
 
 [Mesh]
