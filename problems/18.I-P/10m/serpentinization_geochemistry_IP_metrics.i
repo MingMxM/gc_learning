@@ -55,6 +55,7 @@ out_of_plane_width = 1.0   # m; keep 1.0 for unit-width 2-D results
 # per unit pore water.  Scale = [(1-phi_f)/phi_f] / [(1-phi_m)/phi_m].
 # fracture_rock_water_scale = 0.0977443609022557
 
+# The mineral composition is 93.7wt% Fo90 + 0.8wt% Liz90 + 5.5wt% En90 + 0.1wt% Brucite85 + 0.1wt% Magnetite.
 # Matrix mineral inventory (moles per reference geochemical reactor)
 Fo90_matrix = 464.851
 Liz90_matrix = 4.00733
