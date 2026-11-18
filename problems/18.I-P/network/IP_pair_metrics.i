@@ -50,7 +50,7 @@ k_frac   = 5e-14
 [Mesh]
   [fmg]
     type = FileMeshGenerator
-    file = parallel_domain_40m.msh
+    file = zipper_50m_connected_mixed_cluster.msh
   []
 []
 
@@ -777,125 +777,125 @@ k_frac   = 5e-14
 []
 
 
-# ==========================================================================
-# GEOCHEMISTRY COUPLING + REACTIVE-SWEEP METRICS
-# ==========================================================================
-[MultiApps]
-  [react]
-    type = TransientMultiApp
-    input_files = serpentinization_geochemistry_IP_metrics.i
-    clone_master_mesh = true
-    execute_on = 'timestep_end'
-  []
-[]
+# # ==========================================================================
+# # GEOCHEMISTRY COUPLING + REACTIVE-SWEEP METRICS
+# # ==========================================================================
+# [MultiApps]
+#   [react]
+#     type = TransientMultiApp
+#     input_files = serpentinization_geochemistry_IP_metrics.i
+#     clone_master_mesh = true
+#     execute_on = 'timestep_end'
+#   []
+# []
 
-[Transfers]
-  # main -> sub: transport-induced component mass-change rates + temperature
-  [changes_due_to_flow]
-    type = MultiAppCopyTransfer
-    source_variable = 'rate_H rate_Na rate_Cl rate_Mg rate_Fe rate_SiO2 rate_O2 rate_H2O temp'
-    variable        = 'pf_rate_H pf_rate_Na pf_rate_Cl pf_rate_Mg pf_rate_Fe pf_rate_SiO2 pf_rate_O2 pf_rate_H2O temperature'
-    to_multi_app = react
-  []
+# [Transfers]
+#   # main -> sub: transport-induced component mass-change rates + temperature
+#   [changes_due_to_flow]
+#     type = MultiAppCopyTransfer
+#     source_variable = 'rate_H rate_Na rate_Cl rate_Mg rate_Fe rate_SiO2 rate_O2 rate_H2O temp'
+#     variable        = 'pf_rate_H pf_rate_Na pf_rate_Cl pf_rate_Mg pf_rate_Fe pf_rate_SiO2 pf_rate_O2 pf_rate_H2O temperature'
+#     to_multi_app = react
+#   []
 
-  # sub -> main: geochemistry-updated transported component mass fractions
-  [massfrac_from_geochem]
-    type = MultiAppCopyTransfer
-    source_variable = 'massfrac_H massfrac_Na massfrac_Cl massfrac_Mg massfrac_Fe massfrac_SiO2 massfrac_O2 massfrac_H2'
-    variable        = 'f0 f1 f2 f3 f4 f5 f6 massfrac_H2'
-    from_multi_app = react
-  []
+#   # sub -> main: geochemistry-updated transported component mass fractions
+#   [massfrac_from_geochem]
+#     type = MultiAppCopyTransfer
+#     source_variable = 'massfrac_H massfrac_Na massfrac_Cl massfrac_Mg massfrac_Fe massfrac_SiO2 massfrac_O2 massfrac_H2'
+#     variable        = 'f0 f1 f2 f3 f4 f5 f6 massfrac_H2'
+#     from_multi_app = react
+#   []
 
-  # cumulative injected H2O mass (kg, positive) -> geochemistry metrics app
-  [cum_inj_H2O_to_geochem]
-    type = MultiAppPostprocessorTransfer
-    to_multi_app = react
-    from_postprocessor = cum_inj_H2O
-    to_postprocessor = cum_inj_H2O_from_main
-    execute_on = 'timestep_end'
-  []
+#   # cumulative injected H2O mass (kg, positive) -> geochemistry metrics app
+#   [cum_inj_H2O_to_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     to_multi_app = react
+#     from_postprocessor = cum_inj_H2O
+#     to_postprocessor = cum_inj_H2O_from_main
+#     execute_on = 'timestep_end'
+#   []
 
-  # metrics -> main CSV
-  [A_rs_2D_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = A_rs_2D
-    to_postprocessor = A_rs_2D
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
-  [A_p_rs_2D_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = A_p_rs_2D
-    to_postprocessor = A_p_rs_2D
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
-  [V_rs_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = V_rs
-    to_postprocessor = V_rs
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
-  [V_p_rs_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = V_p_rs
-    to_postprocessor = V_p_rs
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
-  [V_w_inj_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = V_w_inj
-    to_postprocessor = V_w_inj
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
-  [Q_eff_m3s_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = Q_eff_m3s
-    to_postprocessor = Q_eff_m3s
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
-  [Q_eff_m3day_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = Q_eff_m3day
-    to_postprocessor = Q_eff_m3day
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
-  [tau_h_s_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = tau_h_s
-    to_postprocessor = tau_h_s
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
-  [tau_h_day_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = tau_h_day
-    to_postprocessor = tau_h_day
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
+#   # metrics -> main CSV
+#   [A_rs_2D_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = A_rs_2D
+#     to_postprocessor = A_rs_2D
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
+#   [A_p_rs_2D_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = A_p_rs_2D
+#     to_postprocessor = A_p_rs_2D
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
+#   [V_rs_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = V_rs
+#     to_postprocessor = V_rs
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
+#   [V_p_rs_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = V_p_rs
+#     to_postprocessor = V_p_rs
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
+#   [V_w_inj_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = V_w_inj
+#     to_postprocessor = V_w_inj
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
+#   [Q_eff_m3s_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = Q_eff_m3s
+#     to_postprocessor = Q_eff_m3s
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
+#   [Q_eff_m3day_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = Q_eff_m3day
+#     to_postprocessor = Q_eff_m3day
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
+#   [tau_h_s_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = tau_h_s
+#     to_postprocessor = tau_h_s
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
+#   [tau_h_day_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = tau_h_day
+#     to_postprocessor = tau_h_day
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
 
-  # Cumulative in-situ H2 generated (kg) back to the main app for CSV output.
-  [cum_H2_mass_from_geochem]
-    type = MultiAppPostprocessorTransfer
-    from_multi_app = react
-    from_postprocessor = cum_H2_mass
-    to_postprocessor = cum_H2_mass
-    reduction_type = average
-    execute_on = 'timestep_end'
-  []
-[]
+#   # Cumulative in-situ H2 generated (kg) back to the main app for CSV output.
+#   [cum_H2_mass_from_geochem]
+#     type = MultiAppPostprocessorTransfer
+#     from_multi_app = react
+#     from_postprocessor = cum_H2_mass
+#     to_postprocessor = cum_H2_mass
+#     reduction_type = average
+#     execute_on = 'timestep_end'
+#   []
+# []

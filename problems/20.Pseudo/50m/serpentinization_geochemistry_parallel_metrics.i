@@ -35,12 +35,15 @@
 # Reactive-sweep metrics
 # pH_crit = 6.4: approximately the Fo90 acid/neutral-rate crossover at 200 C
 # (direct evaluation of the calibrated rate laws gives ~6.44).
-# rho_ref is used only to convert cumulative injected-water mass to reference volume.
+# rho_ref is used for injected-water volume and approximate dissolved H2 inventory.
 # --------------------------------------------------------------------------
 pH_crit = 6.4
 rho_ref = 865.0
 phi_mat_metric = 0.05
 phi_frac_metric = 0.35
+# H2-free injectant. This parameter affects H2 bookkeeping only.
+h2_injected_molality = 0.0  # mol/kg water
+h2_molar_mass_kg = 0.002016  # kg/mol
 # out_of_plane_width converts native 2-D area integrals and unit-width injection
 # quantities to representative 3-D extensive quantities consistently.
 out_of_plane_width = 1.0   # m; keep 1.0 for unit-width 2-D results
@@ -258,7 +261,7 @@ Magnetite_fracture = 9.77443609e-07
 []
 
 # --------------------------------------------------------------------------
-# Mesh: matches the main-app packed-tube RZ mesh. With clone_master_mesh=true
+# Mesh: matches the Cartesian main-app parallel-fracture mesh. With clone_master_mesh=true
 # in the main app's MultiApp block, this is cloned automatically; it is kept
 # here so the sub-app can also be run standalone for testing.
 # --------------------------------------------------------------------------
@@ -268,7 +271,7 @@ Magnetite_fracture = 9.77443609e-07
   # the sub-app can be run standalone for testing.
   [fmg]
     type = FileMeshGenerator
-    file = parallel_domain_30m.msh
+    file = parallel_domain_50m.msh
   []
 []
 
@@ -383,6 +386,11 @@ Magnetite_fracture = 9.77443609e-07
   # H2 mass per unit bulk (rock) volume, kg H2 / m^3 rock
   #   = hydraulic_porosity * fluid_density * massfrac_H2
   [h2_mass_density]
+    family = MONOMIAL
+    order = CONSTANT
+  []
+  # H2 mass density in cells where pH <= pH_crit.
+  [h2_mass_density_acid]
     family = MONOMIAL
     order = CONSTANT
   []
@@ -594,9 +602,8 @@ Magnetite_fracture = 9.77443609e-07
 
   # hydraulic_porosity is initialized by block in [ICs] and then remains fixed.
 
-  # I_i(t) = 1 when pH_i <= pH_crit, otherwise 0.
-  # Because this AuxVariable is MONOMIAL CONSTANT, the threshold is evaluated
-  # once per element (using the element-level evaluation of the nodal pH field).
+  # Threshold the interpolated pH at quadrature points.
+  # The MONOMIAL CONSTANT field stores the resulting area fraction per element.
   [reactive_indicator_auxk]
     type = ParsedAux
     variable = reactive_indicator
@@ -895,7 +902,7 @@ Magnetite_fracture = 9.77443609e-07
     species = 'H2(aq)'
     quantity = molal
     block = matrix
-    execute_on = 'timestep_end'
+    execute_on = 'initial timestep_end'
   []
   [h2_molal_fracture_auxk]
     type = GeochemistryQuantityAux
@@ -904,7 +911,7 @@ Magnetite_fracture = 9.77443609e-07
     species = 'H2(aq)'
     quantity = molal
     block = fracture
-    execute_on = 'timestep_end'
+    execute_on = 'initial timestep_end'
   []
   [molal_Mg_matrix_auxk]
     type = GeochemistryQuantityAux
@@ -967,8 +974,8 @@ Magnetite_fracture = 9.77443609e-07
     type = ParsedAux
     coupled_variables = 'h2_molal'
     variable = massfrac_H2
-    expression = 'h2_molal * 2.016 / 1000.0'
-    execute_on = 'timestep_end'
+    expression = 'h2_molal * ${h2_molar_mass_kg}'
+    execute_on = 'initial timestep_end'
   []
   # H2 mass per unit bulk volume (kg H2 / m^3 rock) = phi * rho_fluid * massfrac_H2.
   # Uses the fixed hydraulic porosity (0.05 matrix / 0.35 fracture) and rho_ref,
@@ -978,7 +985,15 @@ Magnetite_fracture = 9.77443609e-07
     coupled_variables = 'hydraulic_porosity massfrac_H2'
     variable = h2_mass_density
     expression = 'hydraulic_porosity * ${rho_ref} * massfrac_H2'
-    execute_on = 'timestep_end'
+    execute_on = 'initial timestep_end'
+  []
+  # Apply the same pH mask used to compute the reactive swept volume.
+  [h2_mass_density_acid_auxk]
+    type = ParsedAux
+    coupled_variables = 'h2_mass_density reactive_indicator'
+    variable = h2_mass_density_acid
+    expression = 'h2_mass_density * reactive_indicator'
+    execute_on = 'initial timestep_end'
   []
 
 # ---- total solid volume (cm3 per 1000 cm3 = per litre of solution basis) ----
@@ -1060,22 +1075,22 @@ Magnetite_fracture = 9.77443609e-07
   [H2_outlet]
     type = SideAverageValue
     variable = h2_molal
-    boundary = inlet
+    boundary = outlet
   []
   [Mg_outlet]
     type = SideAverageValue
     variable = molal_Mg_diag
-    boundary = inlet
+    boundary = outlet
   []
   [Fe_outlet]
     type = SideAverageValue
     variable = molal_Fe_diag
-    boundary = inlet
+    boundary = outlet
   []
   [SiO2_outlet]
     type = SideAverageValue
     variable = molal_SiO2_diag
-    boundary = inlet
+    boundary = outlet
   []
 
   # Cumulative injected-water mass transferred from the main app (kg, positive).
@@ -1085,12 +1100,11 @@ Magnetite_fracture = 9.77443609e-07
     execute_on = 'initial timestep_end transfer'
   []
 
-  # Cumulative H2 generated in the unit (kg): integral of H2 mass per bulk
-  # volume over the whole domain. This is the total in-situ H2 inventory
-  # generated by serpentinization across matrix and fracture.
+  # Legacy output name for the pH-gated H2 balance (kg).
   [cum_H2_mass]
-    type = ElementIntegralVariablePostprocessor
-    variable = h2_mass_density
+    type = ParsedPostprocessor
+    pp_names = 'H2_generated_net_kg'
+    expression = 'H2_generated_net_kg'
     execute_on = 'initial timestep_end'
   []
 
@@ -1168,6 +1182,146 @@ Magnetite_fracture = 9.77443609e-07
     expression = 'tau_h_s / 86400.0'
     execute_on = 'initial timestep_end'
   []
+  # Current inventory and a frozen initial inventory: same approximation/units.
+  # In 2-D the integral is kg per metre; apply representative width to BOTH.
+  [H2_inventory_per_m]
+    type = ElementIntegralVariablePostprocessor
+    variable = h2_mass_density
+    execute_on = 'initial timestep_end'
+  []
+  [H2_initial_per_m]
+    type = ElementIntegralVariablePostprocessor
+    variable = h2_mass_density
+    execute_on = 'initial'
+  []
+  [H2_inventory_kg]
+    type = ParsedPostprocessor
+    pp_names = 'H2_inventory_per_m'
+    expression = 'H2_inventory_per_m * ${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+  [H2_initial_kg]
+    type = ParsedPostprocessor
+    pp_names = 'H2_initial_per_m'
+    expression = 'H2_initial_per_m * ${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+
+  # --- pH-gated (acid-swept-region only) H2 inventory ---------------------
+  # Integrate the dissolved H2 inventory over cells satisfying pH <= pH_crit.
+  [H2_inventory_acid_per_m]
+    type = ElementIntegralVariablePostprocessor
+    variable = h2_mass_density_acid
+    execute_on = 'initial timestep_end'
+  []
+  [H2_initial_acid_per_m]
+    type = ElementIntegralVariablePostprocessor
+    variable = h2_mass_density_acid
+    execute_on = 'initial'
+  []
+  [H2_inventory_acid_kg]
+    type = ParsedPostprocessor
+    pp_names = 'H2_inventory_acid_per_m'
+    expression = 'H2_inventory_acid_per_m * ${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+  [H2_initial_acid_kg]
+    type = ParsedPostprocessor
+    pp_names = 'H2_initial_acid_per_m'
+    expression = 'H2_initial_acid_per_m * ${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+
+  [water_injected_kg]
+    type = ParsedPostprocessor
+    pp_names = 'cum_inj_H2O_from_main'
+    expression = 'cum_inj_H2O_from_main * ${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+
+  # Water removed in THIS main-app step, positive kg for the unit-width model.
+  # Main and sub must take one matched timestep (sub_cycling=false).
+  [prod_H2O_step_from_main]
+    type = Receiver
+    default = 0
+    execute_on = 'initial timestep_end transfer'
+  []
+
+  # Hold the previous accepted H2 molality through the current flow step.
+  # This matches flow-first/reaction-second splitting. First step uses the
+  # initialized geochemical H2 field, rather than an uninitialized zero field.
+  # Side-average at 'outlet' is a proxy for Peaceman well concentration.
+  [H2_molality_outlet_step_start]
+    type = SideAverageValue
+    variable = h2_molal
+    boundary = outlet
+    execute_on = 'initial timestep_begin'
+  []
+  [prod_H2_step]
+    type = ParsedPostprocessor
+    pp_names = 'prod_H2O_step_from_main H2_molality_outlet_step_start'
+    expression = 'prod_H2O_step_from_main * H2_molality_outlet_step_start * ${h2_molar_mass_kg}'
+    execute_on = 'initial timestep_end'
+  []
+  # Sum STEP MASSES, without multiplying by dt again.
+  [cum_prod_H2]
+    type = CumulativeValuePostprocessor
+    postprocessor = prod_H2_step
+    execute_on = 'initial timestep_end'
+  []
+  [H2_produced_kg]
+    type = ParsedPostprocessor
+    pp_names = 'cum_prod_H2'
+    expression = 'cum_prod_H2 * ${out_of_plane_width}'
+    execute_on = 'initial timestep_end'
+  []
+  [H2_injected_kg]
+    type = ParsedPostprocessor
+    pp_names = 'water_injected_kg'
+    expression = 'water_injected_kg * ${h2_injected_molality} * ${h2_molar_mass_kg}'
+    execute_on = 'initial timestep_end'
+  []
+  # Full-domain net generated H2 (acid-swept + background water-rock H2), kept
+  # for reference / comparison.
+  [H2_generated_net_full_kg]
+    type = ParsedPostprocessor
+    pp_names = 'H2_inventory_kg H2_produced_kg H2_initial_kg H2_injected_kg'
+    expression = 'H2_inventory_kg + H2_produced_kg - H2_initial_kg - H2_injected_kg'
+    execute_on = 'initial timestep_end'
+  []
+  # Legacy balance for comparison with the zipper case. The inventory is
+  # pH-gated at each time and production is summed over the entire outlet.
+  [H2_generated_net_kg]
+    type = ParsedPostprocessor
+    pp_names = 'H2_inventory_acid_kg H2_produced_kg H2_initial_acid_kg H2_injected_kg'
+    expression = 'H2_inventory_acid_kg + H2_produced_kg - H2_initial_acid_kg - H2_injected_kg'
+    execute_on = 'initial timestep_end'
+  []
+  [H2_generated_kg_per_kg_water]
+    type = ParsedPostprocessor
+    pp_names = 'water_injected_kg H2_generated_net_kg'
+    expression = 'if(water_injected_kg > 0, H2_generated_net_kg / max(water_injected_kg, 1e-30), 0)'
+    execute_on = 'initial timestep_end'
+  []
+  [H2_generated_kg_per_tonne_water]
+    type = ParsedPostprocessor
+    pp_names = 'H2_generated_kg_per_kg_water'
+    expression = '1000 * H2_generated_kg_per_kg_water'
+    execute_on = 'initial timestep_end'
+  []
+  [H2_generation_ratio_valid]
+    type = ParsedPostprocessor
+    pp_names = 'water_injected_kg'
+    expression = 'if(water_injected_kg > 0, 1, 0)'
+    execute_on = 'initial timestep_end'
+  []
+  [time_days]
+    type = ParsedPostprocessor
+    expression = 't / 86400'
+    use_t = true
+    execute_on = 'initial timestep_end'
+  []
+
 []
 
 [Outputs]
